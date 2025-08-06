@@ -69,7 +69,7 @@ TARGET2_ELF = $(BUILD_DIR)/kernel2.elf
 
 .PHONY: all clean run1 run2 debug1 debug2 gdb1 gdb2 compare comparePatched compareLog log1 log2 logPatched
 
-all: $(TARGET1) $(TARGET2)
+all: $(TARGET1) # $(TARGET2)
 
 # Build common objects first
 common: $(COMMON_OBJS)
