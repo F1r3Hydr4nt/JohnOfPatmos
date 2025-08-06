@@ -1,0 +1,45 @@
+643c643,646
+< 0x0001096c:  e12fff1e      bx	lr
+---
+> 0x00013700:  e50b000c      str	r0, [fp, #-12]
+> 0x00013704:  e51b300c      ldr	r3, [fp, #-12]
+> 0x00013708:  e3530000      cmp	r3, #0	; 0x0
+> 0x0001370c:  1a000005      bne	0x13728
+646,649c649,652
+< IN: parse
+< 0x00010c28:  e1a03000      mov	r3, r0
+< 0x00010c2c:  e50b3008      str	r3, [fp, #-8]
+< 0x00010c30:  ea0001fd      b	0x1142c
+---
+> IN: proc_encrypted
+> 0x00013710:  e51b3014      ldr	r3, [fp, #-20]
+> 0x00013714:  e3530000      cmp	r3, #0	; 0x0
+> 0x00013718:  1a000002      bne	0x13728
+652,655c655,662
+< IN: parse
+< 0x0001142c:  e51b3008      ldr	r3, [fp, #-8]
+< 0x00011430:  e3530000      cmp	r3, #0	; 0x0
+< 0x00011434:  1a000005      bne	0x11450
+---
+> IN: proc_encrypted
+> 0x0001371c:  e51b3008      ldr	r3, [fp, #-8]
+> 0x00013720:  e3833002      orr	r3, r3, #2	; 0x2
+> 0x00013724:  e50b3008      str	r3, [fp, #-8]
+> 0x00013728:  e320f000      nop	{0}
+> 0x0001372c:  e320f000      nop	{0}
+> 0x00013730:  e24bd004      sub	sp, fp, #4	; 0x4
+> 0x00013734:  e8bd8800      pop	{fp, pc}
+658,662c665,666
+< IN: decrypt_data
+< 0x0000bb70:  e320f000      nop	{0}
+< 0x0000bb74:  e51b3030      ldr	r3, [fp, #-48]
+< 0x0000bb78:  e1a00003      mov	r0, r3
+< 0x0000bb7c:  ebfffda6      bl	0xb21c
+---
+> IN: do_proc_packets
+> 0x00013a8c:  ea000003      b	0x13aa0
+669,672d672
+< 
+< ----------------
+< IN: parse
+< 0x000112e4:  ea000031      b	0x113b0
