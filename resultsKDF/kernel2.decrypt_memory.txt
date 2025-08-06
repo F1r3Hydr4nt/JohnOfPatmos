@@ -1,0 +1,501 @@
+0000bd08 <decrypt_memory>:
+    bd08:	e92d43f0 	push	{r4, r5, r6, r7, r8, r9, lr}
+    bd0c:	e1a07000 	mov	r7, r0
+    bd10:	e59f00fc 	ldr	r0, [pc, #252]	; be14 <decrypt_memory+0x10c>
+    bd14:	e24dd014 	sub	sp, sp, #20
+    bd18:	e59f80f8 	ldr	r8, [pc, #248]	; be18 <decrypt_memory+0x110>
+    bd1c:	e1a05002 	mov	r5, r2
+    bd20:	e08f0000 	add	r0, pc, r0
+    bd24:	e1a06001 	mov	r6, r1
+    bd28:	e08f8008 	add	r8, pc, r8
+    bd2c:	eb001833 	bl	11e00 <tfp_printf>
+    bd30:	e5875020 	str	r5, [r7, #32]
+    bd34:	e1a00006 	mov	r0, r6
+    bd38:	e3a04000 	mov	r4, #0
+    bd3c:	e1a01005 	mov	r1, r5
+    bd40:	e58d400c 	str	r4, [sp, #12]
+    bd44:	ebfff2e4 	bl	88dc <iobuf_temp_with_content>
+    bd48:	e2506000 	subs	r6, r0, #0
+    bd4c:	0a00002e 	beq	be0c <decrypt_memory+0x104>
+    bd50:	e59f50c4 	ldr	r5, [pc, #196]	; be1c <decrypt_memory+0x114>
+    bd54:	e1a01004 	mov	r1, r4
+    bd58:	e1a00004 	mov	r0, r4
+    bd5c:	e08f5005 	add	r5, pc, r5
+    bd60:	ebfffb3a 	bl	aa50 <translate_file_handle>
+    bd64:	e1a01005 	mov	r1, r5
+    bd68:	ebfff424 	bl	8e00 <iobuf_fdopen>
+    bd6c:	e1a01005 	mov	r1, r5
+    bd70:	e1a00004 	mov	r0, r4
+    bd74:	ebfff1a9 	bl	8420 <fd_cache_open>
+    bd78:	e1a09000 	mov	r9, r0
+    bd7c:	e1a00004 	mov	r0, r4
+    bd80:	eb000b8d 	bl	ebbc <strlen>
+    bd84:	e2800038 	add	r0, r0, #56	; 0x38
+    bd88:	eb000f22 	bl	fa18 <xmalloc>
+    bd8c:	e5804010 	str	r4, [r0, #16]
+    bd90:	e1a05000 	mov	r5, r0
+    bd94:	e5809000 	str	r9, [r0]
+    bd98:	e1a01004 	mov	r1, r4
+    bd9c:	e2800036 	add	r0, r0, #54	; 0x36
+    bda0:	eb000f91 	bl	fbec <strcpy>
+    bda4:	e1a00004 	mov	r0, r4
+    bda8:	eb000fe7 	bl	fd4c <xstrdup>
+    bdac:	e59f306c 	ldr	r3, [pc, #108]	; be20 <decrypt_memory+0x118>
+    bdb0:	e3a01001 	mov	r1, #1
+    bdb4:	e5860038 	str	r0, [r6, #56]	; 0x38
+    bdb8:	e1a02004 	mov	r2, r4
+    bdbc:	e7983003 	ldr	r3, [r8, r3]
+    bdc0:	e1a00005 	mov	r0, r5
+    bdc4:	e586302c 	str	r3, [r6, #44]	; 0x2c
+    bdc8:	e28d300c 	add	r3, sp, #12
+    bdcc:	e5851008 	str	r1, [r5, #8]
+    bdd0:	e5865030 	str	r5, [r6, #48]	; 0x30
+    bdd4:	e58d3000 	str	r3, [sp]
+    bdd8:	e1a03004 	mov	r3, r4
+    bddc:	ebfff0bb 	bl	80d0 <file_filter>
+    bde0:	e1a01004 	mov	r1, r4
+    bde4:	e1a02006 	mov	r2, r6
+    bde8:	e1a00007 	mov	r0, r7
+    bdec:	eb000e82 	bl	f7fc <proc_encryption_packets>
+    bdf0:	e1a04000 	mov	r4, r0
+    bdf4:	e59f0028 	ldr	r0, [pc, #40]	; be24 <decrypt_memory+0x11c>
+    bdf8:	e08f0000 	add	r0, pc, r0
+    bdfc:	eb0017ff 	bl	11e00 <tfp_printf>
+    be00:	e1a00004 	mov	r0, r4
+    be04:	e28dd014 	add	sp, sp, #20
+    be08:	e8bd83f0 	pop	{r4, r5, r6, r7, r8, r9, pc}
+    be0c:	e3e04000 	mvn	r4, #0
+    be10:	eafffffa 	b	be00 <decrypt_memory+0xf8>
+    be14:	0000b108 	.word	0x0000b108
+    be18:	0002f994 	.word	0x0002f994
+    be1c:	0000a16c 	.word	0x0000a16c
+    be20:	00000050 	.word	0x00000050
+    be24:	0000b040 	.word	0x0000b040
+
+0000be28 <decrypt_message>:
+    be28:	e92d4070 	push	{r4, r5, r6, lr}
+    be2c:	e1a05000 	mov	r5, r0
+    be30:	e59f0070 	ldr	r0, [pc, #112]	; bea8 <decrypt_message+0x80>
+    be34:	e1a04001 	mov	r4, r1
+    be38:	e59f606c 	ldr	r6, [pc, #108]	; beac <decrypt_message+0x84>
+    be3c:	e08f0000 	add	r0, pc, r0
+    be40:	e08f6006 	add	r6, pc, r6
+    be44:	eb0017ed 	bl	11e00 <tfp_printf>
+    be48:	e1a00004 	mov	r0, r4
+    be4c:	ebfff2be 	bl	894c <iobuf_open>
+    be50:	e1a04000 	mov	r4, r0
+    be54:	ebfff9b8 	bl	a53c <iobuf_get_fd>
+    be58:	e3540000 	cmp	r4, #0
+    be5c:	0a00000f 	beq	bea0 <decrypt_message+0x78>
+    be60:	e59f3048 	ldr	r3, [pc, #72]	; beb0 <decrypt_message+0x88>
+    be64:	e59f0048 	ldr	r0, [pc, #72]	; beb4 <decrypt_message+0x8c>
+    be68:	e7963003 	ldr	r3, [r6, r3]
+    be6c:	e08f0000 	add	r0, pc, r0
+    be70:	e5931010 	ldr	r1, [r3, #16]
+    be74:	eb0017e1 	bl	11e00 <tfp_printf>
+    be78:	e1a02004 	mov	r2, r4
+    be7c:	e3a01000 	mov	r1, #0
+    be80:	e1a00005 	mov	r0, r5
+    be84:	eb000e5c 	bl	f7fc <proc_encryption_packets>
+    be88:	e1a03000 	mov	r3, r0
+    be8c:	e1a00004 	mov	r0, r4
+    be90:	e1a04003 	mov	r4, r3
+    be94:	ebfff237 	bl	8778 <iobuf_close>
+    be98:	e1a00004 	mov	r0, r4
+    be9c:	e8bd8070 	pop	{r4, r5, r6, pc}
+    bea0:	e3e04000 	mvn	r4, #0
+    bea4:	eafffffb 	b	be98 <decrypt_message+0x70>
+    bea8:	0000b014 	.word	0x0000b014
+    beac:	0002f87c 	.word	0x0002f87c
+    beb0:	00000034 	.word	0x00000034
+    beb4:	0000b004 	.word	0x0000b004
+
+0000beb8 <decrypt_data>:
+    beb8:	e92d41f0 	push	{r4, r5, r6, r7, r8, lr}
+    bebc:	e24dd030 	sub	sp, sp, #48	; 0x30
+    bec0:	e59f0314 	ldr	r0, [pc, #788]	; c1dc <decrypt_data+0x324>
+    bec4:	e3a06000 	mov	r6, #0
+    bec8:	e59d7048 	ldr	r7, [sp, #72]	; 0x48
+    becc:	e1a04002 	mov	r4, r2
+    bed0:	e08f0000 	add	r0, pc, r0
+    bed4:	e1a05003 	mov	r5, r3
+    bed8:	eb0017c8 	bl	11e00 <tfp_printf>
+    bedc:	e5876000 	str	r6, [r7]
+    bee0:	e3a01080 	mov	r1, #128	; 0x80
+    bee4:	e3a00001 	mov	r0, #1
+    bee8:	eb000f45 	bl	fc04 <xtrycalloc>
+    beec:	e1500006 	cmp	r0, r6
+    bef0:	e58d000c 	str	r0, [sp, #12]
+    bef4:	0a0000b6 	beq	c1d4 <decrypt_data+0x31c>
+    bef8:	e5901078 	ldr	r1, [r0, #120]	; 0x78
+    befc:	e3a03001 	mov	r3, #1
+    bf00:	e5803000 	str	r3, [r0]
+    bf04:	e59f02d4 	ldr	r0, [pc, #724]	; c1e0 <decrypt_data+0x328>
+    bf08:	e08f0000 	add	r0, pc, r0
+    bf0c:	eb0017bb 	bl	11e00 <tfp_printf>
+    bf10:	e59f12cc 	ldr	r1, [pc, #716]	; c1e4 <decrypt_data+0x32c>
+    bf14:	e3a00017 	mov	r0, #23
+    bf18:	e5953000 	ldr	r3, [r5]
+    bf1c:	e5d4200a 	ldrb	r2, [r4, #10]
+    bf20:	e08f1001 	add	r1, pc, r1
+    bf24:	e58d6000 	str	r6, [sp]
+    bf28:	eb0017b4 	bl	11e00 <tfp_printf>
+    bf2c:	e5d4700b 	ldrb	r7, [r4, #11]
+    bf30:	e3570000 	cmp	r7, #0
+    bf34:	1a000064 	bne	c0cc <decrypt_data+0x214>
+    bf38:	e5943000 	ldr	r3, [r4]
+    bf3c:	e2433001 	sub	r3, r3, #1
+    bf40:	e3530008 	cmp	r3, #8
+    bf44:	9a00007b 	bls	c138 <decrypt_data+0x280>
+    bf48:	e3a02004 	mov	r2, #4
+    bf4c:	e1a01007 	mov	r1, r7
+    bf50:	e28d000c 	add	r0, sp, #12
+    bf54:	eb000ea6 	bl	f9f4 <memset>
+    bf58:	e59d600c 	ldr	r6, [sp, #12]
+    bf5c:	e3a00040 	mov	r0, #64	; 0x40
+    bf60:	eb000e3f 	bl	f864 <malloc>
+    bf64:	e59d300c 	ldr	r3, [sp, #12]
+    bf68:	e5860004 	str	r0, [r6, #4]
+    bf6c:	e5930004 	ldr	r0, [r3, #4]
+    bf70:	e3500000 	cmp	r0, #0
+    bf74:	0a000096 	beq	c1d4 <decrypt_data+0x31c>
+    bf78:	e3a02040 	mov	r2, #64	; 0x40
+    bf7c:	e1a01007 	mov	r1, r7
+    bf80:	eb000e9b 	bl	f9f4 <memset>
+    bf84:	e59d300c 	ldr	r3, [sp, #12]
+    bf88:	e2851009 	add	r1, r5, #9
+    bf8c:	e5952004 	ldr	r2, [r5, #4]
+    bf90:	e5930004 	ldr	r0, [r3, #4]
+    bf94:	eb0007ad 	bl	de50 <_gcry_cipher_setkey>
+    bf98:	e5943010 	ldr	r3, [r4, #16]
+    bf9c:	e1a06000 	mov	r6, r0
+    bfa0:	e3530000 	cmp	r3, #0
+    bfa4:	0a000056 	beq	c104 <decrypt_data+0x24c>
+    bfa8:	e59d300c 	ldr	r3, [sp, #12]
+    bfac:	e1a01007 	mov	r1, r7
+    bfb0:	e3a02008 	mov	r2, #8
+    bfb4:	e5930004 	ldr	r0, [r3, #4]
+    bfb8:	eb0007b8 	bl	dea0 <_gcry_cipher_setiv>
+    bfbc:	e5941000 	ldr	r1, [r4]
+    bfc0:	e3510000 	cmp	r1, #0
+    bfc4:	028d800f 	addeq	r8, sp, #15
+    bfc8:	028d7019 	addeq	r7, sp, #25
+    bfcc:	0a000009 	beq	bff8 <decrypt_data+0x140>
+    bfd0:	ea00005b 	b	c144 <decrypt_data+0x28c>
+    bfd4:	e5821018 	str	r1, [r2, #24]
+    bfd8:	e5921008 	ldr	r1, [r2, #8]
+    bfdc:	e5920020 	ldr	r0, [r2, #32]
+    bfe0:	e2811001 	add	r1, r1, #1
+    bfe4:	e5821008 	str	r1, [r2, #8]
+    bfe8:	e7d00003 	ldrb	r0, [r0, r3]
+    bfec:	e5e80001 	strb	r0, [r8, #1]!
+    bff0:	e1580007 	cmp	r8, r7
+    bff4:	0a00000d 	beq	c030 <decrypt_data+0x178>
+    bff8:	e5942010 	ldr	r2, [r4, #16]
+    bffc:	e5923010 	ldr	r3, [r2, #16]
+    c000:	e1a00002 	mov	r0, r2
+    c004:	e3530000 	cmp	r3, #0
+    c008:	1a000004 	bne	c020 <decrypt_data+0x168>
+    c00c:	e5923018 	ldr	r3, [r2, #24]
+    c010:	e592101c 	ldr	r1, [r2, #28]
+    c014:	e1530001 	cmp	r3, r1
+    c018:	e2831001 	add	r1, r3, #1
+    c01c:	3affffec 	bcc	bfd4 <decrypt_data+0x11c>
+    c020:	ebfff4f2 	bl	93f0 <iobuf_readbyte>
+    c024:	e3700001 	cmn	r0, #1
+    c028:	e6ef0070 	uxtb	r0, r0
+    c02c:	1affffee 	bne	bfec <decrypt_data+0x134>
+    c030:	e59d200c 	ldr	r2, [sp, #12]
+    c034:	e3a03000 	mov	r3, #0
+    c038:	e28d1010 	add	r1, sp, #16
+    c03c:	e5920004 	ldr	r0, [r2, #4]
+    c040:	e3a0200a 	mov	r2, #10
+    c044:	e58d3000 	str	r3, [sp]
+    c048:	eb000997 	bl	e6ac <_gcry_cipher_decrypt>
+    c04c:	e59d300c 	ldr	r3, [sp, #12]
+    c050:	e5930004 	ldr	r0, [r3, #4]
+    c054:	eb00079c 	bl	decc <cipher_sync>
+    c058:	e5d53008 	ldrb	r3, [r5, #8]
+    c05c:	e3130040 	tst	r3, #64	; 0x40
+    c060:	0a00002d 	beq	c11c <decrypt_data+0x264>
+    c064:	e5dd2016 	ldrb	r2, [sp, #22]
+    c068:	e5dd3018 	ldrb	r3, [sp, #24]
+    c06c:	e1520003 	cmp	r2, r3
+    c070:	1a000003 	bne	c084 <decrypt_data+0x1cc>
+    c074:	e5dd2017 	ldrb	r2, [sp, #23]
+    c078:	e5dd3019 	ldrb	r3, [sp, #25]
+    c07c:	e1520003 	cmp	r2, r3
+    c080:	0a000025 	beq	c11c <decrypt_data+0x264>
+    c084:	e59f015c 	ldr	r0, [pc, #348]	; c1e8 <decrypt_data+0x330>
+    c088:	e3a06013 	mov	r6, #19
+    c08c:	e3406200 	movt	r6, #512	; 0x200
+    c090:	e08f0000 	add	r0, pc, r0
+    c094:	eb001759 	bl	11e00 <tfp_printf>
+    c098:	e59d400c 	ldr	r4, [sp, #12]
+    c09c:	e3540000 	cmp	r4, #0
+    c0a0:	0a000006 	beq	c0c0 <decrypt_data+0x208>
+    c0a4:	e5940000 	ldr	r0, [r4]
+    c0a8:	eb001754 	bl	11e00 <tfp_printf>
+    c0ac:	e5945000 	ldr	r5, [r4]
+    c0b0:	e2455001 	sub	r5, r5, #1
+    c0b4:	e5845000 	str	r5, [r4]
+    c0b8:	e3550000 	cmp	r5, #0
+    c0bc:	0a000005 	beq	c0d8 <decrypt_data+0x220>
+    c0c0:	e1a00006 	mov	r0, r6
+    c0c4:	e28dd030 	add	sp, sp, #48	; 0x30
+    c0c8:	e8bd81f0 	pop	{r4, r5, r6, r7, r8, pc}
+    c0cc:	e3a0600c 	mov	r6, #12
+    c0d0:	e3406200 	movt	r6, #512	; 0x200
+    c0d4:	eaffffef 	b	c098 <decrypt_data+0x1e0>
+    c0d8:	e5940004 	ldr	r0, [r4, #4]
+    c0dc:	eb000e41 	bl	f9e8 <xfree>
+    c0e0:	e5940008 	ldr	r0, [r4, #8]
+    c0e4:	e5845004 	str	r5, [r4, #4]
+    c0e8:	eb000e3e 	bl	f9e8 <xfree>
+    c0ec:	e5845008 	str	r5, [r4, #8]
+    c0f0:	e1a00004 	mov	r0, r4
+    c0f4:	eb000e3b 	bl	f9e8 <xfree>
+    c0f8:	e1a00006 	mov	r0, r6
+    c0fc:	e28dd030 	add	sp, sp, #48	; 0x30
+    c100:	e8bd81f0 	pop	{r4, r5, r6, r7, r8, pc}
+    c104:	e59f00e0 	ldr	r0, [pc, #224]	; c1ec <decrypt_data+0x334>
+    c108:	e3a0600e 	mov	r6, #14
+    c10c:	e3406200 	movt	r6, #512	; 0x200
+    c110:	e08f0000 	add	r0, pc, r0
+    c114:	eb001739 	bl	11e00 <tfp_printf>
+    c118:	eaffffde 	b	c098 <decrypt_data+0x1e0>
+    c11c:	e59f00cc 	ldr	r0, [pc, #204]	; c1f0 <decrypt_data+0x338>
+    c120:	e08f0000 	add	r0, pc, r0
+    c124:	eb001735 	bl	11e00 <tfp_printf>
+    c128:	e59f00c4 	ldr	r0, [pc, #196]	; c1f4 <decrypt_data+0x33c>
+    c12c:	e08f0000 	add	r0, pc, r0
+    c130:	eb001732 	bl	11e00 <tfp_printf>
+    c134:	eaffffd7 	b	c098 <decrypt_data+0x1e0>
+    c138:	e3a0600e 	mov	r6, #14
+    c13c:	e3406200 	movt	r6, #512	; 0x200
+    c140:	eaffffd4 	b	c098 <decrypt_data+0x1e0>
+    c144:	e59f00ac 	ldr	r0, [pc, #172]	; c1f8 <decrypt_data+0x340>
+    c148:	e28d800f 	add	r8, sp, #15
+    c14c:	e28d7019 	add	r7, sp, #25
+    c150:	e08f0000 	add	r0, pc, r0
+    c154:	eb001729 	bl	11e00 <tfp_printf>
+    c158:	e5942000 	ldr	r2, [r4]
+    c15c:	ea00000a 	b	c18c <decrypt_data+0x2d4>
+    c160:	e5930008 	ldr	r0, [r3, #8]
+    c164:	e583c018 	str	ip, [r3, #24]
+    c168:	e593c020 	ldr	ip, [r3, #32]
+    c16c:	e2800001 	add	r0, r0, #1
+    c170:	e5830008 	str	r0, [r3, #8]
+    c174:	e7dc0001 	ldrb	r0, [ip, r1]
+    c178:	e5e80001 	strb	r0, [r8, #1]!
+    c17c:	e2422001 	sub	r2, r2, #1
+    c180:	e1570008 	cmp	r7, r8
+    c184:	e5842000 	str	r2, [r4]
+    c188:	0affffa8 	beq	c030 <decrypt_data+0x178>
+    c18c:	e3520000 	cmp	r2, #0
+    c190:	0affffa6 	beq	c030 <decrypt_data+0x178>
+    c194:	e5943010 	ldr	r3, [r4, #16]
+    c198:	e5931010 	ldr	r1, [r3, #16]
+    c19c:	e1a00003 	mov	r0, r3
+    c1a0:	e3510000 	cmp	r1, #0
+    c1a4:	1a000004 	bne	c1bc <decrypt_data+0x304>
+    c1a8:	e5931018 	ldr	r1, [r3, #24]
+    c1ac:	e593c01c 	ldr	ip, [r3, #28]
+    c1b0:	e151000c 	cmp	r1, ip
+    c1b4:	e281c001 	add	ip, r1, #1
+    c1b8:	3affffe8 	bcc	c160 <decrypt_data+0x2a8>
+    c1bc:	ebfff48b 	bl	93f0 <iobuf_readbyte>
+    c1c0:	e3700001 	cmn	r0, #1
+    c1c4:	e6ef0070 	uxtb	r0, r0
+    c1c8:	0affff98 	beq	c030 <decrypt_data+0x178>
+    c1cc:	e5942000 	ldr	r2, [r4]
+    c1d0:	eaffffe8 	b	c178 <decrypt_data+0x2c0>
+    c1d4:	e3e06000 	mvn	r6, #0
+    c1d8:	eaffffb8 	b	c0c0 <decrypt_data+0x208>
+    c1dc:	0000afb0 	.word	0x0000afb0
+    c1e0:	0000af88 	.word	0x0000af88
+    c1e4:	0000af84 	.word	0x0000af84
+    c1e8:	0000ae54 	.word	0x0000ae54
+    c1ec:	0000ada0 	.word	0x0000ada0
+    c1f0:	0000add4 	.word	0x0000add4
+    c1f4:	0000add8 	.word	0x0000add8
+    c1f8:	0000ad84 	.word	0x0000ad84
+
+0000c1fc <free_symkey_enc>:
+    c1fc:	ea000df9 	b	f9e8 <xfree>
+
+0000c200 <free_encrypted>:
+    c200:	e92d4010 	push	{r4, lr}
+    c204:	e2504000 	subs	r4, r0, #0
+    c208:	08bd8010 	popeq	{r4, pc}
+    c20c:	e5940010 	ldr	r0, [r4, #16]
+    c210:	e3500000 	cmp	r0, #0
+    c214:	0a000012 	beq	c264 <free_encrypted+0x64>
+    c218:	e5d43009 	ldrb	r3, [r4, #9]
+    c21c:	e3530000 	cmp	r3, #0
+    c220:	1a000013 	bne	c274 <free_encrypted+0x74>
+    c224:	e5942000 	ldr	r2, [r4]
+    c228:	e3520000 	cmp	r2, #0
+    c22c:	1a000006 	bne	c24c <free_encrypted+0x4c>
+    c230:	ea00000b 	b	c264 <free_encrypted+0x64>
+    c234:	e5942000 	ldr	r2, [r4]
+    c238:	e0422000 	sub	r2, r2, r0
+    c23c:	e5842000 	str	r2, [r4]
+    c240:	e3520000 	cmp	r2, #0
+    c244:	0a000006 	beq	c264 <free_encrypted+0x64>
+    c248:	e5940010 	ldr	r0, [r4, #16]
+    c24c:	e3a01000 	mov	r1, #0
+    c250:	ebfff51f 	bl	96d4 <iobuf_read>
+    c254:	e3700001 	cmn	r0, #1
+    c258:	1afffff5 	bne	c234 <free_encrypted+0x34>
+    c25c:	e3a03000 	mov	r3, #0
+    c260:	e5843000 	str	r3, [r4]
+    c264:	e1a00004 	mov	r0, r4
+    c268:	e8bd4010 	pop	{r4, lr}
+    c26c:	ea000ddd 	b	f9e8 <xfree>
+    c270:	e5940010 	ldr	r0, [r4, #16]
+    c274:	e3a02101 	mov	r2, #1073741824	; 0x40000000
+    c278:	e3a01000 	mov	r1, #0
+    c27c:	ebfff514 	bl	96d4 <iobuf_read>
+    c280:	e3700001 	cmn	r0, #1
+    c284:	1afffff9 	bne	c270 <free_encrypted+0x70>
+    c288:	e1a00004 	mov	r0, r4
+    c28c:	e8bd4010 	pop	{r4, lr}
+    c290:	ea000dd4 	b	f9e8 <xfree>
+
+0000c294 <free_plaintext>:
+    c294:	e92d4010 	push	{r4, lr}
+    c298:	e2504000 	subs	r4, r0, #0
+    c29c:	08bd8010 	popeq	{r4, pc}
+    c2a0:	e5940004 	ldr	r0, [r4, #4]
+    c2a4:	e3500000 	cmp	r0, #0
+    c2a8:	0a000012 	beq	c2f8 <free_plaintext+0x64>
+    c2ac:	e5d43009 	ldrb	r3, [r4, #9]
+    c2b0:	e3530000 	cmp	r3, #0
+    c2b4:	1a000013 	bne	c308 <free_plaintext+0x74>
+    c2b8:	e5942000 	ldr	r2, [r4]
+    c2bc:	e3520000 	cmp	r2, #0
+    c2c0:	1a000006 	bne	c2e0 <free_plaintext+0x4c>
+    c2c4:	ea00000b 	b	c2f8 <free_plaintext+0x64>
+    c2c8:	e5942000 	ldr	r2, [r4]
+    c2cc:	e0422000 	sub	r2, r2, r0
+    c2d0:	e5842000 	str	r2, [r4]
+    c2d4:	e3520000 	cmp	r2, #0
+    c2d8:	0a000006 	beq	c2f8 <free_plaintext+0x64>
+    c2dc:	e5940004 	ldr	r0, [r4, #4]
+    c2e0:	e3a01000 	mov	r1, #0
+    c2e4:	ebfff4fa 	bl	96d4 <iobuf_read>
+    c2e8:	e3700001 	cmn	r0, #1
+    c2ec:	1afffff5 	bne	c2c8 <free_plaintext+0x34>
+    c2f0:	e3a03000 	mov	r3, #0
+    c2f4:	e5843000 	str	r3, [r4]
+    c2f8:	e1a00004 	mov	r0, r4
+    c2fc:	e8bd4010 	pop	{r4, lr}
+    c300:	ea000db8 	b	f9e8 <xfree>
+    c304:	e5940004 	ldr	r0, [r4, #4]
+    c308:	e3a02101 	mov	r2, #1073741824	; 0x40000000
+    c30c:	e3a01000 	mov	r1, #0
+    c310:	ebfff4ef 	bl	96d4 <iobuf_read>
+    c314:	e3700001 	cmn	r0, #1
+    c318:	1afffff9 	bne	c304 <free_plaintext+0x70>
+    c31c:	e1a00004 	mov	r0, r4
+    c320:	e8bd4010 	pop	{r4, lr}
+    c324:	ea000daf 	b	f9e8 <xfree>
+
+0000c328 <free_packet>:
+    c328:	e3500000 	cmp	r0, #0
+    c32c:	e92d4010 	push	{r4, lr}
+    c330:	e1a04001 	mov	r4, r1
+    c334:	0a000007 	beq	c358 <free_packet+0x30>
+    c338:	e5903004 	ldr	r3, [r0, #4]
+    c33c:	e3530000 	cmp	r3, #0
+    c340:	0a000004 	beq	c358 <free_packet+0x30>
+    c344:	e5d01000 	ldrb	r1, [r0]
+    c348:	e59f0050 	ldr	r0, [pc, #80]	; c3a0 <free_packet+0x78>
+    c34c:	e8bd4010 	pop	{r4, lr}
+    c350:	e08f0000 	add	r0, pc, r0
+    c354:	ea0016a9 	b	11e00 <tfp_printf>
+    c358:	e3540000 	cmp	r4, #0
+    c35c:	08bd8010 	popeq	{r4, pc}
+    c360:	e5943008 	ldr	r3, [r4, #8]
+    c364:	e3530000 	cmp	r3, #0
+    c368:	08bd8010 	popeq	{r4, pc}
+    c36c:	e594300c 	ldr	r3, [r4, #12]
+    c370:	e3530000 	cmp	r3, #0
+    c374:	1a000003 	bne	c388 <free_packet+0x60>
+    c378:	e3a03000 	mov	r3, #0
+    c37c:	e5c43004 	strb	r3, [r4, #4]
+    c380:	e5843008 	str	r3, [r4, #8]
+    c384:	e8bd8010 	pop	{r4, pc}
+    c388:	e3a01000 	mov	r1, #0
+    c38c:	e2840004 	add	r0, r4, #4
+    c390:	ebffffe4 	bl	c328 <free_packet>
+    c394:	e3a03000 	mov	r3, #0
+    c398:	e584300c 	str	r3, [r4, #12]
+    c39c:	eafffff5 	b	c378 <free_packet+0x50>
+    c3a0:	0000abc8 	.word	0x0000abc8
+
+0000c3a4 <run>:
+    c3a4:	e92d4ff0 	push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
+    c3a8:	e24ddf75 	sub	sp, sp, #468	; 0x1d4
+    c3ac:	e59fcff0 	ldr	ip, [pc, #4080]	; d3a4 <run+0x1000>
+    c3b0:	e3a05000 	mov	r5, #0
+    c3b4:	e58d0060 	str	r0, [sp, #96]	; 0x60
+    c3b8:	e28d00a0 	add	r0, sp, #160	; 0xa0
+    c3bc:	e08fc00c 	add	ip, pc, ip
+    c3c0:	e1a04001 	mov	r4, r1
+    c3c4:	e880000c 	stm	r0, {r2, r3}
+    c3c8:	e59d30a4 	ldr	r3, [sp, #164]	; 0xa4
+    c3cc:	e28d00a8 	add	r0, sp, #168	; 0xa8
+    c3d0:	e58d206c 	str	r2, [sp, #108]	; 0x6c
+    c3d4:	e3a02010 	mov	r2, #16
+    c3d8:	e58d3070 	str	r3, [sp, #112]	; 0x70
+    c3dc:	e58dc064 	str	ip, [sp, #100]	; 0x64
+    c3e0:	e58d0074 	str	r0, [sp, #116]	; 0x74
+    c3e4:	e58d50a8 	str	r5, [sp, #168]	; 0xa8
+    c3e8:	e5805004 	str	r5, [r0, #4]
+    c3ec:	e5805008 	str	r5, [r0, #8]
+    c3f0:	e580500c 	str	r5, [r0, #12]
+    c3f4:	eb000db5 	bl	fad0 <memcpy>
+    c3f8:	e59d31fc 	ldr	r3, [sp, #508]	; 0x1fc
+    c3fc:	e58d50b8 	str	r5, [sp, #184]	; 0xb8
+    c400:	e1530005 	cmp	r3, r5
+    c404:	e28d30b8 	add	r3, sp, #184	; 0xb8
+    c408:	e58d50bc 	str	r5, [sp, #188]	; 0xbc
+    c40c:	e58d50c0 	str	r5, [sp, #192]	; 0xc0
+    c410:	e58d50c4 	str	r5, [sp, #196]	; 0xc4
+    c414:	e58d3078 	str	r3, [sp, #120]	; 0x78
+    c418:	1a00042c 	bne	d4d0 <run+0x112c>
+    c41c:	e59f4f84 	ldr	r4, [pc, #3972]	; d3a8 <run+0x1004>
+    c420:	e3a02080 	mov	r2, #128	; 0x80
+    c424:	e59f3f80 	ldr	r3, [pc, #3968]	; d3ac <run+0x1008>
+    c428:	e3a01000 	mov	r1, #0
+    c42c:	e08f4004 	add	r4, pc, r4
+    c430:	e28d0e15 	add	r0, sp, #336	; 0x150
+    c434:	e08f3003 	add	r3, pc, r3
+    c438:	e58d307c 	str	r3, [sp, #124]	; 0x7c
+    c43c:	e58d4080 	str	r4, [sp, #128]	; 0x80
+    c440:	eb000d6b 	bl	f9f4 <memset>
+    c444:	e59d2064 	ldr	r2, [sp, #100]	; 0x64
+    c448:	e59f3f60 	ldr	r3, [pc, #3936]	; d3b0 <run+0x100c>
+    c44c:	e7929003 	ldr	r9, [r2, r3]
+    c450:	e59f3f5c 	ldr	r3, [pc, #3932]	; d3b4 <run+0x1010>
+    c454:	e792a003 	ldr	sl, [r2, r3]
+    c458:	e59f3f58 	ldr	r3, [pc, #3928]	; d3b8 <run+0x1014>
+    c45c:	e7928003 	ldr	r8, [r2, r3]
+    c460:	e59f3f54 	ldr	r3, [pc, #3924]	; d3bc <run+0x1018>
+    c464:	e792b003 	ldr	fp, [r2, r3]
+    c468:	e3a03000 	mov	r3, #0
+    c46c:	e58d301c 	str	r3, [sp, #28]
+    c470:	e28d2e16 	add	r2, sp, #352	; 0x160
+    c474:	e58d3038 	str	r3, [sp, #56]	; 0x38
+    c478:	e28d30c8 	add	r3, sp, #200	; 0xc8
+    c47c:	e58d3068 	str	r3, [sp, #104]	; 0x68
+    c480:	e284300f 	add	r3, r4, #15
+    c484:	e58d3084 	str	r3, [sp, #132]	; 0x84
+    c488:	e1a0300a 	mov	r3, sl
+    c48c:	e58d2018 	str	r2, [sp, #24]
+    c490:	e1a0a009 	mov	sl, r9
+    c494:	e1a09003 	mov	r9, r3
+    c498:	e59d31fc 	ldr	r3, [sp, #508]	; 0x1fc
+    c49c:	e3530000 	cmp	r3, #0
