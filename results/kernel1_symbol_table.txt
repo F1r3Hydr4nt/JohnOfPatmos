@@ -1,0 +1,36 @@
+
+build/kernel1.elf:     file format elf32-littlearm
+
+SYMBOL TABLE:
+00008000 l    d  .text	00000000 .text
+000086c4 l    d  .rodata	00000000 .rodata
+000086e0 l    d  .data	00000000 .data
+00009000 l    d  .bss	00000000 .bss
+00000000 l    df *ABS*	00000000 start.o
+00000000 l    df *ABS*	00000000 main.1.c
+00000000 l    df *ABS*	00000000 printf.c
+0000806c l     F .text	000000bc uli2a
+0000806c l     F .text	000000bc ui2a
+00008128 l     F .text	000000b0 putchw
+00009000 l     O .bss	00000004 stdout_putf
+00009004 l     O .bss	00000004 stdout_putp
+00000000 l    df *ABS*	00000000 
+000086e4 l     O .data	00000000 _GLOBAL_OFFSET_TABLE_
+00008048 g     F .text	00000024 init_printf
+00008000 g       .text	00000000 __text_start
+000086e0 g       .rodata	00000000 __rodata_end
+000081d8 g     F .text	00000488 tfp_format
+00009008 g       .bss	00000000 __bss_end
+00008660 g     F .text	0000004c tfp_printf
+00008000 g       .text	00000000 _start
+00009008 g       .bss	00000000 __end
+000086c4 g       .text	00000000 __rodata_start
+000086f0 g       .data	00000000 __data_end
+000086c4 g       .text	00000000 __text_end
+00009000 g       .bss	00000000 __bss_start
+0000800c g     F .text	0000003c main
+000086ac g     F .text	00000010 uart_putc
+000086bc g     F .text	00000008 putc_uart
+000086e0 g       .rodata	00000000 __data_start
+
+

@@ -51,7 +51,7 @@ MAIN2_OBJ = $(BUILD_DIR)/main2.o
 INCLUDES = -I$(SRC_DIR) -I$(COMMON_DIR)
 
 # Flags
-CFLAGS = -mcpu=cortex-a7 -fpic -ffreestanding -O2 -Wall -Wextra -g $(INCLUDES) -ffunction-sections -fdata-sections -fno-common
+CFLAGS = -mcpu=cortex-a7 -fpic -ffreestanding -O2 -Wall -Wextra -g3 -gdwarf-4 $(INCLUDES) -ffunction-sections -fdata-sections -fno-common
 ASFLAGS = -mcpu=cortex-a7
 LDFLAGS = -T $(SRC_DIR)/linker.ld -ffreestanding -O2 -nostdlib \
           -Wl,--gc-sections \
@@ -67,7 +67,7 @@ TARGET2 = $(BUILD_DIR)/kernel2.img
 TARGET1_ELF = $(BUILD_DIR)/kernel1.elf
 TARGET2_ELF = $(BUILD_DIR)/kernel2.elf
 
-.PHONY: all clean run1 run2 debug1 debug2 gdb1 gdb2 compare comparePatched compareLog log1 log2 logPatched
+.PHONY: all clean run1 run2 debug1 debug2 gdb1 gdb2 compare comparePatched compareLog log1 log2 logPatched ghidra
 
 all: $(TARGET1) # $(TARGET2)
 
@@ -458,3 +458,40 @@ build-asm:
 	fi
 	
 	@echo "Build from assembly complete"
+
+# Ghidra debugging target - builds kernel1 and generates analysis files
+ghidra: $(TARGET1) $(TARGET1_ELF)
+	@mkdir -p $(RESULTS_DIR)
+	@echo "====== PREPARING KERNEL1 FOR GHIDRA DEBUGGING ======"
+	
+	# Generate symbol information and analysis files
+	@echo "Generating symbol tables and analysis files..."
+	$(CROSS_COMPILE)nm -n $(TARGET1_ELF) > $(RESULTS_DIR)/kernel1_symbols.txt
+	$(CROSS_COMPILE)objdump -t $(TARGET1_ELF) > $(RESULTS_DIR)/kernel1_symbol_table.txt
+	$(CROSS_COMPILE)readelf -a $(TARGET1_ELF) > $(RESULTS_DIR)/kernel1_elf_info.txt
+	$(CROSS_COMPILE)objdump -D $(TARGET1_ELF) > $(RESULTS_DIR)/kernel1_full_disasm.txt
+	
+	@echo ""
+	@echo "====== FILES READY FOR GHIDRA ======"
+	@echo "  Kernel Binary: $(TARGET1)"
+	@echo "  Kernel ELF:    $(TARGET1_ELF) (import this for best symbol support)"
+	@echo "  Symbols:       $(RESULTS_DIR)/kernel1_symbols.txt"
+	@echo "  Disassembly:   $(RESULTS_DIR)/kernel1_full_disasm.txt"
+	@echo ""
+	@echo "🔧 GHIDRA SETUP STEPS:"
+	@echo "  1. Import: $(TARGET1_ELF) into Ghidra (analyze when prompted)"
+	@echo "  2. Debugger → Launch kernel1.elf using → qemu-system + gdb"
+	@echo "  3. Configuration:"
+	@echo "     - Image: $(TARGET1)"
+	@echo "     - QEMU command: qemu-system-arm"
+	@echo "     - Extra qemu arguments: -M versatilepb -cpu cortex-a7 -nographic -serial mon:stdio -kernel /home/freddie/JohnOfPatmos/build/kernel1.img -d int,guest_errors,mmu -D /home/freddie/JohnOfPatmos/results/ghidra_debug.txt"
+	@echo "     - gdb command: gdb-multiarch"
+	@echo "     - Architecture: arm (not auto)"
+	@echo "     - Port: 1234"
+	@echo "  4. Click Launch"
+	@echo ""
+	@echo "📋 IN GDB CONSOLE (for symbols):"
+	@echo "  symbol-file $(TARGET1_ELF)"
+	@echo "  # Or use addresses from $(RESULTS_DIR)/kernel1_symbols.txt:"
+	@echo "  break *0x800c    # main function"
+	@echo "  continue"
