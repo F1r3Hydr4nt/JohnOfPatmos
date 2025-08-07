@@ -59,11 +59,11 @@ void main()
     init_printf(0, putc_uart);
     // print_memory_map();
     // Properly allocate control structure with debug output
-    ctrl_t ctrl = malloc(sizeof(struct server_control_s));
-    if (!ctrl) {
-        printf("Failed to allocate control structure\n");
-        goto cleanup;
-    }
+    // ctrl_t ctrl = malloc(sizeof(struct server_control_s));
+    // if (!ctrl) {
+    //     printf("Failed to allocate control structure\n");
+    //     goto cleanup;
+    // }
 // 2af14ef19220d275b0f87907f4ab5075dc9b75b574ef8c2e06e32e8311776945
 // passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword
 //cat lorem.txt | ./g10/gpg --symmetric --cipher-algo CAST5 --passphrase "passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword" --s2k-digest-algo SHA1 --batch --rfc2440 --verbose > enc1k.gpg
@@ -114,7 +114,7 @@ void main()
     // }
     // // Check guard values
     // printf("Guard values after decrypt: 0x%08X 0x%08X\n", guard1, guard2);
-    printf("CTRL-A + X\n");
+    printf("Hello World!\nCTRL-A + X\n");
 cleanup:
     while (1) {
         __asm__("wfi");
