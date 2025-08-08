@@ -28,15 +28,15 @@ void print_heap_debug(void) {
         return;
     }
     
-    printf("=== Heap Debug ===\n");
+    // printf("=== Heap Debug ===\n");
     block_header_t* curr = free_list;
     size_t total_free = 0;
     size_t largest_free = 0;
     int block_count = 0;
     
     while (curr) {
-        printf("Block %d: addr=%p, size=%zu, free=%d\n", 
-               block_count, (void*)curr, curr->size, curr->is_free);
+        // printf("Block %d: addr=%p, size=%zu, free=%d\n", 
+        //        block_count, (void*)curr, curr->size, curr->is_free);
         
         if (curr->is_free) {
             total_free += curr->size;
@@ -55,9 +55,9 @@ void print_heap_debug(void) {
         }
     }
     
-    printf("Total free: %zu bytes, Largest free block: %zu bytes\n", 
-           total_free, largest_free);
-    printf("==================\n");
+    // printf("Total free: %zu bytes, Largest free block: %zu bytes\n", 
+    //        total_free, largest_free);
+    // printf("==================\n");
 }
 
 // Initialize heap
@@ -70,7 +70,7 @@ static void init_heap(void) {
     free_list->next = NULL;
     
     heap_initialized = 1;
-    printf("Heap initialized: %zu KB at %p\n", HEAP_SIZE/1024, (void*)heap);
+    // printf("Heap initialized: %zu KB at %p\n", HEAP_SIZE/1024, (void*)heap);
 }
 
 // Memory allocation
@@ -98,13 +98,13 @@ void* malloc(size_t size) {
             
             curr->is_free = 0;
             void* ptr = (void*)((uint8_t*)curr + sizeof(block_header_t));
-            printf("malloc(%zu) -> %p (total_size=%zu)\n", size, ptr, total_size);
+            // printf("malloc(%zu) -> %p (total_size=%zu)\n", size, ptr, total_size);
             return ptr;
         }
         curr = curr->next;
     }
     
-    printf("malloc(%zu) FAILED - no space available\n", size);
+    // printf("malloc(%zu) FAILED - no space available\n", size);
     print_heap_debug();
     return NULL;  // No space found
 }
@@ -117,18 +117,18 @@ void free(void* ptr) {
     
     // Sanity check - make sure this looks like a valid header
     if ((uint8_t*)header < heap || (uint8_t*)header >= heap + HEAP_SIZE) {
-        printf("free(%p) - invalid pointer, header at %p outside heap\n", ptr, (void*)header);
+        // printf("free(%p) - invalid pointer, header at %p outside heap\n", ptr, (void*)header);
         return;
     }
     
-    printf("free(%p) - freeing block of size %zu\n", ptr, header->size);
+    // printf("free(%p) - freeing block of size %zu\n", ptr, header->size);
     header->is_free = 1;
     
     // Forward coalescing - merge with next block if it's free
     if (header->next && header->next->is_free && 
         (uint8_t*)header + header->size == (uint8_t*)header->next) {
-        printf("Coalescing forward: %zu + %zu = %zu\n", 
-               header->size, header->next->size, header->size + header->next->size);
+        // printf("Coalescing forward: %zu + %zu = %zu\n", 
+        //        header->size, header->next->size, header->size + header->next->size);
         header->size += header->next->size;
         header->next = header->next->next;
     }
@@ -141,8 +141,8 @@ void free(void* ptr) {
     while (curr && curr != header) {
         if (curr->is_free && (uint8_t*)curr + curr->size == (uint8_t*)header) {
             // Found previous block that can be coalesced
-            printf("Coalescing backward: %zu + %zu = %zu\n", 
-                   curr->size, header->size, curr->size + header->size);
+            // printf("Coalescing backward: %zu + %zu = %zu\n", 
+            //        curr->size, header->size, curr->size + header->size);
             curr->size += header->size;
             curr->next = header->next;
             return; // We're done
