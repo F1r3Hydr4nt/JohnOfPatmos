@@ -639,7 +639,7 @@ static int
 block_filter (void *opaque, int control, iobuf_t chain, byte * buffer,
 	      size_t * ret_len)
 {
-printf("block_filter %s\n", control_mode_str[control]);
+// printf("block_filter %s\n", control_mode_str[control]);
   block_filter_ctx_t *a = opaque;
   char *buf = (char *)buffer;
   size_t size = *ret_len;
@@ -648,7 +648,7 @@ printf("block_filter %s\n", control_mode_str[control]);
 
   if (control == IOBUFCTRL_UNDERFLOW)
     {
-      printf ("IOBUFCTRL_UNDERFLOW %d\n", size);
+      // printf ("IOBUFCTRL_UNDERFLOW %d\n", size);
       size_t n = 0;
 
       p = buf;
@@ -670,7 +670,7 @@ printf("block_filter %s\n", control_mode_str[control]);
 		{
 		  /* These OpenPGP introduced huffman like encoded length
 		   * bytes are really a mess :-( */
-      printf("These OpenPGP introduced huffman like encoded length bytes are really a mess :-(\n" );
+      // printf("These OpenPGP introduced huffman like encoded length bytes are really a mess :-(\n" );
 		  if (a->first_c)
 		    {
 		      c = a->first_c;
@@ -678,7 +678,7 @@ printf("block_filter %s\n", control_mode_str[control]);
 		    }
 		  else if ((c = iobuf_get (chain)) == -1)
 		    {
-		      printf ("block_filter: 1st length byte missing\n");
+		      // printf ("block_filter: 1st length byte missing\n");
 		      rc = GPG_ERR_BAD_DATA;
 		      break;
 		    }
@@ -699,8 +699,7 @@ printf("block_filter %s\n", control_mode_str[control]);
 		      a->size = (c - 192) * 256;
 		      if ((c = iobuf_get (chain)) == -1)
 			{
-			  printf
-			    ("block_filter: 2nd length byte missing\n");
+			  // printf("block_filter: 2nd length byte missing\n");
 			  rc = GPG_ERR_BAD_DATA;
 			  break;
 			}
@@ -721,7 +720,7 @@ printf("block_filter %s\n", control_mode_str[control]);
 		      a->size |= iobuf_get_noeof (chain) << 8;
 		      if ((c = iobuf_get (chain)) == -1)
 			{
-			  printf ("block_filter: invalid 4 byte length\n");
+			  // printf ("block_filter: invalid 4 byte length\n");
 			  rc = GPG_ERR_BAD_DATA;
 			  break;
 			}
@@ -753,8 +752,7 @@ printf("block_filter %s\n", control_mode_str[control]);
 		{
 		  if (c == -1)
 		    c = 0;
-		  printf
-		    ("block_filter %p: read error (size=%lu,a->size=%lu)\n",
+		   printf("block_filter %p: read error (size=%lu,a->size=%lu)\n",
 		     a, (ulong) size + c, (ulong) a->size + c);
 		  rc = GPG_ERR_BAD_DATA;
 		}
@@ -771,7 +769,7 @@ printf("block_filter %s\n", control_mode_str[control]);
     }
   else if (control == IOBUFCTRL_FLUSH)
     {
-            printf ("IOBUFCTRL_FLUSH %d\n", a->partial);
+            // printf ("IOBUFCTRL_FLUSH %d\n", a->partial);
 
       if (a->partial)
 	{			/* the complicated openpgp scheme */

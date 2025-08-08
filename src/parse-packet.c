@@ -3410,13 +3410,13 @@ parse_encrypted(IOBUF inp, int pkttype, unsigned long pktlen,
                 PACKET *pkt, int new_ctb, int partial)
 {
   printf("parse_encrypted\n");
-  printf("Packet length: %lu\n", pktlen);
-// Add at start
-printf("=== parse_encrypted start ===\n");
-printf("Input buffer: %p\n", (void*)inp);
-printf("Packet type: %d (MDC: %d)\n", pkttype, (pkttype == PKT_ENCRYPTED_MDC));
-printf("Partial: %d\n", partial);
-    printf("Buffer use: %d\n", inp->use);
+//   printf("Packet length: %lu\n", pktlen);
+// // Add at start
+// printf("=== parse_encrypted start ===\n");
+// printf("Input buffer: %p\n", (void*)inp);
+// printf("Packet type: %d (MDC: %d)\n", pkttype, (pkttype == PKT_ENCRYPTED_MDC));
+// printf("Partial: %d\n", partial);
+//     printf("Buffer use: %d\n", inp->use);
     
   // unsigned char peek_buf[16];
   // if (iobuf_peek(inp, peek_buf, sizeof(peek_buf)) >= 0) {

@@ -953,7 +953,7 @@ leave:
 static void
 proc_encrypted(CTX c, PACKET *pkt)
 {
-  printf("processing encrypted packet\n");
+  printf("proc_encrypted\n");
   int result = 0;
   int early_plaintext = literals_seen;
   unsigned int compliance_de_vs = 0;
@@ -966,16 +966,16 @@ proc_encrypted(CTX c, PACKET *pkt)
   if (early_plaintext)
   {
     printf(("WARNING: multiple plaintexts seen\n"));
-    printf("decryption.early_plaintext", GPG_ERR_BAD_DATA);
+    // printf("decryption.early_plaintext", GPG_ERR_BAD_DATA);
     /* We fail only later so that we can print some more info first.  */
   }
 
   if (1) //! opt.quiet)
   {
-    if (c->symkeys > 1)
-      printf(("encrypted with %lu passphrases\n"), c->symkeys);
-    else if (c->symkeys == 1)
-      printf(("encrypted with 1 passphrase\n"));
+    // if (c->symkeys > 1)
+    //   // printf(("encrypted with %lu passphrases\n"), c->symkeys);
+    // else if (c->symkeys == 1)
+      // printf(("encrypted with 1 passphrase\n"));
     // print_pkenc_list (c->ctrl, c->pkenc_list, 1 );
     // print_pkenc_list (c->ctrl, c->pkenc_list, 0 );
   }
@@ -1094,7 +1094,7 @@ proc_encrypted(CTX c, PACKET *pkt)
   //     if (compliant)
   //       compliance_de_vs |= 1;
   //   }
-printf("pkt->pkt.encrypted: %p\n", (void*)pkt->pkt.encrypted);
+// printf("pkt->pkt.encrypted: %p\n", (void*)pkt->pkt.encrypted);
   if (!result)
   {
     int compl_error;
@@ -1103,7 +1103,7 @@ printf("pkt->pkt.encrypted: %p\n", (void*)pkt->pkt.encrypted);
     if (!result && !compl_error)
       compliance_de_vs |= 2;
   }
-  printf("decrypt_data result: %d\n", result);
+  // printf("decrypt_data result: %d\n", result);
 
   /* Trigger the deferred error.  The second condition makes sure that a
    * printf printed in the cry_cipher_checktag never gets ignored.  */
@@ -1873,7 +1873,7 @@ int proc_packets(ctrl_t ctrl, void *anchor, iobuf_t a)
 
 int proc_encryption_packets(ctrl_t ctrl, void *anchor, iobuf_t a)
 {
-  printf("proc_encryption_packets a->use: %d, a->filter: %d\n", a->use, a->filter);
+  // printf("proc_encryption_packets a->use: %d, a->filter: %d\n", a->use, a->filter);
 
   CTX c = xmalloc_clear(sizeof *c);
   int rc;
@@ -1911,7 +1911,7 @@ check_nesting(CTX c)
 static int
 do_proc_packets(ctrl_t ctrl, CTX c, iobuf_t a)
 {
-  printf("do_proc_packets %d\n%s\n", ctrl->enc_length, ctrl->passphrase);
+  // printf("do_proc_packets %d\n%s\n", ctrl->enc_length, ctrl->passphrase);
 
   // printf("do_proc_packets\n");// %s\n", ctrl->passphrase);
   // Copy across any main ctx passphrase or session_key

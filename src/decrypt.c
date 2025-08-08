@@ -93,7 +93,7 @@ int decrypt_memory(ctrl_t ctrl, const unsigned char* data, size_t length) {
     /* Process encryption packets */
     rc = proc_encryption_packets(ctrl, NULL, a);
     // return -1;
-    printf("\n\nEND decrypt_memory\n\n");
+    // printf("\n\nEND decrypt_memory\n\n");
     /* Clean up */
     // iobuf_close(a);
     return rc;
