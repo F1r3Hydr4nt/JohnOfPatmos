@@ -73,6 +73,12 @@ SECTIONS
     }
     __bss_end = .;
     
+    /* Reserved heap space - 2MB */
+    . = ALIGN(0x1000);
+    __heap_start = .;
+    . = . + 0x200000;  /* Reserve 2MB (2 * 1024 * 1024 bytes) for heap */
+    __heap_end = .;
+    
     /* Add end marker for heap allocation if needed */
     __end = .;
     
