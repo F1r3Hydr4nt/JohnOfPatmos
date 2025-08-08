@@ -18,16 +18,18 @@ extern char __bss_start[], __bss_end[];
 // Function prototypes
 void uart_putc(char c);
 void putc_uart(void *p, char c);
-void putc_uart2(void *p, char c);
 void print_memory_map(void);
-int unified_decrypt(ctrl_t ctrl, const unsigned char *session_key, size_t key_len, 
-                    const char *passphrase, const unsigned char *encrypted_data, 
+void wipememory(void *ptr, size_t len);
+void verify_wiped(void *ptr, size_t len);
+int unified_decrypt(ctrl_t ctrl, const unsigned char *session_key, size_t key_len,
+                    const char *passphrase, const unsigned char *encrypted_data,
                     size_t data_len);
 
 size_t strlen(const char *str)
 {
     const char *s;
-    for (s = str; *s; ++s);
+    for (s = str; *s; ++s)
+        ;
     return (s - str);
 }
 
@@ -39,13 +41,21 @@ void uart_putc(char c)
 void putc_uart(void *p, char c)
 {
     (void)p;
-    uart_putc(c);
+    // uart_putc(c);
 }
 
-void putc_uart2(void *p, char c)
+void verify_wiped(void *ptr, size_t len)
 {
-    (void)p;
-    uart_putc(c);
+    unsigned char *p = (unsigned char *)ptr;
+    for (size_t i = 0; i < len; i++)
+    {
+        if (p[i] != 0)
+        {
+            printf("Memory not properly wiped at offset %zu: 0x%02x\n", i, p[i]);
+            return;
+        }
+    }
+    printf("Memory verification passed: all %zu bytes are zero\n", len);
 }
 
 /**
@@ -58,87 +68,105 @@ void putc_uart2(void *p, char c)
  * @param data_len Length of encrypted data
  * @return 0 on success, negative on error
  */
-int unified_decrypt(ctrl_t ctrl, const unsigned char *session_key, size_t key_len, 
-                    const char *passphrase, const unsigned char *encrypted_data, 
+int unified_decrypt(ctrl_t ctrl, const unsigned char *session_key, size_t key_len,
+                    const char *passphrase, const unsigned char *encrypted_data,
                     size_t data_len)
 {
-    if (!ctrl || !encrypted_data || data_len == 0) {
+    if (!ctrl || !encrypted_data || data_len == 0)
+    {
         printf("Invalid arguments to decrypt_data\n");
         return -1;
     }
 
     // Clean up any existing keys/passphrases first
-    if (ctrl->session_key) {
+    if (ctrl->session_key)
+    {
+        wipememory(ctrl->session_key, 32); // Wipe before freeing for security
         free(ctrl->session_key);
         ctrl->session_key = NULL;
     }
-    if (ctrl->passphrase) {
+    if (ctrl->passphrase)
+    {
+        wipememory(ctrl->passphrase, strlen(ctrl->passphrase));
         free(ctrl->passphrase);
         ctrl->passphrase = NULL;
     }
 
     // Determine decryption method based on provided arguments
-    if (session_key && key_len > 0) {
+    if (session_key && key_len > 0)
+    {
         printf("=== Attempting decryption with provided session key ===\n");
-        
+
         // Allocate and set session key
         ctrl->session_key = malloc(key_len);
-        if (!ctrl->session_key) {
+        if (!ctrl->session_key)
+        {
             printf("Failed to allocate session_key\n");
             return -1;
         }
-        
+
         memcpy(ctrl->session_key, session_key, key_len);
         printf("Session key set, length: %zu bytes\n", key_len);
-        
-    } else if (passphrase) {
+    }
+    else if (passphrase)
+    {
         printf("=== Attempting decryption with KDF passphrase ===\n");
-        
+
         size_t pass_len = strlen(passphrase);
-        
+
         // Allocate and set passphrase
         ctrl->passphrase = malloc(pass_len + 1);
-        if (!ctrl->passphrase) {
+        if (!ctrl->passphrase)
+        {
             printf("Failed to allocate passphrase\n");
             return -1;
         }
-        
+
         my_strcpy(ctrl->passphrase, passphrase);
         printf("DEBUG: Passphrase set: %s (len: %zu)\n", ctrl->passphrase, strlen(ctrl->passphrase));
-        printf("DEBUG: Passphrase pointer: %p\n", (void*)ctrl->passphrase);
+        printf("DEBUG: Passphrase pointer: %p\n", (void *)ctrl->passphrase);
         printf("Using KDF with passphrase\n");
-        
-    } else {
+    }
+    else
+    {
         printf("Error: Either session_key or passphrase must be provided\n");
         return -1;
     }
-    
+
     // Add guard values for debugging
     uint32_t guard1 = 0xDEADBEEF;
     uint32_t guard2 = 0xBABECAFE;
     printf("Guard values before decrypt: 0x%08X 0x%08X\n", guard1, guard2);
-    
+
+    // Print function pointer address to detect any runtime changes
+    printf("DEBUG: _gcry_cipher_cfb_decrypt address check\n");
+
     // Perform the decryption
     int rc = decrypt_memory(ctrl, encrypted_data, data_len);
-    
+
     // Check guard values after decryption
     printf("Guard values after decrypt: 0x%08X 0x%08X\n", guard1, guard2);
-    
-    // Clean up allocated memory
-    if (ctrl->session_key) {
+
+    // Clean up allocated memory with secure wiping
+    if (ctrl->session_key)
+    {
+        wipememory(ctrl->session_key, key_len);
         free(ctrl->session_key);
         ctrl->session_key = NULL;
     }
-    if (ctrl->passphrase) {
+    if (ctrl->passphrase)
+    {
+        wipememory(ctrl->passphrase, strlen(ctrl->passphrase));
         free(ctrl->passphrase);
         ctrl->passphrase = NULL;
     }
-    
-    if (rc==2) {
+
+    if (rc == 2)
+    {
         printf("Decryption failed with code: %d\n", rc);
         return rc;
     }
-    
+
     printf("Decryption successful!\n");
     return 0;
 }
@@ -146,59 +174,102 @@ int unified_decrypt(ctrl_t ctrl, const unsigned char *session_key, size_t key_le
 void main()
 {
     init_printf(0, putc_uart);
-    
-    // printf("Starting decryption tests...\n\n");
-    
-    // Define the session key
-    const unsigned char key_bytes[] = {
-        0xaa, 0x26, 0x54, 0x2a, 0xfd, 0x6f, 0x97, 0x09,
-        0x82, 0xee, 0xdb, 0x0c, 0xa8, 0x47, 0x7f, 0xd7
-    };
-    
-    // const char *test_passphrase = "passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword";
-    // const char *wikileaks_passphrase = "2af14ef19220d275b0f87907f4ab5075dc9b75b574ef8c2e06e32e8311776945";
-    
-    // Test 1: Try decryption with session key
+
+    printf("=== Starting dual decryption test with SEPARATE control structures ===\n\n");
+
+    // Allocate TWO SEPARATE control structures from the start
     ctrl_t ctrl1 = malloc(sizeof(struct server_control_s));
-    if (!ctrl1) {
-        printf("Failed to allocate control structure for test 1\n");
+    ctrl_t ctrl2 = malloc(sizeof(struct server_control_s));
+    
+    if (!ctrl1 || !ctrl2)
+    {
+        printf("Failed to allocate control structures\n");
         goto cleanup;
     }
+    
+    // Initialize BOTH control structures to zero
     memset(ctrl1, 0, sizeof(struct server_control_s));
+    memset(ctrl2, 0, sizeof(struct server_control_s));
     
-    int rc1 = unified_decrypt(ctrl1, key_bytes, sizeof(key_bytes), NULL,
-                          __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg,
-                          __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len);
+    printf("ctrl1 allocated at: %p\n", (void*)ctrl1);
+    printf("ctrl2 allocated at: %p\n", (void*)ctrl2);
+    printf("Distance between ctrl1 and ctrl2: %ld bytes\n", 
+           (char*)ctrl2 - (char*)ctrl1);
+
+    // Allocate TWO SEPARATE key buffers as well
+    unsigned char *key_buffer1 = malloc(32);
+    unsigned char *key_buffer2 = malloc(32);
     
-    free(ctrl1);
-    ctrl1 = NULL;
-    printf("Cleaned up first test, freed control structure\n\n");
-    
-    ctrl1 = malloc(sizeof(struct server_control_s));
-    if (!ctrl1) {
-        printf("Failed to allocate control structure for test 1\n");
+    if (!key_buffer1 || !key_buffer2)
+    {
+        printf("Failed to allocate key buffers\n");
         goto cleanup;
     }
-    memset(ctrl1, 0, sizeof(struct server_control_s));
-    const unsigned char key_bytes_wikileaks[] = { 0x42, 0x7c, 0x02, 0x8e, 0x28, 0xee, 0xb1, 0x54, 0x64, 0xc3, 0x76, 0xd7, 0xdc, 0xca, 0x6c, 0xa2
-    };
-    rc1 = unified_decrypt(ctrl1, key_bytes_wikileaks, sizeof(key_bytes_wikileaks), NULL,
-                          __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg,
-                          __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len);
-    
-    free(ctrl1);
-    ctrl1 = NULL;
-    // printf("Cleaned up second test, freed control structure\n\n");
-    
+
+    // ========== First Decryption with ctrl1 ==========
+    printf("\n--- Test 1: Password-based file decryption (using ctrl1) ---\n");
+
+    // Set up first key in key_buffer1
+    const unsigned char key_bytes_password[] = {
+        0xaa, 0x26, 0x54, 0x2a, 0xfd, 0x6f, 0x97, 0x09,
+        0x82, 0xee, 0xdb, 0x0c, 0xa8, 0x47, 0x7f, 0xd7};
+    memcpy(key_buffer1, key_bytes_password, sizeof(key_bytes_password));
+
+    int rc1 = unified_decrypt(ctrl1, key_buffer1, sizeof(key_bytes_password), NULL,
+                              __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg,
+                              __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len);
+
+    printf("First decryption result: %d\n", rc1);
+
+    // ========== Second Decryption with ctrl2 (COMPLETELY SEPARATE) ==========
+    printf("\n--- Test 2: WikiLeaks file decryption (using ctrl2) ---\n");
+
+    // Set up second key in key_buffer2
+    const unsigned char key_bytes_wikileaks[] = {
+        0x42, 0x7c, 0x02, 0x8e, 0x28, 0xee, 0xb1, 0x54,
+        0x64, 0xc3, 0x76, 0xd7, 0xdc, 0xca, 0x6c, 0xa2};
+    memcpy(key_buffer2, key_bytes_wikileaks, sizeof(key_bytes_wikileaks));
+
+    int rc2 = unified_decrypt(ctrl2, key_buffer2, sizeof(key_bytes_wikileaks), NULL,
+                              __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg,
+                              __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len);
+
+    printf("Second decryption result: %d\n", rc2);
+
+    printf("\n=== All decryption tests completed ===\n");
+    printf("Both decryptions should have succeeded with same code paths\n");
     printf("Exit via: CTRL-A + X\n");
 
 cleanup:
-    // Clean up control structure if it exists
-    // if (ctrl2) {
-    //     free(ctrl2);
-    // }
+    // Clean up with secure wiping
+    if (ctrl1)
+    {
+        printf("Cleaning ctrl1\n");
+        wipememory(ctrl1, sizeof(struct server_control_s));
+        free(ctrl1);
+    }
     
-    while (1) {
+    if (ctrl2)
+    {
+        printf("Cleaning ctrl2\n");
+        wipememory(ctrl2, sizeof(struct server_control_s));
+        free(ctrl2);
+    }
+
+    if (key_buffer1)
+    {
+        wipememory(key_buffer1, 32);
+        free(key_buffer1);
+    }
+    
+    if (key_buffer2)
+    {
+        wipememory(key_buffer2, 32);
+        free(key_buffer2);
+    }
+
+    while (1)
+    {
         __asm__("wfi");
     }
 }

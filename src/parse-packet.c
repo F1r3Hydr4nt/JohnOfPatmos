@@ -379,7 +379,7 @@ read_32(IOBUF inp)
 int dbg_parse_packet(parse_packet_ctx_t ctx, PACKET *pkt,
                      const char *dbg_f, int dbg_l)
 {
-  printf("dbg_parse_packet\n");
+  // printf("dbg_parse_packet\n");
   int skip, rc;
 
   do

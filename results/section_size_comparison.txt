@@ -1,4 +1,0 @@
-=== Section Size Comparison ===
-Section | kernel1.img Size | kernel2.img Size | Difference
---------|------------|------------|------------
-No section information available for comparison.

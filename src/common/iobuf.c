@@ -2447,7 +2447,7 @@ iobuf_get_fname_nonnull (iobuf_t a)
 void
 iobuf_set_partial_body_length_mode (iobuf_t a, size_t len)
 {
-  printf ("iobuf_set_partial_body_length_mode %d\n", len);
+  // printf ("iobuf_set_partial_body_length_mode %d\n", len);
   if (!len)
     /* Disable partial body length mode.  */
     {
@@ -2468,7 +2468,7 @@ iobuf_set_partial_body_length_mode (iobuf_t a, size_t len)
       ctx->size = 0;
       ctx->first_c = len;
       
-      printf ("pushing partial block filter %d\n", ctx->use);
+      // printf ("pushing partial block filter %d\n", ctx->use);
       iobuf_push_filter (a, block_filter, ctx);
     }
 }
