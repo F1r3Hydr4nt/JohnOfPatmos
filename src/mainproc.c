@@ -710,7 +710,8 @@ proc_symkey_enc(CTX c, PACKET *pkt)
     //   }
     else
     {
-      // printf("passphrase len: %zu\n", strlen(c->passphrase));
+      printf("DEBUG: Before problem - passphrase pointer: %p\n", (void*)c->passphrase);
+      printf("passphrase len: %zu\n", strlen(c->passphrase));
       printf("DOING DEK HERE passphrase:%s\n", c->passphrase);
       // Assuming c->session_key is an unsigned char array of 16 bytes
       printf("session_key: %s\n", c->session_key);
@@ -1910,16 +1911,16 @@ check_nesting(CTX c)
 static int
 do_proc_packets(ctrl_t ctrl, CTX c, iobuf_t a)
 {
-  printf("do_proc_packets %d\n", ctrl->enc_length);// %s\n", ctrl->passphrase);
+  printf("do_proc_packets %d\n%s\n", ctrl->enc_length, ctrl->passphrase);
 
   // printf("do_proc_packets\n");// %s\n", ctrl->passphrase);
   // Copy across any main ctx passphrase or session_key
-  // if (ctrl->passphrase != NULL)
-  // {
-  //   c->passphrase = malloc(strlen(ctrl->passphrase) + 1);
-  //   my_strcpy(c->passphrase, ctrl->passphrase);
-  //   // printf("Copied passphrase: %s\n", c->passphrase);
-  // }
+  if (ctrl->passphrase != NULL)
+  {
+    c->passphrase = malloc(strlen(ctrl->passphrase) + 1);
+    my_strcpy(c->passphrase, ctrl->passphrase);
+    printf("Copied passphrase: %s\n", c->passphrase);
+  }
   if (ctrl->session_key != NULL)
 {
     size_t key_len = strlen(ctrl->session_key) + 1;  // +1 for the null terminator

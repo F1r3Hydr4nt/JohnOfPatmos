@@ -1,5 +1,21 @@
 {
     "files.associations": {
-        "file4.gpg.h": "c"
+        "file4.gpg.h": "c",
+        "printf.h": "c",
+        "cctype": "c",
+        "climits": "c",
+        "cmath": "c",
+        "compare": "c",
+        "concepts": "c",
+        "cstdarg": "c",
+        "cstdio": "c",
+        "cstdlib": "c",
+        "exception": "c",
+        "type_traits": "c",
+        "limits": "c",
+        "new": "c",
+        "cinttypes": "c",
+        "cstdint": "c",
+        "typeinfo": "c"
     }
 }
