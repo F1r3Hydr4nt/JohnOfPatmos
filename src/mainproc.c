@@ -653,7 +653,7 @@ DEK *passphrase_to_dek(int cipher_algo, STRING2KEY *s2k,
 static void
 proc_symkey_enc(CTX c, PACKET *pkt)
 {
-  printf("proc_symkey_enc\n");
+  // printf("proc_symkey_enc\n");
   gpg_error_t err;
   PKT_symkey_enc *enc;
 
@@ -662,7 +662,7 @@ proc_symkey_enc(CTX c, PACKET *pkt)
     printf("invalid symkey encrypted packet\n");
   else if (!c->dek)
   {
-    printf("no DEK\n");
+    // printf("no DEK\n");
     int algo = enc->cipher_algo;
     const char *s = "CAST5"; // openpgp_cipher_algo_name (algo);
     const char *a =          //(enc->aead_algo ? openpgp_aead_algo_name (enc->aead_algo)
@@ -710,9 +710,9 @@ proc_symkey_enc(CTX c, PACKET *pkt)
     //   }
     else
     {
-      printf("DEBUG: Before problem - passphrase pointer: %p\n", (void*)c->passphrase);
-      printf("passphrase len: %zu\n", strlen(c->passphrase));
-      printf("DOING DEK HERE passphrase:%s\n", c->passphrase);
+      // printf("DEBUG: Before problem - passphrase pointer: %p\n", (void*)c->passphrase);
+      // printf("passphrase len: %zu\n", strlen(c->passphrase));
+      // printf("DOING DEK HERE passphrase:%s\n", c->passphrase);
       // Assuming c->session_key is an unsigned char array of 16 bytes
       printf("session_key: %s\n", c->session_key);
       // for (int i = 0; i < 16; i++) {
@@ -2001,7 +2001,7 @@ do_proc_packets(ctrl_t ctrl, CTX c, iobuf_t a)
     // }
     if (c->encrypt_only)
     {
-      printf("Encrypt only\n");
+      // printf("Encrypt only\n");
       switch (pkt->pkttype)
       {
       case PKT_PUBLIC_KEY:

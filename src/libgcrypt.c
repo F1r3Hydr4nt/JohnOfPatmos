@@ -283,11 +283,11 @@ int
 _gcry_cipher_decrypt (gcry_cipher_hd_t h, void *out, size_t outsize,
                       const void *in, size_t inlen)
 {
-    printf("Caller params - in: %p, inlen: %zu\n", in, inlen);
+    // printf("Caller params - in: %p, inlen: %zu\n", in, inlen);
     printf("_gcry_cipher_decrypt inlen: %d, outSize: %d, unused: %d\n", inlen, outsize, h->unused);
   if (!in) /* Caller requested in-place encryption. */
     {
-      printf("Caller requested in-place encryption.\n");
+      // printf("Caller requested in-place encryption.\n");
       in = out;
       inlen = outsize;
     }
@@ -333,8 +333,12 @@ static void hexdump(const char *desc, const void *data, size_t len) {
 static void ascii_dump(const unsigned char *data, size_t len) {
     // Print the data directly, allowing special characters to be interpreted
     for (size_t i = 0; i < len; i++) {
-        printf("%c", data[i]);
+        // printf("%c", data[i]);
     }
+
+    // for (size_t i = 0; i < len; i++) {
+    //     printf("%02x", data[i]);
+    // }
 }
 
 static void _gcry_cast5_cfb_dec(gcry_cipher_hd_t context, unsigned char *iv, void *outbuf_arg,
@@ -352,7 +356,7 @@ static void _gcry_cast5_cfb_dec(gcry_cipher_hd_t context, unsigned char *iv, voi
 //     }
     printf("nblocks: %d\n", nblocks);
     // hexdump("Input buffer", inbuf_arg, nblocks * CAST5_BLOCKSIZE);
-    hexdump("IV", iv, CAST5_BLOCKSIZE);
+    // hexdump("IV", iv, CAST5_BLOCKSIZE);
 // #ifdef USE_AMD64_ASM
 //     {
 //         if (nblocks >= 4) {
@@ -432,7 +436,7 @@ static void _gcry_cast5_cfb_dec(gcry_cipher_hd_t context, unsigned char *iv, voi
         debugCount--;
     }
 
-    printf("\n\n_gcry_cast5_cfb_dec END\n");
+    // printf("\n\n_gcry_cast5_cfb_dec END\n");
     // Clear sensitive data
     wipememory(tmpbuf, sizeof(tmpbuf));
     return 0;
@@ -477,7 +481,7 @@ size_t _gcry_cipher_cfb_decrypt(gcry_cipher_hd_t c,
         return -1;//GPG_ERR_BUFFER_TOO_SHORT;
 
     if (inbuflen <= c->unused) {
-        printf("cfb_decrypt 1 %d %d %d\n", inbuflen, outbuflen, c->unused);
+        // printf("cfb_decrypt 1 %d %d %d\n", inbuflen, outbuflen, c->unused);
         /* Short enough to be encoded by the remaining XOR mask. */
         ivp = c->u_iv.iv + blocksize - c->unused;
         buf_xor_n_copy(outbuf, ivp, inbuf, inbuflen);
@@ -488,7 +492,7 @@ size_t _gcry_cipher_cfb_decrypt(gcry_cipher_hd_t c,
     burn = 0;
 
     if (c->unused) {
-        printf("cfb_decrypt 2 %d %d %d\n", inbuflen, outbuflen, c->unused);
+        // printf("cfb_decrypt 2 %d %d %d\n", inbuflen, outbuflen, c->unused);
         /* XOR the input with the IV and store input into IV */
         inbuflen -= c->unused;
         ivp = c->u_iv.iv + blocksize - c->unused;
@@ -502,7 +506,7 @@ size_t _gcry_cipher_cfb_decrypt(gcry_cipher_hd_t c,
        have at least 2 blocks and use conditions for the rest. This
        also allows to use a bulk encryption function if available. */
     if (inbuflen >= blocksize_x_2 && 1){//c->bulk.cfb_dec) {
-        printf("cfb_decrypt 3 %d %d %d\n", inbuflen, outbuflen, c->unused);
+        // printf("cfb_decrypt 3 %d %d %d\n", inbuflen, outbuflen, c->unused);
         size_t nblocks = inbuflen >> blocksize_shift;
         _gcry_cast5_cfb_dec(c, c->u_iv.iv, outbuf, inbuf, nblocks);
 
@@ -510,7 +514,7 @@ size_t _gcry_cipher_cfb_decrypt(gcry_cipher_hd_t c,
         inbuf  += nblocks << blocksize_shift;
         inbuflen -= nblocks << blocksize_shift;
     } else {
-        printf("cfb_decrypt 4 %d %d %d\n", inbuflen, outbuflen, c->unused);
+        // printf("cfb_decrypt 4 %d %d %d\n", inbuflen, outbuflen, c->unused);
         while (inbuflen >= blocksize_x_2) {
             /* Encrypt the IV. */
             struct Block ivBlock = blockFromBytes(c->u_iv.iv);
@@ -642,7 +646,7 @@ int _gcry_cipher_cfb_encrypt(gcry_cipher_hd_t c,
     }
 
     if (inbuflen >= blocksize) {
-        printf("cfb_encrypt 5 %d %d %d\n", inbuflen, outbuflen, c->unused);
+        // printf("cfb_encrypt 5 %d %d %d\n", inbuflen, outbuflen, c->unused);
         /* Save the current IV and then encrypt the IV. */
         cipher_block_cpy(c->lastiv, c->u_iv.iv, blocksize);
 
@@ -662,7 +666,7 @@ int _gcry_cipher_cfb_encrypt(gcry_cipher_hd_t c,
     }
 
     if (inbuflen) {
-        printf("cfb_encrypt 6 %d %d %d\n", inbuflen, outbuflen, c->unused);
+        // printf("cfb_encrypt 6 %d %d %d\n", inbuflen, outbuflen, c->unused);
         /* Save the current IV and then encrypt the IV. */
         cipher_block_cpy(c->lastiv, c->u_iv.iv, blocksize);
 

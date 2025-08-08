@@ -1,1 +1,0 @@
-build/kernel2.img build/kernel1.img differ: byte 297, line 3
