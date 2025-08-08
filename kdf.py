@@ -144,6 +144,8 @@ def main():
 Examples:
   # Basic usage with password, coded count, and salt
   python %(prog)s -p "passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword" -c 255 -s "0a0b0c0d0e0f1011"
+  OR:
+  python %(prog)s -p "2af14ef19220d275b0f87907f4ab5075dc9b75b574ef8c2e06e32e8311776945" -c 60 -s "43b7a256d8476b18"
   
   # Using comma-separated salt values
   python %(prog)s -p "mypassword" -c 255 -s "10,11,12,13,14,15,16,17"
