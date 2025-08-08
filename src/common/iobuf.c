@@ -219,33 +219,33 @@ fd_cache_invalidate (const char *fname)
 /* Try to sync changes to the disk.  This is to avoid data loss during
    a system crash in write/close/rename cycle on some file
    systems.  */
-static int
-fd_cache_synchronize (const char *fname)
-{
-  int err = 0;
+// static int
+// fd_cache_synchronize (const char *fname)
+// {
+//   int err = 0;
 
-#ifdef HAVE_FSYNC
-  close_cache_t cc;
+// #ifdef HAVE_FSYNC
+//   close_cache_t cc;
 
-  if (DBG_IOBUF)
-    printf ("fd_cache_synchronize (%s)\n", fname);
+//   if (DBG_IOBUF)
+//     printf ("fd_cache_synchronize (%s)\n", fname);
 
-  for (cc=close_cache; cc; cc = cc->next )
-    {
-      if (cc->fp != GNUPG_INVALID_FD && !fd_cache_strcmp (cc->fname, fname))
-	{
-	  if (DBG_IOBUF)
-	    printf ("                 did (%s)\n", cc->fname);
+//   for (cc=close_cache; cc; cc = cc->next )
+//     {
+//       if (cc->fp != GNUPG_INVALID_FD && !fd_cache_strcmp (cc->fname, fname))
+// 	{
+// 	  if (DBG_IOBUF)
+// 	    printf ("                 did (%s)\n", cc->fname);
 
-	  err = fsync (cc->fp);
-	}
-    }
-#else
-  (void)fname;
-#endif /*HAVE_FSYNC*/
+// 	  err = fsync (cc->fp);
+// 	}
+//     }
+// #else
+//   (void)fname;
+// #endif /*HAVE_FSYNC*/
 
-  return err;
-}
+//   return err;
+// }
 
 
 static gnupg_fd_t
@@ -414,11 +414,11 @@ fd_cache_open (const char *fname, const char *mode)
 	      fp = GNUPG_INVALID_FD;
 	    }
 #else
-	  if (lseek (fp, 0, SEEK_SET) == (off_t) - 1)
-	    {
-	      printf ("can't rewind fd %d: %s\n", fp, strerror (errno));
-	      fp = GNUPG_INVALID_FD;
-	    }
+	  // if (lseek (fp, 0, SEEK_SET) == (off_t) - 1)
+	  //   {
+	  //     printf ("can't rewind fd %d: %s\n", fp, -1);//strerror (errno));
+	  //     fp = GNUPG_INVALID_FD;
+	  //   }
 #endif
 	  return fp;
 	}
@@ -1364,10 +1364,10 @@ iobuf_ioctl (iobuf_t a, iobuf_ioctl_t cmd, int intval, void *ptrval)
         printf ("iobuf-*.*: ioctl '%s' fsync\n",
                    ptrval? (const char*)ptrval:"<null>");
 
-      if (!a && !intval && ptrval)
-        {
-          return fd_cache_synchronize (ptrval);
-        }
+      // if (!a && !intval && ptrval)
+      //   {
+      //     return fd_cache_synchronize (ptrval);
+      //   }
     }
   else if (cmd == IOBUF_IOCTL_PEEK)
     {

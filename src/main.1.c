@@ -25,6 +25,8 @@ int unified_decrypt(ctrl_t ctrl, const unsigned char *session_key, size_t key_le
                     const char *passphrase, const unsigned char *encrypted_data,
                     size_t data_len);
 
+// Add this declaration:
+int decrypt_memory(ctrl_t ctrl, const unsigned char* data, size_t length);
 size_t strlen(const char *str)
 {
     const char *s;
@@ -95,7 +97,7 @@ int unified_decrypt(ctrl_t ctrl, const unsigned char *session_key, size_t key_le
     // Determine decryption method based on provided arguments
     if (session_key && key_len > 0)
     {
-        printf("=== Attempting decryption with provided session key ===\n");
+        // printf("=== Attempting decryption with provided session key ===\n");
 
         // Allocate and set session key
         ctrl->session_key = malloc(key_len);
@@ -139,7 +141,9 @@ int unified_decrypt(ctrl_t ctrl, const unsigned char *session_key, size_t key_le
     printf("Guard values before decrypt: 0x%08X 0x%08X\n", guard1, guard2);
 
     // Print function pointer address to detect any runtime changes
-    printf("DEBUG: _gcry_cipher_cfb_decrypt address check\n");
+    // printf("DEBUG: _gcry_cipher_cfb_decrypt address check\n");
+    printf("_gcry_cipher_cfb_decrypt addr: %p\n", _gcry_cipher_cfb_decrypt);
+    printf("decrypt_memory addr: %p\n", decrypt_memory);
 
     // Perform the decryption
     int rc = decrypt_memory(ctrl, encrypted_data, data_len);
@@ -169,6 +173,16 @@ int unified_decrypt(ctrl_t ctrl, const unsigned char *session_key, size_t key_le
 
     printf("Decryption successful!\n");
     return 0;
+}
+
+// Add this before and after each decrypt
+uint32_t checksum_code_section() {
+    uint32_t sum = 0;
+    uint32_t *p = (uint32_t*)__text_start;
+    while (p < (uint32_t*)__text_end) {
+        sum ^= *p++;
+    }
+    return sum;
 }
 
 void main()
@@ -209,6 +223,10 @@ void main()
     // ========== First Decryption with ctrl1 ==========
     printf("\n--- Test 1: Password-based file decryption (using ctrl1) ---\n");
 
+    // Call before each decrypt:
+    printf("Code checksum: 0x%08x\n", checksum_code_section());
+    // Before each decrypt
+    // printf("decrypt_memory addr: %p\n", decrypt_memory);
     // Set up first key in key_buffer1
     const unsigned char key_bytes_password[] = {
         0xaa, 0x26, 0x54, 0x2a, 0xfd, 0x6f, 0x97, 0x09,
@@ -221,9 +239,13 @@ void main()
 
     printf("First decryption result: %d\n", rc1);
 
+    // Call this between decryptions:
+    // force_reset_gpg_state();
     // ========== Second Decryption with ctrl2 (COMPLETELY SEPARATE) ==========
     printf("\n--- Test 2: WikiLeaks file decryption (using ctrl2) ---\n");
 
+    // Call before each decrypt:
+    printf("Code checksum: 0x%08x\n", checksum_code_section());
     // Set up second key in key_buffer2
     const unsigned char key_bytes_wikileaks[] = {
         0x42, 0x7c, 0x02, 0x8e, 0x28, 0xee, 0xb1, 0x54,

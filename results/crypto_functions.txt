@@ -1,0 +1,7 @@
+=== Critical Function Addresses ===
+0000b6dc T decrypt_memory
+0000d204 T _gcry_cipher_cfb_decrypt
+0000ce5c T _gcry_cipher_decrypt
+0000cd64 T _gcry_cipher_setiv
+0000cc70 T _gcry_cipher_setkey
+00018910 T proc_encryption_packets

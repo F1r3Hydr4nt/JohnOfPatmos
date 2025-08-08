@@ -16,6 +16,8 @@
         "new": "c",
         "cinttypes": "c",
         "cstdint": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "memory.h": "c",
+        "fwddecl.h": "c"
     }
 }

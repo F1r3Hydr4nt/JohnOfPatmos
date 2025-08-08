@@ -340,82 +340,82 @@ int decrypt_data(ctrl_t ctrl, void *procctx, PKT_encrypted *ed, DEK *dek,
 
   if (ed->aead_algo)
   {
-    if (blocksize != 16)
-    {
-      rc = gpg_error(GPG_ERR_CIPHER_ALGO);
-      goto leave;
-    }
+//     if (blocksize != 16)
+//     {
+//       rc = gpg_error(GPG_ERR_CIPHER_ALGO);
+//       goto leave;
+//     }
 
-    if (ed->chunkbyte > 56)
-    {
-      printf("invalid AEAD chunkbyte %u\n", ed->chunkbyte);
-      rc = gpg_error(GPG_ERR_INV_PACKET);
-      goto leave;
-    }
+//     if (ed->chunkbyte > 56)
+//     {
+//       printf("invalid AEAD chunkbyte %u\n", ed->chunkbyte);
+//       rc = gpg_error(GPG_ERR_INV_PACKET);
+//       goto leave;
+//     }
 
-    /* Read the Start-IV. */
-    if (ed->len)
-    {
-      for (i = 0; i < startivlen && ed->len; i++, ed->len--)
-      {
-        if ((c = iobuf_get(ed->buf)) == -1)
-          break;
-        dfx->startiv[i] = c;
-      }
-    }
-    else
-    {
-      for (i = 0; i < startivlen; i++)
-        if ((c = iobuf_get(ed->buf)) == -1)
-          break;
-        else
-          dfx->startiv[i] = c;
-    }
-    if (i != startivlen)
-    {
-      printf("Start-IV in AEAD packet too short (%d/%u)\n",
-             i, startivlen);
-      rc = gpg_error(GPG_ERR_TOO_SHORT);
-      goto leave;
-    }
+//     /* Read the Start-IV. */
+//     if (ed->len)
+//     {
+//       for (i = 0; i < startivlen && ed->len; i++, ed->len--)
+//       {
+//         if ((c = iobuf_get(ed->buf)) == -1)
+//           break;
+//         dfx->startiv[i] = c;
+//       }
+//     }
+//     else
+//     {
+//       for (i = 0; i < startivlen; i++)
+//         if ((c = iobuf_get(ed->buf)) == -1)
+//           break;
+//         else
+//           dfx->startiv[i] = c;
+//     }
+//     if (i != startivlen)
+//     {
+//       printf("Start-IV in AEAD packet too short (%d/%u)\n",
+//              i, startivlen);
+//       rc = gpg_error(GPG_ERR_TOO_SHORT);
+//       goto leave;
+//     }
 
-    dfx->cipher_algo = ed->cipher_algo;
-    dfx->aead_algo = ed->aead_algo;
-    dfx->chunkbyte = ed->chunkbyte;
-    dfx->chunksize = (uint64_t)1 << (dfx->chunkbyte + 6);
+//     dfx->cipher_algo = ed->cipher_algo;
+//     dfx->aead_algo = ed->aead_algo;
+//     dfx->chunkbyte = ed->chunkbyte;
+//     dfx->chunksize = (uint64_t)1 << (dfx->chunkbyte + 6);
 
-    if (dek->algo != dfx->cipher_algo)
-      printf("Note: different cipher algorithms used (%s/%s)\n",
-             openpgp_cipher_algo_name(dek->algo),
-             openpgp_cipher_algo_name(dfx->cipher_algo));
+//     if (dek->algo != dfx->cipher_algo)
+// /*      printf("Note: different cipher algorithms used (%s/%s)\n",
+//              openpgp_cipher_algo_name(dek->algo),
+//              openpgp_cipher_algo_name(dfx->cipher_algo));*/
 
-    rc = openpgp_cipher_open(&dfx->cipher_hd,
-                             dfx->cipher_algo,
-                             ciphermode,
-                             GCRY_CIPHER_SECURE);
-    if (rc)
-      goto leave; /* Should never happen.  */
+//     rc = openpgp_cipher_open(&dfx->cipher_hd,
+//                              dfx->cipher_algo,
+//                              ciphermode,
+//                              GCRY_CIPHER_SECURE);
+//     if (rc)
+//       goto leave; /* Should never happen.  */
 
-    // if (DBG_CRYPTO)
-    //   printf (dek->key, dek->keylen, "thekey:");
-    rc = gcry_cipher_setkey(dfx->cipher_hd, dek->key, dek->keylen);
-    if (gpg_err_code(rc) == GPG_ERR_WEAK_KEY)
-    {
-      printf(("WARNING: message was encrypted with"
-              " a weak key in the symmetric cipher.\n"));
-      rc = 0;
-    }
-    else if (rc)
-    {
-      printf("key setup failed: %s\n", gpg_strerror(rc));
-      goto leave;
-    }
+//     // if (DBG_CRYPTO)
+//     //   printf (dek->key, dek->keylen, "thekey:");
+//     rc = gcry_cipher_setkey(dfx->cipher_hd, dek->key, dek->keylen);
+//     if (gpg_err_code(rc) == GPG_ERR_WEAK_KEY)
+//     {
+//       printf(("WARNING: message was encrypted with"
+//               " a weak key in the symmetric cipher.\n"));
+//       rc = 0;
+//     }
+//     else if (rc)
+//     {
+//       printf("key setup failed: %s\n", gpg_strerror(rc));
+//       goto leave;
+//     }
 
-    if (!ed->buf)
-    {
-      printf(("problem handling encrypted packet\n"));
-      goto leave;
-    }
+//     if (!ed->buf)
+//     {
+//       printf(("problem handling encrypted packet\n"));
+//       goto leave;
+//     }
   }
   else /* CFB encryption.  */
   {
@@ -453,7 +453,7 @@ int decrypt_data(ctrl_t ctrl, void *procctx, PKT_encrypted *ed, DEK *dek,
     {
       /* We should never get an error here cause we already checked
        * that the algorithm is available.  */
-      BUG();
+//      BUG();
     }
 
     /* log_hexdump( "thekey", dek->key, dek->keylen );*/

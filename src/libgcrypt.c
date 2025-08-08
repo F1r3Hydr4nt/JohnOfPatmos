@@ -457,8 +457,7 @@ size_t _gcry_cipher_cfb_decrypt(gcry_cipher_hd_t c,
                           unsigned char *outbuf, size_t outbuflen,
                           const unsigned char *inbuf, size_t inbuflen) {
                             // if(inbuflen!=10) inbuflen  = 64;
-    printf("_gcry_cipher_cfb_decrypt inbuflen %d outbuflen %d cfb_bulk %d\n", 
-           inbuflen, outbuflen, 1);
+    // printf("_gcry_cipher_cfb_decrypt inbuflen %d outbuflen %d cfb_bulk %d\n", inbuflen, outbuflen, 1);
     // printf("inbuf: ");
     // for (size_t i = 0; i < inbuflen; i++) {
     //     printf("%02x", inbuf[i]);
@@ -579,6 +578,7 @@ size_t _gcry_cipher_cfb_decrypt(gcry_cipher_hd_t c,
 
     // if (burn > 0)
     //     _gcry_burn_stack(burn + 4 * sizeof(void *));
+    // printf("_gcry_cipher_cfb_decrypt COMPLETE");
 
     return 0;
 }

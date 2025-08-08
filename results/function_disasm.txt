@@ -1,0 +1,514 @@
+=== Function Disassembly ===
+
+=== decrypt_memory ===
+0000b6dc <decrypt_memory>:
+    b6dc:	e92d4810 	push	{r4, fp, lr}
+    b6e0:	e28db008 	add	fp, sp, #8
+    b6e4:	e24dd044 	sub	sp, sp, #68	; 0x44
+    b6e8:	e50b0038 	str	r0, [fp, #-56]	; 0xffffffc8
+    b6ec:	e50b103c 	str	r1, [fp, #-60]	; 0xffffffc4
+    b6f0:	e50b2040 	str	r2, [fp, #-64]	; 0xffffffc0
+    b6f4:	e59f418c 	ldr	r4, [pc, #396]	; b888 <decrypt_memory+0x1ac>
+    b6f8:	e08f4004 	add	r4, pc, r4
+    b6fc:	e59f3188 	ldr	r3, [pc, #392]	; b88c <decrypt_memory+0x1b0>
+    b700:	e08f3003 	add	r3, pc, r3
+    b704:	e1a00003 	mov	r0, r3
+    b708:	eb00246f 	bl	148cc <tfp_printf>
+    b70c:	e51b3038 	ldr	r3, [fp, #-56]	; 0xffffffc8
+    b710:	e51b2040 	ldr	r2, [fp, #-64]	; 0xffffffc0
+    b714:	e5832020 	str	r2, [r3, #32]
+    b718:	e3a03000 	mov	r3, #0
+    b71c:	e50b3034 	str	r3, [fp, #-52]	; 0xffffffcc
+    b720:	e3a03000 	mov	r3, #0
+    b724:	e50b3010 	str	r3, [fp, #-16]
+    b728:	e59f3160 	ldr	r3, [pc, #352]	; b890 <decrypt_memory+0x1b4>
+    b72c:	e08f3003 	add	r3, pc, r3
+    b730:	e50b3014 	str	r3, [fp, #-20]	; 0xffffffec
+    b734:	e3a03000 	mov	r3, #0
+    b738:	e50b3018 	str	r3, [fp, #-24]	; 0xffffffe8
+    b73c:	e3a03000 	mov	r3, #0
+    b740:	e50b301c 	str	r3, [fp, #-28]	; 0xffffffe4
+    b744:	e3a03000 	mov	r3, #0
+    b748:	e50b3020 	str	r3, [fp, #-32]	; 0xffffffe0
+    b74c:	e51b1040 	ldr	r1, [fp, #-64]	; 0xffffffc0
+    b750:	e51b003c 	ldr	r0, [fp, #-60]	; 0xffffffc4
+    b754:	ebfff74c 	bl	948c <iobuf_temp_with_content>
+    b758:	e50b0024 	str	r0, [fp, #-36]	; 0xffffffdc
+    b75c:	e51b3024 	ldr	r3, [fp, #-36]	; 0xffffffdc
+    b760:	e3530000 	cmp	r3, #0
+    b764:	1a000002 	bne	b774 <decrypt_memory+0x98>
+    b768:	ebffffd4 	bl	b6c0 <gpg_error_from_syserror>
+    b76c:	e1a03000 	mov	r3, r0
+    b770:	ea000041 	b	b87c <decrypt_memory+0x1a0>
+    b774:	e51b3020 	ldr	r3, [fp, #-32]	; 0xffffffe0
+    b778:	e3530000 	cmp	r3, #0
+    b77c:	13a03001 	movne	r3, #1
+    b780:	03a03000 	moveq	r3, #0
+    b784:	e6ef3073 	uxtb	r3, r3
+    b788:	e1a01003 	mov	r1, r3
+    b78c:	e51b001c 	ldr	r0, [fp, #-28]	; 0xffffffe4
+    b790:	ebfffdeb 	bl	af44 <translate_file_handle>
+    b794:	e1a03000 	mov	r3, r0
+    b798:	e51b1014 	ldr	r1, [fp, #-20]	; 0xffffffec
+    b79c:	e1a00003 	mov	r0, r3
+    b7a0:	ebfff7c6 	bl	96c0 <iobuf_fdopen>
+    b7a4:	e51b1014 	ldr	r1, [fp, #-20]	; 0xffffffec
+    b7a8:	e3a00000 	mov	r0, #0
+    b7ac:	ebfff31e 	bl	842c <fd_cache_open>
+    b7b0:	e50b0028 	str	r0, [fp, #-40]	; 0xffffffd8
+    b7b4:	e51b0018 	ldr	r0, [fp, #-24]	; 0xffffffe8
+    b7b8:	eb002f11 	bl	17404 <strlen>
+    b7bc:	e1a03000 	mov	r3, r0
+    b7c0:	e2833038 	add	r3, r3, #56	; 0x38
+    b7c4:	e1a00003 	mov	r0, r3
+    b7c8:	eb00151f 	bl	10c4c <xmalloc>
+    b7cc:	e50b002c 	str	r0, [fp, #-44]	; 0xffffffd4
+    b7d0:	e51b302c 	ldr	r3, [fp, #-44]	; 0xffffffd4
+    b7d4:	e51b2028 	ldr	r2, [fp, #-40]	; 0xffffffd8
+    b7d8:	e5832000 	str	r2, [r3]
+    b7dc:	e51b302c 	ldr	r3, [fp, #-44]	; 0xffffffd4
+    b7e0:	e51b2010 	ldr	r2, [fp, #-16]
+    b7e4:	e5832010 	str	r2, [r3, #16]
+    b7e8:	e51b302c 	ldr	r3, [fp, #-44]	; 0xffffffd4
+    b7ec:	e2833036 	add	r3, r3, #54	; 0x36
+    b7f0:	e51b1018 	ldr	r1, [fp, #-24]	; 0xffffffe8
+    b7f4:	e1a00003 	mov	r0, r3
+    b7f8:	eb00163c 	bl	110f0 <strcpy>
+    b7fc:	e51b3010 	ldr	r3, [fp, #-16]
+    b800:	e3530000 	cmp	r3, #0
+    b804:	1a000005 	bne	b820 <decrypt_memory+0x144>
+    b808:	e51b0018 	ldr	r0, [fp, #-24]	; 0xffffffe8
+    b80c:	eb0016e5 	bl	113a8 <xstrdup>
+    b810:	e1a03000 	mov	r3, r0
+    b814:	e1a02003 	mov	r2, r3
+    b818:	e51b3024 	ldr	r3, [fp, #-36]	; 0xffffffdc
+    b81c:	e5832038 	str	r2, [r3, #56]	; 0x38
+    b820:	e51b3024 	ldr	r3, [fp, #-36]	; 0xffffffdc
+    b824:	e59f2068 	ldr	r2, [pc, #104]	; b894 <decrypt_memory+0x1b8>
+    b828:	e7942002 	ldr	r2, [r4, r2]
+    b82c:	e583202c 	str	r2, [r3, #44]	; 0x2c
+    b830:	e51b302c 	ldr	r3, [fp, #-44]	; 0xffffffd4
+    b834:	e3a02001 	mov	r2, #1
+    b838:	e5832008 	str	r2, [r3, #8]
+    b83c:	e51b3024 	ldr	r3, [fp, #-36]	; 0xffffffdc
+    b840:	e51b202c 	ldr	r2, [fp, #-44]	; 0xffffffd4
+    b844:	e5832030 	str	r2, [r3, #48]	; 0x30
+    b848:	e24b3034 	sub	r3, fp, #52	; 0x34
+    b84c:	e58d3000 	str	r3, [sp]
+    b850:	e3a03000 	mov	r3, #0
+    b854:	e3a02000 	mov	r2, #0
+    b858:	e3a01001 	mov	r1, #1
+    b85c:	e51b002c 	ldr	r0, [fp, #-44]	; 0xffffffd4
+    b860:	ebfffe29 	bl	b10c <file_filter>
+    b864:	e51b2024 	ldr	r2, [fp, #-36]	; 0xffffffdc
+    b868:	e3a01000 	mov	r1, #0
+    b86c:	e51b0038 	ldr	r0, [fp, #-56]	; 0xffffffc8
+    b870:	eb003426 	bl	18910 <proc_encryption_packets>
+    b874:	e50b0030 	str	r0, [fp, #-48]	; 0xffffffd0
+    b878:	e51b3030 	ldr	r3, [fp, #-48]	; 0xffffffd0
+    b87c:	e1a00003 	mov	r0, r3
+    b880:	e24bd008 	sub	sp, fp, #8
+    b884:	e8bd8810 	pop	{r4, fp, pc}
+    b888:	00011fb8 	.word	0x00011fb8
+    b88c:	0000e638 	.word	0x0000e638
+    b890:	0000e61c 	.word	0x0000e61c
+    b894:	0002ab2c 	.word	0x0002ab2c
+
+
+=== _gcry_cipher_cfb_decrypt ===
+0000d204 <_gcry_cipher_cfb_decrypt>:
+    d204:	e92d4800 	push	{fp, lr}
+    d208:	e28db004 	add	fp, sp, #4
+    d20c:	e24dd058 	sub	sp, sp, #88	; 0x58
+    d210:	e50b0040 	str	r0, [fp, #-64]	; 0xffffffc0
+    d214:	e50b1044 	str	r1, [fp, #-68]	; 0xffffffbc
+    d218:	e50b2048 	str	r2, [fp, #-72]	; 0xffffffb8
+    d21c:	e50b304c 	str	r3, [fp, #-76]	; 0xffffffb4
+    d220:	e3a03001 	mov	r3, #1
+    d224:	e51b2048 	ldr	r2, [fp, #-72]	; 0xffffffb8
+    d228:	e59b1004 	ldr	r1, [fp, #4]
+    d22c:	e59f0558 	ldr	r0, [pc, #1368]	; d78c <_gcry_cipher_cfb_decrypt+0x588>
+    d230:	e08f0000 	add	r0, pc, r0
+    d234:	eb001da4 	bl	148cc <tfp_printf>
+    d238:	e59f3550 	ldr	r3, [pc, #1360]	; d790 <_gcry_cipher_cfb_decrypt+0x58c>
+    d23c:	e08f3003 	add	r3, pc, r3
+    d240:	e1a00003 	mov	r0, r3
+    d244:	eb001da0 	bl	148cc <tfp_printf>
+    d248:	e3a03000 	mov	r3, #0
+    d24c:	e50b3008 	str	r3, [fp, #-8]
+    d250:	ea00000b 	b	d284 <_gcry_cipher_cfb_decrypt+0x80>
+    d254:	e51b2040 	ldr	r2, [fp, #-64]	; 0xffffffc0
+    d258:	e51b3008 	ldr	r3, [fp, #-8]
+    d25c:	e0823003 	add	r3, r2, r3
+    d260:	e5d33000 	ldrb	r3, [r3]
+    d264:	e1a01003 	mov	r1, r3
+    d268:	e59f3524 	ldr	r3, [pc, #1316]	; d794 <_gcry_cipher_cfb_decrypt+0x590>
+    d26c:	e08f3003 	add	r3, pc, r3
+    d270:	e1a00003 	mov	r0, r3
+    d274:	eb001d94 	bl	148cc <tfp_printf>
+    d278:	e51b3008 	ldr	r3, [fp, #-8]
+    d27c:	e2833001 	add	r3, r3, #1
+    d280:	e50b3008 	str	r3, [fp, #-8]
+    d284:	e51b3008 	ldr	r3, [fp, #-8]
+    d288:	e3530007 	cmp	r3, #7
+    d28c:	dafffff0 	ble	d254 <_gcry_cipher_cfb_decrypt+0x50>
+    d290:	e59f3500 	ldr	r3, [pc, #1280]	; d798 <_gcry_cipher_cfb_decrypt+0x594>
+    d294:	e08f3003 	add	r3, pc, r3
+    d298:	e1a00003 	mov	r0, r3
+    d29c:	eb001d8a 	bl	148cc <tfp_printf>
+    d2a0:	e51b0040 	ldr	r0, [fp, #-64]	; 0xffffffc0
+    d2a4:	ebffffcd 	bl	d1e0 <_gcry_blocksize_shift>
+    d2a8:	e50b000c 	str	r0, [fp, #-12]
+    d2ac:	e3a03008 	mov	r3, #8
+    d2b0:	e50b3010 	str	r3, [fp, #-16]
+    d2b4:	e51b3010 	ldr	r3, [fp, #-16]
+    d2b8:	e1a03083 	lsl	r3, r3, #1
+    d2bc:	e50b3014 	str	r3, [fp, #-20]	; 0xffffffec
+    d2c0:	e51b2048 	ldr	r2, [fp, #-72]	; 0xffffffb8
+    d2c4:	e59b3004 	ldr	r3, [fp, #4]
+    d2c8:	e1520003 	cmp	r2, r3
+    d2cc:	2a000001 	bcs	d2d8 <_gcry_cipher_cfb_decrypt+0xd4>
+    d2d0:	e3e03000 	mvn	r3, #0
+    d2d4:	ea000129 	b	d780 <_gcry_cipher_cfb_decrypt+0x57c>
+    d2d8:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d2dc:	e5933020 	ldr	r3, [r3, #32]
+    d2e0:	e1a02003 	mov	r2, r3
+    d2e4:	e59b3004 	ldr	r3, [fp, #4]
+    d2e8:	e1530002 	cmp	r3, r2
+    d2ec:	8a000016 	bhi	d34c <_gcry_cipher_cfb_decrypt+0x148>
+    d2f0:	e51b2040 	ldr	r2, [fp, #-64]	; 0xffffffc0
+    d2f4:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d2f8:	e5933020 	ldr	r3, [r3, #32]
+    d2fc:	e1a01003 	mov	r1, r3
+    d300:	e51b3010 	ldr	r3, [fp, #-16]
+    d304:	e0433001 	sub	r3, r3, r1
+    d308:	e0823003 	add	r3, r2, r3
+    d30c:	e50b301c 	str	r3, [fp, #-28]	; 0xffffffe4
+    d310:	e59b3004 	ldr	r3, [fp, #4]
+    d314:	e51b204c 	ldr	r2, [fp, #-76]	; 0xffffffb4
+    d318:	e51b101c 	ldr	r1, [fp, #-28]	; 0xffffffe4
+    d31c:	e51b0044 	ldr	r0, [fp, #-68]	; 0xffffffbc
+    d320:	ebfffdc7 	bl	ca44 <buf_xor_n_copy>
+    d324:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d328:	e5933020 	ldr	r3, [r3, #32]
+    d32c:	e1a02003 	mov	r2, r3
+    d330:	e59b3004 	ldr	r3, [fp, #4]
+    d334:	e0423003 	sub	r3, r2, r3
+    d338:	e1a02003 	mov	r2, r3
+    d33c:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d340:	e5832020 	str	r2, [r3, #32]
+    d344:	e3a03000 	mov	r3, #0
+    d348:	ea00010c 	b	d780 <_gcry_cipher_cfb_decrypt+0x57c>
+    d34c:	e3a03000 	mov	r3, #0
+    d350:	e50b3018 	str	r3, [fp, #-24]	; 0xffffffe8
+    d354:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d358:	e5933020 	ldr	r3, [r3, #32]
+    d35c:	e3530000 	cmp	r3, #0
+    d360:	0a000022 	beq	d3f0 <_gcry_cipher_cfb_decrypt+0x1ec>
+    d364:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d368:	e5933020 	ldr	r3, [r3, #32]
+    d36c:	e1a02003 	mov	r2, r3
+    d370:	e59b3004 	ldr	r3, [fp, #4]
+    d374:	e0433002 	sub	r3, r3, r2
+    d378:	e58b3004 	str	r3, [fp, #4]
+    d37c:	e51b2040 	ldr	r2, [fp, #-64]	; 0xffffffc0
+    d380:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d384:	e5933020 	ldr	r3, [r3, #32]
+    d388:	e1a01003 	mov	r1, r3
+    d38c:	e51b3010 	ldr	r3, [fp, #-16]
+    d390:	e0433001 	sub	r3, r3, r1
+    d394:	e0823003 	add	r3, r2, r3
+    d398:	e50b301c 	str	r3, [fp, #-28]	; 0xffffffe4
+    d39c:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d3a0:	e5933020 	ldr	r3, [r3, #32]
+    d3a4:	e51b204c 	ldr	r2, [fp, #-76]	; 0xffffffb4
+    d3a8:	e51b101c 	ldr	r1, [fp, #-28]	; 0xffffffe4
+    d3ac:	e51b0044 	ldr	r0, [fp, #-68]	; 0xffffffbc
+    d3b0:	ebfffda3 	bl	ca44 <buf_xor_n_copy>
+    d3b4:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d3b8:	e5933020 	ldr	r3, [r3, #32]
+    d3bc:	e1a02003 	mov	r2, r3
+    d3c0:	e51b3044 	ldr	r3, [fp, #-68]	; 0xffffffbc
+    d3c4:	e0833002 	add	r3, r3, r2
+    d3c8:	e50b3044 	str	r3, [fp, #-68]	; 0xffffffbc
+    d3cc:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d3d0:	e5933020 	ldr	r3, [r3, #32]
+    d3d4:	e1a02003 	mov	r2, r3
+    d3d8:	e51b304c 	ldr	r3, [fp, #-76]	; 0xffffffb4
+    d3dc:	e0833002 	add	r3, r3, r2
+    d3e0:	e50b304c 	str	r3, [fp, #-76]	; 0xffffffb4
+    d3e4:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d3e8:	e3a02000 	mov	r2, #0
+    d3ec:	e5832020 	str	r2, [r3, #32]
+    d3f0:	e59b2004 	ldr	r2, [fp, #4]
+    d3f4:	e51b3014 	ldr	r3, [fp, #-20]	; 0xffffffec
+    d3f8:	e1520003 	cmp	r2, r3
+    d3fc:	3a00004a 	bcc	d52c <_gcry_cipher_cfb_decrypt+0x328>
+    d400:	e59b2004 	ldr	r2, [fp, #4]
+    d404:	e51b300c 	ldr	r3, [fp, #-12]
+    d408:	e1a03332 	lsr	r3, r2, r3
+    d40c:	e50b3020 	str	r3, [fp, #-32]	; 0xffffffe0
+    d410:	e51b1040 	ldr	r1, [fp, #-64]	; 0xffffffc0
+    d414:	e51b3020 	ldr	r3, [fp, #-32]	; 0xffffffe0
+    d418:	e58d3000 	str	r3, [sp]
+    d41c:	e51b304c 	ldr	r3, [fp, #-76]	; 0xffffffb4
+    d420:	e51b2044 	ldr	r2, [fp, #-68]	; 0xffffffbc
+    d424:	e51b0040 	ldr	r0, [fp, #-64]	; 0xffffffc0
+    d428:	ebfffecb 	bl	cf5c <_gcry_cast5_cfb_dec>
+    d42c:	e51b2020 	ldr	r2, [fp, #-32]	; 0xffffffe0
+    d430:	e51b300c 	ldr	r3, [fp, #-12]
+    d434:	e1a03312 	lsl	r3, r2, r3
+    d438:	e51b2044 	ldr	r2, [fp, #-68]	; 0xffffffbc
+    d43c:	e0823003 	add	r3, r2, r3
+    d440:	e50b3044 	str	r3, [fp, #-68]	; 0xffffffbc
+    d444:	e51b2020 	ldr	r2, [fp, #-32]	; 0xffffffe0
+    d448:	e51b300c 	ldr	r3, [fp, #-12]
+    d44c:	e1a03312 	lsl	r3, r2, r3
+    d450:	e51b204c 	ldr	r2, [fp, #-76]	; 0xffffffb4
+    d454:	e0823003 	add	r3, r2, r3
+    d458:	e50b304c 	str	r3, [fp, #-76]	; 0xffffffb4
+    d45c:	e51b2020 	ldr	r2, [fp, #-32]	; 0xffffffe0
+    d460:	e51b300c 	ldr	r3, [fp, #-12]
+    d464:	e1a03312 	lsl	r3, r2, r3
+    d468:	e59b2004 	ldr	r2, [fp, #4]
+    d46c:	e0423003 	sub	r3, r2, r3
+    d470:	e58b3004 	str	r3, [fp, #4]
+    d474:	ea000030 	b	d53c <_gcry_cipher_cfb_decrypt+0x338>
+    d478:	e51b2040 	ldr	r2, [fp, #-64]	; 0xffffffc0
+    d47c:	e24b3028 	sub	r3, fp, #40	; 0x28
+    d480:	e1a01002 	mov	r1, r2
+    d484:	e1a00003 	mov	r0, r3
+    d488:	eb000cb6 	bl	10768 <blockFromBytes>
+    d48c:	e24b3028 	sub	r3, fp, #40	; 0x28
+    d490:	e8930003 	ldm	r3, {r0, r1}
+    d494:	eb00012a 	bl	d944 <printBlock>
+    d498:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d49c:	e2831030 	add	r1, r3, #48	; 0x30
+    d4a0:	e24b0054 	sub	r0, fp, #84	; 0x54
+    d4a4:	e3a03000 	mov	r3, #0
+    d4a8:	e58d3000 	str	r3, [sp]
+    d4ac:	e24b3028 	sub	r3, fp, #40	; 0x28
+    d4b0:	e893000c 	ldm	r3, {r2, r3}
+    d4b4:	eb000c98 	bl	1071c <encrypt>
+    d4b8:	e24b3028 	sub	r3, fp, #40	; 0x28
+    d4bc:	e24b2054 	sub	r2, fp, #84	; 0x54
+    d4c0:	e8920003 	ldm	r2, {r0, r1}
+    d4c4:	e8830003 	stm	r3, {r0, r1}
+    d4c8:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d4cc:	e1a02003 	mov	r2, r3
+    d4d0:	e24b3028 	sub	r3, fp, #40	; 0x28
+    d4d4:	e8930003 	ldm	r3, {r0, r1}
+    d4d8:	eb0000b1 	bl	d7a4 <bytesFromBlock>
+    d4dc:	e24b3028 	sub	r3, fp, #40	; 0x28
+    d4e0:	e8930003 	ldm	r3, {r0, r1}
+    d4e4:	eb000116 	bl	d944 <printBlock>
+    d4e8:	e51b1040 	ldr	r1, [fp, #-64]	; 0xffffffc0
+    d4ec:	e51b3010 	ldr	r3, [fp, #-16]
+    d4f0:	e51b204c 	ldr	r2, [fp, #-76]	; 0xffffffb4
+    d4f4:	e51b0044 	ldr	r0, [fp, #-68]	; 0xffffffbc
+    d4f8:	ebfffd62 	bl	ca88 <cipher_block_xor_n_copy>
+    d4fc:	e51b2044 	ldr	r2, [fp, #-68]	; 0xffffffbc
+    d500:	e51b3010 	ldr	r3, [fp, #-16]
+    d504:	e0823003 	add	r3, r2, r3
+    d508:	e50b3044 	str	r3, [fp, #-68]	; 0xffffffbc
+    d50c:	e51b204c 	ldr	r2, [fp, #-76]	; 0xffffffb4
+    d510:	e51b3010 	ldr	r3, [fp, #-16]
+    d514:	e0823003 	add	r3, r2, r3
+    d518:	e50b304c 	str	r3, [fp, #-76]	; 0xffffffb4
+    d51c:	e59b2004 	ldr	r2, [fp, #4]
+    d520:	e51b3010 	ldr	r3, [fp, #-16]
+    d524:	e0423003 	sub	r3, r2, r3
+    d528:	e58b3004 	str	r3, [fp, #4]
+    d52c:	e59b2004 	ldr	r2, [fp, #4]
+    d530:	e51b3014 	ldr	r3, [fp, #-20]	; 0xffffffec
+    d534:	e1520003 	cmp	r2, r3
+    d538:	2affffce 	bcs	d478 <_gcry_cipher_cfb_decrypt+0x274>
+    d53c:	e59b2004 	ldr	r2, [fp, #4]
+    d540:	e51b3010 	ldr	r3, [fp, #-16]
+    d544:	e1520003 	cmp	r2, r3
+    d548:	3a000039 	bcc	d634 <_gcry_cipher_cfb_decrypt+0x430>
+    d54c:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d550:	e5933020 	ldr	r3, [r3, #32]
+    d554:	e51b2048 	ldr	r2, [fp, #-72]	; 0xffffffb8
+    d558:	e59b1004 	ldr	r1, [fp, #4]
+    d55c:	e59f0238 	ldr	r0, [pc, #568]	; d79c <_gcry_cipher_cfb_decrypt+0x598>
+    d560:	e08f0000 	add	r0, pc, r0
+    d564:	eb001cd8 	bl	148cc <tfp_printf>
+    d568:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d56c:	e2833010 	add	r3, r3, #16
+    d570:	e51b1040 	ldr	r1, [fp, #-64]	; 0xffffffc0
+    d574:	e51b2010 	ldr	r2, [fp, #-16]
+    d578:	e1a00003 	mov	r0, r3
+    d57c:	ebfffbf0 	bl	c544 <cipher_block_cpy>
+    d580:	e51b2040 	ldr	r2, [fp, #-64]	; 0xffffffc0
+    d584:	e24b3030 	sub	r3, fp, #48	; 0x30
+    d588:	e1a01002 	mov	r1, r2
+    d58c:	e1a00003 	mov	r0, r3
+    d590:	eb000c74 	bl	10768 <blockFromBytes>
+    d594:	e24b3030 	sub	r3, fp, #48	; 0x30
+    d598:	e8930003 	ldm	r3, {r0, r1}
+    d59c:	eb0000e8 	bl	d944 <printBlock>
+    d5a0:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d5a4:	e2831030 	add	r1, r3, #48	; 0x30
+    d5a8:	e24b0054 	sub	r0, fp, #84	; 0x54
+    d5ac:	e3a03000 	mov	r3, #0
+    d5b0:	e58d3000 	str	r3, [sp]
+    d5b4:	e24b3030 	sub	r3, fp, #48	; 0x30
+    d5b8:	e893000c 	ldm	r3, {r2, r3}
+    d5bc:	eb000c56 	bl	1071c <encrypt>
+    d5c0:	e24b3030 	sub	r3, fp, #48	; 0x30
+    d5c4:	e24b2054 	sub	r2, fp, #84	; 0x54
+    d5c8:	e8920003 	ldm	r2, {r0, r1}
+    d5cc:	e8830003 	stm	r3, {r0, r1}
+    d5d0:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d5d4:	e1a02003 	mov	r2, r3
+    d5d8:	e24b3030 	sub	r3, fp, #48	; 0x30
+    d5dc:	e8930003 	ldm	r3, {r0, r1}
+    d5e0:	eb00006f 	bl	d7a4 <bytesFromBlock>
+    d5e4:	e24b3030 	sub	r3, fp, #48	; 0x30
+    d5e8:	e8930003 	ldm	r3, {r0, r1}
+    d5ec:	eb0000d4 	bl	d944 <printBlock>
+    d5f0:	e51b1040 	ldr	r1, [fp, #-64]	; 0xffffffc0
+    d5f4:	e51b3010 	ldr	r3, [fp, #-16]
+    d5f8:	e51b204c 	ldr	r2, [fp, #-76]	; 0xffffffb4
+    d5fc:	e51b0044 	ldr	r0, [fp, #-68]	; 0xffffffbc
+    d600:	ebfffd20 	bl	ca88 <cipher_block_xor_n_copy>
+    d604:	e51b2044 	ldr	r2, [fp, #-68]	; 0xffffffbc
+    d608:	e51b3010 	ldr	r3, [fp, #-16]
+    d60c:	e0823003 	add	r3, r2, r3
+    d610:	e50b3044 	str	r3, [fp, #-68]	; 0xffffffbc
+    d614:	e51b204c 	ldr	r2, [fp, #-76]	; 0xffffffb4
+    d618:	e51b3010 	ldr	r3, [fp, #-16]
+    d61c:	e0823003 	add	r3, r2, r3
+    d620:	e50b304c 	str	r3, [fp, #-76]	; 0xffffffb4
+    d624:	e59b2004 	ldr	r2, [fp, #4]
+    d628:	e51b3010 	ldr	r3, [fp, #-16]
+    d62c:	e0423003 	sub	r3, r2, r3
+    d630:	e58b3004 	str	r3, [fp, #4]
+    d634:	e59b3004 	ldr	r3, [fp, #4]
+    d638:	e3530000 	cmp	r3, #0
+    d63c:	0a00004e 	beq	d77c <_gcry_cipher_cfb_decrypt+0x578>
+    d640:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d644:	e5933020 	ldr	r3, [r3, #32]
+    d648:	e51b2048 	ldr	r2, [fp, #-72]	; 0xffffffb8
+    d64c:	e59b1004 	ldr	r1, [fp, #4]
+    d650:	e59f0148 	ldr	r0, [pc, #328]	; d7a0 <_gcry_cipher_cfb_decrypt+0x59c>
+    d654:	e08f0000 	add	r0, pc, r0
+    d658:	eb001c9b 	bl	148cc <tfp_printf>
+    d65c:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d660:	e2833010 	add	r3, r3, #16
+    d664:	e51b1040 	ldr	r1, [fp, #-64]	; 0xffffffc0
+    d668:	e51b2010 	ldr	r2, [fp, #-16]
+    d66c:	e1a00003 	mov	r0, r3
+    d670:	ebfffbb3 	bl	c544 <cipher_block_cpy>
+    d674:	e51b2040 	ldr	r2, [fp, #-64]	; 0xffffffc0
+    d678:	e24b3038 	sub	r3, fp, #56	; 0x38
+    d67c:	e1a01002 	mov	r1, r2
+    d680:	e1a00003 	mov	r0, r3
+    d684:	eb000c37 	bl	10768 <blockFromBytes>
+    d688:	e24b3038 	sub	r3, fp, #56	; 0x38
+    d68c:	e8930003 	ldm	r3, {r0, r1}
+    d690:	eb0000ab 	bl	d944 <printBlock>
+    d694:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d698:	e2831030 	add	r1, r3, #48	; 0x30
+    d69c:	e24b0054 	sub	r0, fp, #84	; 0x54
+    d6a0:	e3a03000 	mov	r3, #0
+    d6a4:	e58d3000 	str	r3, [sp]
+    d6a8:	e24b3038 	sub	r3, fp, #56	; 0x38
+    d6ac:	e893000c 	ldm	r3, {r2, r3}
+    d6b0:	eb000c19 	bl	1071c <encrypt>
+    d6b4:	e24b3038 	sub	r3, fp, #56	; 0x38
+    d6b8:	e24b2054 	sub	r2, fp, #84	; 0x54
+    d6bc:	e8920003 	ldm	r2, {r0, r1}
+    d6c0:	e8830003 	stm	r3, {r0, r1}
+    d6c4:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d6c8:	e1a02003 	mov	r2, r3
+    d6cc:	e24b3038 	sub	r3, fp, #56	; 0x38
+    d6d0:	e8930003 	ldm	r3, {r0, r1}
+    d6d4:	eb000032 	bl	d7a4 <bytesFromBlock>
+    d6d8:	e24b3038 	sub	r3, fp, #56	; 0x38
+    d6dc:	e8930003 	ldm	r3, {r0, r1}
+    d6e0:	eb000097 	bl	d944 <printBlock>
+    d6e4:	e51b2010 	ldr	r2, [fp, #-16]
+    d6e8:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d6ec:	e5832020 	str	r2, [r3, #32]
+    d6f0:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d6f4:	e5933020 	ldr	r3, [r3, #32]
+    d6f8:	e1a02003 	mov	r2, r3
+    d6fc:	e59b3004 	ldr	r3, [fp, #4]
+    d700:	e0423003 	sub	r3, r2, r3
+    d704:	e1a02003 	mov	r2, r3
+    d708:	e51b3040 	ldr	r3, [fp, #-64]	; 0xffffffc0
+    d70c:	e5832020 	str	r2, [r3, #32]
+    d710:	e51b1040 	ldr	r1, [fp, #-64]	; 0xffffffc0
+    d714:	e59b3004 	ldr	r3, [fp, #4]
+    d718:	e51b204c 	ldr	r2, [fp, #-76]	; 0xffffffb4
+    d71c:	e51b0044 	ldr	r0, [fp, #-68]	; 0xffffffbc
+    d720:	ebfffcc7 	bl	ca44 <buf_xor_n_copy>
+    d724:	e51b2044 	ldr	r2, [fp, #-68]	; 0xffffffbc
+    d728:	e59b3004 	ldr	r3, [fp, #4]
+    d72c:	e0823003 	add	r3, r2, r3
+    d730:	e50b3044 	str	r3, [fp, #-68]	; 0xffffffbc
+    d734:	e51b204c 	ldr	r2, [fp, #-76]	; 0xffffffb4
+    d738:	e59b3004 	ldr	r3, [fp, #4]
+    d73c:	e0823003 	add	r3, r2, r3
+    d740:	e50b304c 	str	r3, [fp, #-76]	; 0xffffffb4
+    d744:	e3a03000 	mov	r3, #0
+    d748:	e58b3004 	str	r3, [fp, #4]
+    d74c:	e51b2040 	ldr	r2, [fp, #-64]	; 0xffffffc0
+    d750:	e24b3054 	sub	r3, fp, #84	; 0x54
+    d754:	e1a01002 	mov	r1, r2
+    d758:	e1a00003 	mov	r0, r3
+    d75c:	eb000c01 	bl	10768 <blockFromBytes>
+    d760:	e24b3038 	sub	r3, fp, #56	; 0x38
+    d764:	e24b2054 	sub	r2, fp, #84	; 0x54
+    d768:	e8920003 	ldm	r2, {r0, r1}
+    d76c:	e8830003 	stm	r3, {r0, r1}
+    d770:	e24b3038 	sub	r3, fp, #56	; 0x38
+    d774:	e8930003 	ldm	r3, {r0, r1}
+    d778:	eb000071 	bl	d944 <printBlock>
+    d77c:	e3a03000 	mov	r3, #0
+    d780:	e1a00003 	mov	r0, r3
+    d784:	e24bd004 	sub	sp, fp, #4
+    d788:	e8bd8800 	pop	{fp, pc}
+    d78c:	0000cd88 	.word	0x0000cd88
+    d790:	0000cdbc 	.word	0x0000cdbc
+    d794:	0000cd18 	.word	0x0000cd18
+    d798:	0000ccf8 	.word	0x0000ccf8
+    d79c:	0000cab0 	.word	0x0000cab0
+    d7a0:	0000c9d4 	.word	0x0000c9d4
+
+
+=== proc_encryption_packets ===
+00018910 <proc_encryption_packets>:
+   18910:	e92d4800 	push	{fp, lr}
+   18914:	e28db004 	add	fp, sp, #4
+   18918:	e24dd018 	sub	sp, sp, #24
+   1891c:	e50b0010 	str	r0, [fp, #-16]
+   18920:	e50b1014 	str	r1, [fp, #-20]	; 0xffffffec
+   18924:	e50b2018 	str	r2, [fp, #-24]	; 0xffffffe8
+   18928:	e3a00060 	mov	r0, #96	; 0x60
+   1892c:	ebffe0e6 	bl	10ccc <xmalloc_clear>
+   18930:	e1a03000 	mov	r3, r0
+   18934:	e50b3008 	str	r3, [fp, #-8]
+   18938:	e51b3008 	ldr	r3, [fp, #-8]
+   1893c:	e51b2010 	ldr	r2, [fp, #-16]
+   18940:	e5832000 	str	r2, [r3]
+   18944:	e51b3008 	ldr	r3, [fp, #-8]
+   18948:	e51b2014 	ldr	r2, [fp, #-20]	; 0xffffffec
+   1894c:	e5832004 	str	r2, [r3, #4]
+   18950:	e51b3008 	ldr	r3, [fp, #-8]
+   18954:	e3a02001 	mov	r2, #1
+   18958:	e5832014 	str	r2, [r3, #20]
+   1895c:	e51b2018 	ldr	r2, [fp, #-24]	; 0xffffffe8
+   18960:	e51b1008 	ldr	r1, [fp, #-8]
+   18964:	e51b0010 	ldr	r0, [fp, #-16]
+   18968:	eb00002a 	bl	18a18 <do_proc_packets>
+   1896c:	e50b000c 	str	r0, [fp, #-12]
+   18970:	e51b0008 	ldr	r0, [fp, #-8]
+   18974:	ebffe113 	bl	10dc8 <xfree>
+   18978:	e51b300c 	ldr	r3, [fp, #-12]
+   1897c:	e1a00003 	mov	r0, r3
+   18980:	e24bd004 	sub	sp, fp, #4
+   18984:	e8bd8800 	pop	{fp, pc}
+
