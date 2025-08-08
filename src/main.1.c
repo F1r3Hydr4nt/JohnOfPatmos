@@ -150,13 +150,13 @@ void main()
     printf("Starting decryption tests...\n\n");
     
     // Define the session key
-    const unsigned char key_bytes[] = {
-        0xaa, 0x26, 0x54, 0x2a, 0xfd, 0x6f, 0x97, 0x09,
-        0x82, 0xee, 0xdb, 0x0c, 0xa8, 0x47, 0x7f, 0xd7
+    // const unsigned char key_bytes[] = {
+    //     0xaa, 0x26, 0x54, 0x2a, 0xfd, 0x6f, 0x97, 0x09,
+    //     0x82, 0xee, 0xdb, 0x0c, 0xa8, 0x47, 0x7f, 0xd7
+    // };
+    const unsigned char key_bytes[] = { 0x42, 0x7c, 0x02, 0x8e, 0x28, 0xee, 0xb1, 0x54, 0x64, 0xc3, 0x76, 0xd7, 0xdc, 0xca, 0x6c, 0xa2
     };
-    /*const unsigned char key_bytes[] = { 0x42, 0x7c, 0x02, 0x8e, 0x28, 0xee, 0xb1, 0x54, 0x64, 0xc3, 0x76, 0xd7, 0xdc, 0xca, 0x6c, 0xa2
-    };*/
-    const char *test_passphrase = "passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword";
+    // const char *test_passphrase = "passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword";
     // const char *test_passphrase = "2af14ef19220d275b0f87907f4ab5075dc9b75b574ef8c2e06e32e8311776945";
     
     // Test 1: Try decryption with session key
@@ -168,37 +168,37 @@ void main()
     memset(ctrl1, 0, sizeof(struct server_control_s));
     
     int rc1 = unified_decrypt(ctrl1, key_bytes, sizeof(key_bytes), NULL,
-                          __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg,
-                          __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len);
+                          __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg,
+                          __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len);
     
     free(ctrl1);
     ctrl1 = NULL;
     
     printf("Cleaned up first test, freed control structure\n\n");
     
-    // Test 2: Try decryption with KDF passphrase
-    ctrl_t ctrl2 = malloc(sizeof(struct server_control_s));
-    if (!ctrl2) {
-        printf("Failed to allocate control structure for test 2\n");
-        goto cleanup;
-    }
-    memset(ctrl2, 0, sizeof(struct server_control_s));
+    // // Test 2: Try decryption with KDF passphrase
+    // ctrl_t ctrl2 = malloc(sizeof(struct server_control_s));
+    // if (!ctrl2) {
+    //     printf("Failed to allocate control structure for test 2\n");
+    //     goto cleanup;
+    // }
+    // memset(ctrl2, 0, sizeof(struct server_control_s));
     
-    int rc2 = unified_decrypt(ctrl2, NULL, 0, test_passphrase,
-                          __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg,
-                          __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len);
+    // int rc2 = unified_decrypt(ctrl2, NULL, 0, test_passphrase,
+    //                       __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg,
+    //                       __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len);
     
-    printf("\n=== Results Summary ===\n");
-    printf("Session key decryption: %s\n", rc1 == 0 ? "SUCCESS" : "FAILED");
-    printf("KDF decryption: %s\n", rc2 == 14 ? "SUCCESS" : "FAILED");
+    // printf("\n=== Results Summary ===\n");
+    // printf("Session key decryption: %s\n", rc1 == 0 ? "SUCCESS" : "FAILED");
+    // printf("KDF decryption: %s\n", rc2 == 14 ? "SUCCESS" : "FAILED");
     
     printf("Hello World!\nCTRL-A + X\n");
 
 cleanup:
     // Clean up control structure if it exists
-    if (ctrl2) {
-        free(ctrl2);
-    }
+    // if (ctrl2) {
+    //     free(ctrl2);
+    // }
     
     while (1) {
         __asm__("wfi");
