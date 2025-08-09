@@ -714,7 +714,7 @@ proc_symkey_enc(CTX c, PACKET *pkt)
       // printf("passphrase len: %zu\n", strlen(c->passphrase));
       // printf("DOING DEK HERE passphrase:%s\n", c->passphrase);
       // Assuming c->session_key is an unsigned char array of 16 bytes
-      printf("session_key: %s\n", c->session_key);
+      // printf("session_key: %s\n", c->session_key);
       // for (int i = 0; i < 16; i++) {
       //     printf("%02x", c->session_key[i]);
       // }
@@ -1203,9 +1203,11 @@ proc_encrypted(CTX c, PACKET *pkt)
    * compliance status before the end of the decryption status.  */
   if (compliance_de_vs == (4 | 2 | 1))
   {
-    write_status_strings(STATUS_DECRYPTION_COMPLIANCE_MODE,
-                         gnupg_status_compliance_flag(CO_DE_VS),
-                         NULL);
+    // write_status_strings(STATUS_DECRYPTION_COMPLIANCE_MODE,
+    //                      gnupg_status_compliance_flag(CO_DE_VS),
+    //                      NULL);
+
+      printf("COMMMENTED OUT\n");
   }
 
   xfree(c->dek);

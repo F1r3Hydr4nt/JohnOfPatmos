@@ -1234,14 +1234,16 @@ parse_marker(IOBUF inp, int pkttype, unsigned long pktlen)
   }
 
   if (list_mode)
-    es_fputs(":marker packet: PGP\n", listfp);
+      printf("COMMMENTED OUT\n");
+    // es_fputs(":marker packet: PGP\n", listfp);
 
   return 0;
 
 fail:
   printf("invalid marker packet\n");
   if (list_mode)
-    es_fputs(":marker packet: [invalid]\n", listfp);
+      printf("COMMMENTED OUT\n");
+    // es_fputs(":marker packet: [invalid]\n", listfp);
   iobuf_skip_rest(inp, pktlen, 0);
   return GPG_ERR_INV_PACKET;
 }
@@ -3317,7 +3319,8 @@ parse_plaintext(IOBUF inp, int pkttype, unsigned long pktlen,
   {
     printf("packet(%d) too short (%lu)\n", pkttype, (ulong)pktlen);
     if (list_mode)
-      es_fputs(":literal data packet: [too short]\n", listfp);
+      printf("COMMMENTED OUT\n");
+      // es_fputs(":literal data packet: [too short]\n", listfp);
     rc = gpg_error(GPG_ERR_INV_PACKET);
     goto leave;
   }
@@ -3368,7 +3371,7 @@ parse_plaintext(IOBUF inp, int pkttype, unsigned long pktlen,
     for (p = pt->name, i = 0; i < namelen; p++, i++)
     {
       if (*p >= ' ' && *p <= 'z')
-        es_putc(*p, listfp);
+      printf("COMMMENTED OUT\n");//        es_putc(*p, listfp);
       else
         printf(listfp, "\\x%02x", *p);
     }
@@ -3453,7 +3456,8 @@ parse_encrypted(IOBUF inp, int pkttype, unsigned long pktlen,
       printf("encrypted_mdc packet with unknown version %d\n",
              version);
       if (list_mode)
-        es_fputs(":encrypted data packet: [unknown version]\n", listfp);
+      printf("COMMMENTED OUT\n");
+        // es_fputs(":encrypted data packet: [unknown version]\n", listfp);
       /*skip_rest(inp, pktlen); should we really do this? */
       rc = gpg_error(GPG_ERR_INV_PACKET);
       goto leave;
@@ -3471,7 +3475,7 @@ parse_encrypted(IOBUF inp, int pkttype, unsigned long pktlen,
     /* Actually this is blocksize+2.  */
     printf("packet(%d) too short\n", pkttype);
     if (list_mode)
-      es_fputs(":encrypted data packet: [too short]\n", listfp);
+      printf("COMMMENTED OUT\n");//      es_fputs(":encrypted data packet: [too short]\n", listfp);
     rc = GPG_ERR_INV_PACKET;
     iobuf_skip_rest(inp, pktlen, partial);
     goto leave;
