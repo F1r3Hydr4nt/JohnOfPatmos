@@ -1,0 +1,23 @@
+0001d8a0 00000004 d heap
+0001d8a4 00000100 d pkt_type_str.0
+0001d9a4 000154f2 D __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg
+00032e98 00000004 D __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len
+00032e9c 000154f2 D __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg
+00048390 00000004 D __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len
+000483d8 d _GLOBAL_OFFSET_TABLE_
+000483e4 D __data_end
+00049000 B __bss_start
+00049000 00000004 b close_cache
+00049004 00000004 B iobuf_debug_mode
+00049008 00000004 b number.0
+0004900c 00000004 b free_list
+00049010 00000004 b list_mode
+00049014 00000004 b listfp
+00049018 00000004 b stdout_putf
+0004901c 00000004 b stdout_putp
+00049020 00000004 b literals_seen
+00049024 00000001 b heap_initialized
+00049028 B __bss_end
+0004a000 B __heap_start
+0024a000 B __end
+0024a000 B __heap_end

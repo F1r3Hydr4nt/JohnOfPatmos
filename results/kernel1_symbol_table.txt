@@ -3,8 +3,8 @@ build/kernel1.elf:     file format elf32-littlearm
 
 SYMBOL TABLE:
 00008000 l    d  .text	00000000 .text
-000110bc l    d  .rodata	00000000 .rodata
-00014bac l    d  .data	00000000 .data
+000110d0 l    d  .rodata	00000000 .rodata
+00014bc0 l    d  .data	00000000 .data
 00040000 l    d  .bss	00000000 .bss
 00000000 l    df *ABS*	00000000 start.o
 00000000 l    df *ABS*	00000000 main.1.c
@@ -30,20 +30,20 @@ SYMBOL TABLE:
 0000aa20 l     F .text	00000064 free_packet.localalias
 00000000 l    df *ABS*	00000000 libgcrypt.c
 0000aa84 l     F .text	0000157c run
-00011e1c l     O .rodata	00000010 K_MAP
+00011e30 l     O .rodata	00000010 K_MAP
 00000000 l    df *ABS*	00000000 memory.c
 00040008 l     O .bss	00000004 free_list
 00040018 l     O .bss	00000001 heap_initialized
 00000000 l    df *ABS*	00000000 parse-packet.c
 0000d1d0 l     F .text	0000162c parse.constprop.0
-00014bac l     O .data	00000100 pkt_type_str.0
+00014bc0 l     O .data	00000100 pkt_type_str.0
 00000000 l    df *ABS*	00000000 sha1.c
 00000000 l    df *ABS*	00000000 mainproc.c
-00010a6c l     F .text	000005a8 do_proc_packets
+00010a80 l     F .text	000005a8 do_proc_packets
 00040014 l     O .bss	00000004 literals_seen
 00000000 l    df *ABS*	00000000 
-0003f6e0 l     O .data	00000000 _GLOBAL_OFFSET_TABLE_
-0001262c g     O .rodata	00000400 S3
+0003f6f4 l     O .data	00000000 _GLOBAL_OFFSET_TABLE_
+00012640 g     O .rodata	00000400 S3
 0000ce5c g     F .text	00000050 xmalloc
 0000d05c g     F .text	00000018 strcpy
 0000eeac g     F .text	0000004c tfp_sprintf
@@ -56,16 +56,16 @@ SYMBOL TABLE:
 0000a034 g     F .text	000000b8 iobuf_set_partial_body_length_mode
 00010228 g     F .text	000000c0 SHA1Update
 00008000 g       .text	00000000 __text_start
-00013a2c g     O .rodata	00000400 S8
+00013a40 g     O .rodata	00000400 S8
 0000c2e0 g     F .text	00000024 buf_xor_n_copy
 000101dc g     F .text	0000004c SHA1Init
-0002a1a4 g     O .data	000154f2 __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg
-0002a1a0 g     O .data	00000004 __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len
+0002a1b8 g     O .data	000154f2 __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg
+0002a1b4 g     O .data	00000004 __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len
 00008884 g     F .text	0000046c iobuf_ioctl
-0001322c g     O .rodata	00000400 S6
+00013240 g     O .rodata	00000400 S6
 0000cf40 g     F .text	00000024 memcpy
 0000ceac g     F .text	00000050 xmalloc_clear
-00014bac g       .rodata	00000000 __rodata_end
+00014bc0 g       .rodata	00000000 __rodata_end
 00040000 g     O .bss	00000004 iobuf_debug_mode
 0000cbfc g     F .text	0000013c malloc
 000097c0 g     F .text	000000d8 iobuf_write
@@ -73,72 +73,73 @@ SYMBOL TABLE:
 0000aa20 g     F .text	00000064 free_packet
 00008fec g     F .text	000002f4 iobuf_pop_filter
 0000a1d8 g     F .text	0000016c log_hexdump
-0001106c g     F .text	00000050 proc_encryption_packets
+00011080 g     F .text	00000050 proc_encryption_packets
 0004001c g       .bss	00000000 __bss_end
 0000a344 g     F .text	00000108 decrypt_memory
-00011e2c g     O .rodata	00000400 S1
+00011e40 g     O .rodata	00000400 S1
 0000a0f0 g     F .text	000000e8 iobuf_skip_rest
-000106f4 g     F .text	00000144 derive_key
+00010708 g     F .text	00000144 derive_key
 0000ee60 g     F .text	0000004c tfp_printf
 0000c328 g     F .text	00000154 buf_xor
 00008764 g     F .text	000000b8 iobuf_alloc
 0000d1bc g     F .text	00000014 xstrdup
 0000c5b8 g     F .text	00000048 blockFromBytes
 0000cefc g     F .text	00000044 xcalloc
-0001362c g     O .rodata	00000400 S7
+00013640 g     O .rodata	00000400 S7
 00008000 g       .text	00000000 _start
 00241000 g       .bss	00000000 __end
-000110bc g       .text	00000000 __rodata_start
+000110d0 g       .text	00000000 __rodata_start
 00009714 g     F .text	000000ac iobuf_writebyte
 0000cb1c g     F .text	00000080 _gcry_cipher_decrypt
-0003f6ec g       .data	00000000 __data_end
+0003f700 g       .data	00000000 __data_end
 0000c600 g     F .text	0000051c _gcry_cipher_cfb_decrypt
 0000cf64 g     F .text	00000074 xrealloc
 0000a024 g     F .text	00000010 iobuf_tell
 0000c580 g     F .text	00000038 encrypt
-000110bc g       .text	00000000 __text_end
+000110d0 g       .text	00000000 __text_end
 0000d188 g     F .text	00000034 strdup
 0000c4c0 g     F .text	0000002c _gcry_cipher_setiv
 00040000 g       .bss	00000000 __bss_start
 0000ce38 g     F .text	00000024 memset
 0000800c g     F .text	000002e8 main
 00008dfc g     F .text	000001e8 iobuf_push_filter2
-0003f698 g     O .data	00000004 __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len
+00010420 g     F .text	00000010 uart_putc
+0003f6ac g     O .data	00000004 __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len
 0000c1e8 g     F .text	000000f8 buf_xor_n_copy_2
-00012a2c g     O .rodata	00000400 S4
+00012a40 g     O .rodata	00000400 S4
 000095c4 g     F .text	00000150 iobuf_read
 0000d0f0 g     F .text	00000044 strcmp
 00241000 g       .bss	00000000 __heap_end
 00008370 g     F .text	00000170 file_filter
-0001222c g     O .rodata	00000400 S2
+00012240 g     O .rodata	00000400 S2
 0000c02c g     F .text	00000020 buf_put_le32
 0000cb9c g     F .text	00000060 print_heap_debug
 0000e7fc g     F .text	0000005c dbg_parse_packet
 00008cf0 g     F .text	0000010c iobuf_fdopen
-00011014 g     F .text	00000058 proc_packets
+00011028 g     F .text	00000058 proc_packets
 0000c0f4 g     F .text	000000f4 cipher_block_xor_n_copy_2
-00010424 g     F .text	000002d0 unified_decrypt
+00010438 g     F .text	000002d0 unified_decrypt
 00041000 g       .bss	00000000 __heap_start
 0000a6b4 g     F .text	0000036c decrypt_data
-00012e2c g     O .rodata	00000400 S5
+00012e40 g     O .rodata	00000400 S5
 000102e8 g     F .text	0000010c SHA1Final
 00008fe4 g     F .text	00000008 iobuf_push_filter
 0000eef8 g     F .text	000012e4 SHA1Transform
-000103f4 g     F .text	00000004 putc_uart
-000103f8 g     F .text	0000002c strlen
+00010430 g     F .text	00000008 putc_uart
+000103f4 g     F .text	0000002c strlen
 0000d134 g     F .text	00000054 open
 0000c04c g     F .text	000000a8 cipher_block_cpy
-00010838 g     F .text	00000234 passphrase_to_dek
+0001084c g     F .text	00000234 passphrase_to_dek
 000092e0 g     F .text	000002e4 iobuf_readbyte
 0000d0c4 g     F .text	0000002c strchr
 0000d074 g     F .text	00000050 xtrycalloc
-00014bac g       .rodata	00000000 __data_start
+00014bc0 g       .rodata	00000000 __data_start
 000086c0 g     F .text	000000a4 fd_cache_open
 0000c47c g     F .text	00000044 _gcry_cipher_setkey
 0000d034 g     F .text	00000028 wipememory
 0000c304 g     F .text	00000024 cipher_block_xor_n_copy
 0000c4ec g     F .text	00000044 cipher_sync
-00014cac g     O .data	000154f2 __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg
+00014cc0 g     O .data	000154f2 __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg
 0000cd38 g     F .text	000000f4 free
 0000a0ec g     F .text	00000004 translate_file_handle
 

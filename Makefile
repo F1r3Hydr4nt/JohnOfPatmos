@@ -51,7 +51,8 @@ MAIN2_OBJ = $(BUILD_DIR)/main2.o
 INCLUDES = -I$(SRC_DIR) -I$(COMMON_DIR)
 
 # Flags
-CFLAGS = -mcpu=cortex-a7 -fpic -ffreestanding -O2 -Wall -Wextra -g3 -gdwarf-4 $(INCLUDES) -ffunction-sections -fdata-sections -fno-common
+CFLAGS = -mcpu=cortex-a7 -fpic -ffreestanding -O0 -Wall -Wextra -g3 -gdwarf-4 $(INCLUDES) -ffunction-sections -fdata-sections -fno-common          -fno-omit-frame-pointer -fno-inline
+
 ASFLAGS = -mcpu=cortex-a7
 LDFLAGS = -T $(SRC_DIR)/linker.ld -ffreestanding -O2 -nostdlib \
           -Wl,--gc-sections \
@@ -61,15 +62,13 @@ LDFLAGS = -T $(SRC_DIR)/linker.ld -ffreestanding -O2 -nostdlib \
 
 # Define targets for each version
 TARGET1 = $(BUILD_DIR)/kernel1.img
-TARGET2 = $(BUILD_DIR)/kernel2.img
 
 # Define targets for each version
 TARGET1_ELF = $(BUILD_DIR)/kernel1.elf
-TARGET2_ELF = $(BUILD_DIR)/kernel2.elf
 
-.PHONY: all clean run1 run2 debug1 debug2 gdb1 gdb2 compare comparePatched compareLog log1 log2 logPatched ghidra
+.PHONY: all clean run debug gdb log ghidra debug-info
 
-all: $(TARGET1) # $(TARGET2)
+all: $(TARGET1)
 
 # Build common objects first
 common: $(COMMON_OBJS)
@@ -107,25 +106,11 @@ $(TARGET1): $(COMMON_OBJS) $(OBJS) $(ASM_OBJS) $(MAIN1_OBJ) $(MAINPROC_OBJ)
 	@mkdir -p $(@D)
 	$(CC) $(LDFLAGS) $^ -o $@
 
-$(TARGET2): $(COMMON_OBJS) $(OBJS) $(ASM_OBJS) $(MAIN2_OBJ) $(MAINPROC_OBJ)
-	@mkdir -p $(@D)
-	$(CC) $(LDFLAGS) $^ -o $@
-
 # Build both kernel ELF files - explicitly include mainproc.o
 $(TARGET1_ELF): $(COMMON_OBJS) $(OBJS) $(ASM_OBJS) $(MAIN1_OBJ) $(MAINPROC_OBJ)
 	@mkdir -p $(@D)
 	$(CC) $(LDFLAGS) $^ -o $@
 
-$(TARGET2_ELF): $(COMMON_OBJS) $(OBJS) $(ASM_OBJS) $(MAIN2_OBJ) $(MAINPROC_OBJ)
-	@mkdir -p $(@D)
-	$(CC) $(LDFLAGS) $^ -o $@
-
-# # Create binary images from ELF files
-# $(TARGET1): $(TARGET1_ELF)
-# 	$(OBJCOPY) -O binary $< $@
-
-# $(TARGET2): $(TARGET2_ELF)
-# 	$(OBJCOPY) -O binary $< $@
 clean:
 	rm -rf $(BUILD_DIR)
 
@@ -139,19 +124,17 @@ log: $(TARGET1)
 	$(QEMU) -M versatilepb -cpu cortex-a7 -kernel $(TARGET1) -d int,guest_errors,mmu,in_asm -D $(RESULTS_DIR)/kernel1.in_asm.log -nographic -serial mon:stdio
 
 # Debug targets for each version
-debug1: $(TARGET1)
+debug: $(TARGET1)
 	$(QEMU) -M versatilepb -cpu cortex-a7 -kernel $(TARGET1) -nographic -serial mon:stdio -s -S
 
-gdb1:
+gdb:
 	gdb-multiarch $(TARGET1) -x script.gdb
 
 # Generate memory map for analysis
-mapmem: $(TARGET1_ELF) $(TARGET2_ELF)
+mapmem: $(TARGET1_ELF)
 	@mkdir -p $(RESULTS_DIR)
 	$(CROSS_COMPILE)nm -n $(TARGET1_ELF) > $(RESULTS_DIR)/kernel1.map
-	$(CROSS_COMPILE)nm -n $(TARGET2_ELF) > $(RESULTS_DIR)/kernel2.map
 	$(CROSS_COMPILE)readelf -S $(TARGET1_ELF) > $(RESULTS_DIR)/kernel1.sections
-	$(CROSS_COMPILE)readelf -S $(TARGET2_ELF) > $(RESULTS_DIR)/kernel2.sections
 	@echo "Memory maps generated in $(RESULTS_DIR)"
 
 # # Useful commands
@@ -185,7 +168,7 @@ ghidra: $(TARGET1) $(TARGET1_ELF)
 	@echo "  3. Configuration:"
 	@echo "     - Image: $(TARGET1)"
 	@echo "     - QEMU command: qemu-system-arm"
-	@echo "     - Extra qemu arguments: -M versatilepb -cpu cortex-a7 -nographic -serial mon:stdio -kernel /home/freddie/JohnOfPatmos/build/kernel1.img -d int,guest_errors,mmu -D /home/freddie/JohnOfPatmos/results/ghidra_debug.txt"
+	@echo "     - Extra qemu arguments: -M versatilepb -cpu cortex-a7 -nographic -serial mon:stdio -kernel /home/freddie/JohnOfPatmos/build/kernel1.img symbol-file $(TARGET1_ELF)"
 	@echo "     - gdb command: gdb-multiarch"
 	@echo "     - Architecture: arm (not auto)"
 	@echo "     - Port: 1234"
@@ -196,3 +179,26 @@ ghidra: $(TARGET1) $(TARGET1_ELF)
 	@echo "  # Or use addresses from $(RESULTS_DIR)/kernel1_symbols.txt:"
 	@echo "  break *0x800c    # main function"
 	@echo "  continue"
+
+# Generate comprehensive debug information for Ghidra
+debug-info: $(TARGET1_ELF)
+	@mkdir -p $(RESULTS_DIR)/debug
+	@echo "====== GENERATING DEBUG INFORMATION ======"
+	
+	# Generate DWARF debug info dump
+	$(CROSS_COMPILE)objdump --dwarf=info $(TARGET1_ELF) > $(RESULTS_DIR)/debug/dwarf_info.txt
+	$(CROSS_COMPILE)objdump --dwarf=line $(TARGET1_ELF) > $(RESULTS_DIR)/debug/dwarf_line.txt
+	
+	# Generate source-to-assembly mapping
+	$(CROSS_COMPILE)objdump -S -d $(TARGET1_ELF) > $(RESULTS_DIR)/debug/source_interleaved.txt
+	
+	# Generate memory map with sizes
+	$(CROSS_COMPILE)size -A $(TARGET1_ELF) > $(RESULTS_DIR)/debug/section_sizes.txt
+	
+	# Generate function addresses
+	$(CROSS_COMPILE)nm -S -n $(TARGET1_ELF) | grep -E ' [TtWw] ' > $(RESULTS_DIR)/debug/functions.txt
+	
+	# Generate global variable addresses
+	$(CROSS_COMPILE)nm -S -n $(TARGET1_ELF) | grep -E ' [BbDdGg] ' > $(RESULTS_DIR)/debug/globals.txt
+	
+	@echo "Debug info generated in $(RESULTS_DIR)/debug/"

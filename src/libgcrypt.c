@@ -333,7 +333,7 @@ static void hexdump(const char *desc, const void *data, size_t len) {
 static void ascii_dump(const unsigned char *data, size_t len) {
     // Print the data directly, allowing special characters to be interpreted
     for (size_t i = 0; i < len; i++) {
-        // printf("%c", data[i]);
+        printf("%c", data[i]);
     }
 
     // for (size_t i = 0; i < len; i++) {

@@ -1,8 +1,2 @@
-FADD:/New Traces
-FADD:/New Traces/gdb
-IADD:00000001:/New Traces/gdb/kernel1.img
-IDSET:/New Traces/gdb/kernel1.img:c0a8148a8f7873837874692
-IADD:00000002:/New Traces/gdb/kernel1.img.1
-IDSET:/New Traces/gdb/kernel1.img.1:c0a81487878442031200060
-IADD:00000003:/New Traces/gdb/kernel1.img.2
-IDSET:/New Traces/gdb/kernel1.img.2:c0a8149a079067890269687
+IADD:00000004:/New Traces/gdb/kernel1.img.3
+IDSET:/New Traces/gdb/kernel1.img.3:c0a8164aee54021885389864
