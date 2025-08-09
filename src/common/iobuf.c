@@ -237,7 +237,7 @@ fd_cache_synchronize (const char *fname)
 	  if (DBG_IOBUF)
 	    printf ("                 did (%s)\n", cc->fname);
 
-	  err = fsync (cc->fp);
+//	  err = fsync (cc->fp);
 	}
     }
 #else
@@ -395,6 +395,7 @@ direct_open (const char *fname, const char *mode, int mode700)
 gnupg_fd_t
 fd_cache_open (const char *fname, const char *mode)
 {
+  printf("fd_cache_open(%s)\n", fname);
   close_cache_t cc;
 
   // printf (fname);
@@ -414,11 +415,11 @@ fd_cache_open (const char *fname, const char *mode)
 	      fp = GNUPG_INVALID_FD;
 	    }
 #else
-	  if (lseek (fp, 0, SEEK_SET) == (off_t) - 1)
-	    {
-	      printf ("can't rewind fd %d: %s\n", fp, strerror (errno));
-	      fp = GNUPG_INVALID_FD;
-	    }
+	  // if (lseek (fp, 0, SEEK_SET) == (off_t) - 1)
+	  //   {
+	  //     printf ("can't rewind fd %d: %s\n", fp, strerror (errno));
+	  //     fp = GNUPG_INVALID_FD;
+	  //   }
 #endif
 	  return fp;
 	}

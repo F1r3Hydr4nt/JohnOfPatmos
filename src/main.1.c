@@ -41,7 +41,7 @@ void uart_putc(char c)
 void putc_uart(void *p, char c)
 {
     (void)p;
-    // uart_putc(c);
+    uart_putc(c);
 }
 
 void verify_wiped(void *ptr, size_t len)

@@ -36,7 +36,6 @@ SRCS := $(filter-out $(MAINPROC_SRC),$(SRCS))
 
 # Main source files for different versions
 MAIN1_SRC = $(SRC_DIR)/main.1.c
-MAIN2_SRC = $(SRC_DIR)/main.2.c
 
 # Object files (common first)
 COMMON_OBJS = $(COMMON_SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
@@ -45,15 +44,14 @@ ASM_OBJS = $(ASM_SRCS:$(SRC_DIR)/%.s=$(BUILD_DIR)/%.o)
 
 # Main object files for different versions
 MAIN1_OBJ = $(BUILD_DIR)/main1.o
-MAIN2_OBJ = $(BUILD_DIR)/main2.o
 
 # Include paths
 INCLUDES = -I$(SRC_DIR) -I$(COMMON_DIR)
 
 # Flags
-CFLAGS = -mcpu=cortex-a7 -fpic -ffreestanding -O2 -Wall -Wextra -g3 -gdwarf-4 $(INCLUDES) -ffunction-sections -fdata-sections -fno-common
+CFLAGS = -mcpu=cortex-a7 -fpic -ffreestanding -O0 -Wall -Wextra -g3 -gdwarf-4 $(INCLUDES) -ffunction-sections -fdata-sections -fno-common --static -fno-omit-frame-pointer
 ASFLAGS = -mcpu=cortex-a7
-LDFLAGS = -T $(SRC_DIR)/linker.ld -ffreestanding -O2 -nostdlib \
+LDFLAGS = -T $(SRC_DIR)/linker.ld -ffreestanding -O0 -nostdlib --static \
           -Wl,--gc-sections \
           -Wl,--sort-section=alignment \
           -Wl,--sort-common=descending \
@@ -61,11 +59,9 @@ LDFLAGS = -T $(SRC_DIR)/linker.ld -ffreestanding -O2 -nostdlib \
 
 # Define targets for each version
 TARGET1 = $(BUILD_DIR)/kernel1.img
-TARGET2 = $(BUILD_DIR)/kernel2.img
 
 # Define targets for each version
 TARGET1_ELF = $(BUILD_DIR)/kernel1.elf
-TARGET2_ELF = $(BUILD_DIR)/kernel2.elf
 
 .PHONY: all clean run1 run2 debug1 debug2 gdb1 gdb2 compare comparePatched compareLog log1 log2 logPatched ghidra
 
@@ -98,34 +94,15 @@ $(MAIN1_OBJ): $(MAIN1_SRC)
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(MAIN2_OBJ): $(MAIN2_SRC)
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Build both kernel images - explicitly include mainproc.o
-$(TARGET1): $(COMMON_OBJS) $(OBJS) $(ASM_OBJS) $(MAIN1_OBJ) $(MAINPROC_OBJ)
-	@mkdir -p $(@D)
-	$(CC) $(LDFLAGS) $^ -o $@
-
-$(TARGET2): $(COMMON_OBJS) $(OBJS) $(ASM_OBJS) $(MAIN2_OBJ) $(MAINPROC_OBJ)
-	@mkdir -p $(@D)
-	$(CC) $(LDFLAGS) $^ -o $@
-
 # Build both kernel ELF files - explicitly include mainproc.o
 $(TARGET1_ELF): $(COMMON_OBJS) $(OBJS) $(ASM_OBJS) $(MAIN1_OBJ) $(MAINPROC_OBJ)
 	@mkdir -p $(@D)
 	$(CC) $(LDFLAGS) $^ -o $@
 
-$(TARGET2_ELF): $(COMMON_OBJS) $(OBJS) $(ASM_OBJS) $(MAIN2_OBJ) $(MAINPROC_OBJ)
-	@mkdir -p $(@D)
-	$(CC) $(LDFLAGS) $^ -o $@
-
 # # Create binary images from ELF files
-# $(TARGET1): $(TARGET1_ELF)
-# 	$(OBJCOPY) -O binary $< $@
+$(TARGET1): $(TARGET1_ELF)
+	$(OBJCOPY) -O binary $< $@
 
-# $(TARGET2): $(TARGET2_ELF)
-# 	$(OBJCOPY) -O binary $< $@
 clean:
 	rm -rf $(BUILD_DIR)
 
@@ -136,7 +113,7 @@ run: $(TARGET1)
 # Log targets for each version
 log: $(TARGET1)
 	@mkdir -p $(RESULTS_DIR)
-	$(QEMU) -M versatilepb -cpu cortex-a7 -kernel $(TARGET1) -d int,guest_errors,mmu,in_asm -D $(RESULTS_DIR)/kernel1.in_asm.log -nographic -serial mon:stdio
+	$(QEMU) -M versatilepb -cpu cortex-a7 -kernel $(TARGET1) -d guest_errors,in_asm -D $(RESULTS_DIR)/kernel1.in_asm.log -nographic -serial mon:stdio
 
 # Debug targets for each version
 debug1: $(TARGET1)
@@ -196,3 +173,4 @@ ghidra: $(TARGET1) $(TARGET1_ELF)
 	@echo "  # Or use addresses from $(RESULTS_DIR)/kernel1_symbols.txt:"
 	@echo "  break *0x800c    # main function"
 	@echo "  continue"
+

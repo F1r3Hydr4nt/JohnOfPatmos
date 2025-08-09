@@ -1203,9 +1203,9 @@ proc_encrypted(CTX c, PACKET *pkt)
    * compliance status before the end of the decryption status.  */
   if (compliance_de_vs == (4 | 2 | 1))
   {
-    write_status_strings(STATUS_DECRYPTION_COMPLIANCE_MODE,
-                         gnupg_status_compliance_flag(CO_DE_VS),
-                         NULL);
+    // write_status_strings(STATUS_DECRYPTION_COMPLIANCE_MODE,
+    //                      gnupg_status_compliance_flag(CO_DE_VS),
+    //                      NULL);
   }
 
   xfree(c->dek);
