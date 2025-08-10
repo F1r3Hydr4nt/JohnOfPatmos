@@ -115,27 +115,22 @@
 00014b74 00000058 T tfp_printf
 00014bcc 00000044 t putcp
 00014c10 0000005c T tfp_sprintf
-00014c6c 00002664 T SHA1Transform
-000172d0 0000008c T SHA1Init
-0001735c 0000017c T SHA1Update
-000174d8 0000017c T SHA1Final
-00017654 00000058 t my_strcpy
-000176ac 00000054 T strlen
-00017700 00000034 T uart_putc
-00017734 00000030 T putc_uart
-00017764 00000408 T unified_decrypt
-00017b6c 0000036c T main
-00017ed8 00000054 t gpg_err_make
-00017f2c 0000002c t gpg_error
-00017f58 00000028 t gpg_err_code
-00017f80 00000058 t my_strcpy
-00017fd8 000001c0 T derive_key
-00018198 0000037c T passphrase_to_dek
-00018514 00000224 t proc_symkey_enc
-00018738 00000314 t proc_encrypted
-00018a4c 00000080 T proc_packets
-00018acc 00000078 T proc_encryption_packets
-00018b44 00000090 t check_nesting
-00018bd4 00000438 t do_proc_packets
-0001900c T __rodata_start
-0001900c T __text_end
+00014c6c 00000058 t my_strcpy
+00014cc4 00000054 T strlen
+00014d18 00000034 T uart_putc
+00014d4c 00000030 T putc_uart
+00014d7c 00000408 T unified_decrypt
+00015184 0000036c T main
+000154f0 00000054 t gpg_err_make
+00015544 0000002c t gpg_error
+00015570 00000028 t gpg_err_code
+00015598 00000058 t my_strcpy
+000155f0 00000348 T passphrase_to_dek
+00015938 00000224 t proc_symkey_enc
+00015b5c 00000314 t proc_encrypted
+00015e70 00000080 T proc_packets
+00015ef0 00000078 T proc_encryption_packets
+00015f68 00000090 t check_nesting
+00015ff8 00000438 t do_proc_packets
+00016430 T __rodata_start
+00016430 T __text_end

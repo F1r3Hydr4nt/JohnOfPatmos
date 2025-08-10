@@ -152,94 +152,83 @@ end
 
 python expected_functions['decrypt_data'] = '0x0000bb24'
 
-# Function: derive_key
-break derive_key
-commands
-  silent
-  python check_function_address('derive_key', '0x00017fd8')
-  printf "\n[BREAK] Hit derive_key at %s\n", $pc
-  backtrace 3
-end
-
-python expected_functions['derive_key'] = '0x00017fd8'
-
 # Function: passphrase_to_dek
 break passphrase_to_dek
 commands
   silent
-  python check_function_address('passphrase_to_dek', '0x00018198')
+  python check_function_address('passphrase_to_dek', '0x000155f0')
   printf "\n[BREAK] Hit passphrase_to_dek at %s\n", $pc
   backtrace 3
 end
 
-python expected_functions['passphrase_to_dek'] = '0x00018198'
+python expected_functions['passphrase_to_dek'] = '0x000155f0'
 
 # Function: proc_encrypted
 break proc_encrypted
 commands
   silent
-  python check_function_address('proc_encrypted', '0x00018738')
+  python check_function_address('proc_encrypted', '0x00015b5c')
   printf "\n[BREAK] Hit proc_encrypted at %s\n", $pc
   backtrace 3
 end
 
-python expected_functions['proc_encrypted'] = '0x00018738'
+python expected_functions['proc_encrypted'] = '0x00015b5c'
 
 #============================================================
 # GLOBAL VARIABLE WATCHPOINTS WITH MONITORING
 #============================================================
 
-# Global: heap @ 0x0001d8a0 (size: 0x4)
-watch *(int*)0x0001d8a0
+# Global: heap @ 0x0001ac70 (size: 0x4)
+watch *(int*)0x0001ac70
 # Watching heap as int
 commands
   silent
-  set $old_val = *(int*)0x0001d8a0
-  set $new_val = *(int*)0x0001d8a0
+  set $old_val = *(int*)0x0001ac70
+  set $new_val = *(int*)0x0001ac70
   python monitor_value_change('heap', gdb.parse_and_eval('$old_val'), gdb.parse_and_eval('$new_val'), gdb.parse_and_eval('$pc'))
   continue
 end
 
-# Global: __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg @ 0x0001d9a4 (size: 0x154f2)
-rwatch *(char*)0x0001d9a4
+# Global: __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg @ 0x0001ad74 (size: 0x154f2)
+rwatch *(char*)0x0001ad74
 # Read watchpoint on large variable __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg
 commands
   silent
-  set $old_val = *(long*)0x0001d9a4
-  set $new_val = *(long*)0x0001d9a4
+  set $old_val = *(long*)0x0001ad74
+  set $new_val = *(long*)0x0001ad74
   python monitor_value_change('__7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg', gdb.parse_and_eval('$old_val'), gdb.parse_and_eval('$new_val'), gdb.parse_and_eval('$pc'))
   continue
 end
 
-# Global: __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len @ 0x00032e98 (size: 0x4)
-watch *(int*)0x00032e98
+# Global: __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len @ 0x00030268 (size: 0x4)
+watch *(int*)0x00030268
 # Watching __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len as int
 commands
   silent
-  set $old_val = *(int*)0x00032e98
-  set $new_val = *(int*)0x00032e98
+  set $old_val = *(int*)0x00030268
+  set $new_val = *(int*)0x00030268
   python monitor_value_change('__7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len', gdb.parse_and_eval('$old_val'), gdb.parse_and_eval('$new_val'), gdb.parse_and_eval('$pc'))
   continue
 end
 
-# Global: __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg @ 0x00032e9c (size: 0x154f2)
-rwatch *(char*)0x00032e9c
+# Global: __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg @ 0x0003026c (size: 0x154f2)
+rwatch *(char*)0x0003026c
 # Read watchpoint on large variable __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg
 commands
   silent
-  set $old_val = *(long*)0x00032e9c
-  set $new_val = *(long*)0x00032e9c
+  set $old_val = *(long*)0x0003026c
+  set $new_val = *(long*)0x0003026c
   python monitor_value_change('__passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg', gdb.parse_and_eval('$old_val'), gdb.parse_and_eval('$new_val'), gdb.parse_and_eval('$pc'))
   continue
 end
 
-# Global: __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len @ 0x00048390 (size: 0x4)
-watch *(int*)0x00048390
+# Global: __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len @ 0x00045760 (size: 0x4)
+watch *(int*)0x00045760
 # Watching __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len as int
 commands
   silent
-  set $old_val = *(int*)0x00048390
-  set $new_val = *(int*)0x00048390
+  set $old_val = *(int*)0x00045760
+  set $new_val = *(int*)0x00045760
   python monitor_value_change('__passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len', gdb.parse_and_eval('$old_val'), gdb.parse_and_eval('$new_val'), gdb.parse_and_eval('$pc'))
   continue
 end
@@ -252,22 +241,20 @@ end
 define show-monitored
   printf "\n=== Monitored Variables ===\n"
   printf "heap: "
-  p/x *(int*)0x0001d8a0
+  p/x *(int*)0x0001ac70
   printf "__7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg: "
-  p/x *(long*)0x0001d9a4
+  p/x *(long*)0x0001ad74
   printf "__7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len: "
-  p/x *(int*)0x00032e98
+  p/x *(int*)0x00030268
   printf "__passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg: "
-  p/x *(long*)0x00032e9c
+  p/x *(long*)0x0003026c
   printf "__passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len: "
-  p/x *(int*)0x00048390
+  p/x *(int*)0x00045760
   printf "\n=== Function Addresses ===\n"
   printf "decrypt_memory: "
   p/a &decrypt_memory
   printf "decrypt_data: "
   p/a &decrypt_data
-  printf "derive_key: "
-  p/a &derive_key
   printf "passphrase_to_dek: "
   p/a &passphrase_to_dek
   printf "proc_encrypted: "
@@ -292,7 +279,7 @@ end
 # Summary command
 define debug-status
   printf "\n=== Debug Status ===\n"
-  printf "Breakpoints set: 5\n"
+  printf "Breakpoints set: 4\n"
   printf "Watchpoints set: 5\n"
   printf "\nType 'show-monitored' to see current values\n"
   printf "Type 'show-history' to see change history\n"
@@ -303,7 +290,7 @@ end
 printf "\n"
 printf "========================================\n"
 printf "   GDB Debug Script Loaded\n"
-printf "   Monitoring 5 functions\n"
+printf "   Monitoring 4 functions\n"
 printf "   Watching 5 variables\n"
 printf "========================================\n"
 printf "\n"

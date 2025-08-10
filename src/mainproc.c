@@ -42,7 +42,7 @@
 // #include "call-dirmngr.h"
 #include "common/compliance.h"
 #include "printf.h"
-#include "sha1.h"
+// #include "sha1.h"
 /* Put an upper limit on nested packets.  The 32 is an arbitrary
    value, a much lower should actually be sufficient.  */
 #define MAX_NESTING_DEPTH 32
@@ -374,74 +374,75 @@ void reset_literals_seen(void)
 // }
 
 #define GETPASSWORD_FLAG_SYMDECRYPT 1
-void derive_key(const uint8_t *salt, const char *password, unsigned int pass_len, uint32_t iterations, uint8_t *key)
-{
-    printf("Deriving key...\n");
-    // printf("Parameters: salt=%p, password=%p, pass_len=%u, iterations=%lu\n", 
-    //        (void*)salt, (void*)password, pass_len, iterations);
+// void derive_key(const uint8_t *salt, const char *password, unsigned int pass_len, uint32_t iterations, uint8_t *key)
+// {
+//     printf("Deriving key...\n");
+//     // printf("Parameters: salt=%p, password=%p, pass_len=%u, iterations=%lu\n", 
+//     //        (void*)salt, (void*)password, pass_len, iterations);
     
-    // // Print salt value
-    // printf("Salt: ");
-    // for (int i = 0; i < 8; i++) {
-    //     printf("%02x ", salt[i]);
-    // }
-    // printf("\n");
+//     // // Print salt value
+//     // printf("Salt: ");
+//     // for (int i = 0; i < 8; i++) {
+//     //     printf("%02x ", salt[i]);
+//     // }
+//     // printf("\n");
     
-    // // Print first few chars of password (be careful with security)
-    // printf("Password: %.*s%s\n", pass_len > 3 ? 3 : pass_len, 
-    //        password, pass_len > 3 ? "..." : "");
+//     // // Print first few chars of password (be careful with security)
+//     // printf("Password: %.*s%s\n", pass_len > 3 ? 3 : pass_len, 
+//     //        password, pass_len > 3 ? "..." : "");
     
-    SHA1_CTX ctx;
-    SHA1Init(&ctx);
-    // printf("SHA1 context initialized\n");
+//     SHA1_CTX ctx;
+//     SHA1Init(&ctx);
+//     // printf("SHA1 context initialized\n");
     
-    unsigned int bytesProcessed = 0;
-    unsigned int index = 0;
-    unsigned int progress_milestone = iterations / 10; // Report at 10% intervals
-    unsigned int next_milestone = progress_milestone;
+//     unsigned int bytesProcessed = 0;
+//     unsigned int index = 0;
+//     unsigned int progress_milestone = iterations / 10; // Report at 10% intervals
+//     unsigned int next_milestone = progress_milestone;
     
-    while (bytesProcessed < iterations)
-    {
-        uint8_t byte;
-        if (index < 8)
-        {
-            byte = salt[index];
-        }
-        else
-        {
-            byte = password[(index - 8) % pass_len];
-        }
+//     while (bytesProcessed < iterations)
+//     {
+//         uint8_t byte;
+//         if (index < 8)
+//         {
+//             byte = salt[index];
+//         }
+//         else
+//         {
+//             byte = password[(index - 8) % pass_len];
+//         }
         
-        SHA1Update(&ctx, &byte, 1);
-        bytesProcessed++;
-        index++;
+//         SHA1Update(&ctx, &byte, 1);
+//         bytesProcessed++;
+//         index++;
         
-        if (index >= 8 + pass_len)
-        {
-            index = 0;
-        }
+//         if (index >= 8 + pass_len)
+//         {
+//             index = 0;
+//         }
         
-        // // Report progress at milestones without using timer
-        // if (bytesProcessed >= next_milestone) {
-        //     // printf("Progress: %u/%lu bytes (%d%%)\n",  bytesProcessed, iterations,  (int)((bytesProcessed * 100) / iterations));
+//         // // Report progress at milestones without using timer
+//         // if (bytesProcessed >= next_milestone) {
+//         //     // printf("Progress: %u/%lu bytes (%d%%)\n",  bytesProcessed, iterations,  (int)((bytesProcessed * 100) / iterations));
             
-        //     next_milestone += progress_milestone;
-        // }
-    }
+//         //     next_milestone += progress_milestone;
+//         // }
+//     }
     
-    printf("SHA1 update complete after processing %u bytes\n", bytesProcessed);
+//     printf("SHA1 update complete after processing %u bytes\n", bytesProcessed);
     
-    SHA1Final(key, &ctx);
+//     SHA1Final(key, &ctx);
     
-    // Print derived key
-    printf("Derived key: ");
-    for (int i = 0; i < 20; i++) { // SHA1 produces 20-byte output
-        printf("%02x", key[i]);
-    }
-    printf("\n");
+//     // Print derived key
+//     printf("Derived key: ");
+//     for (int i = 0; i < 20; i++) { // SHA1 produces 20-byte output
+//         printf("%02x", key[i]);
+//     }
+//     printf("\n");
     
-    // printf("Key derivation completed\n");
-}
+//     // printf("Key derivation completed\n");
+// }
+
 static uint8_t hex_digit(char h)
 {
   if (h >= '0' && h <= '9')
@@ -622,8 +623,8 @@ DEK *passphrase_to_dek(int cipher_algo, STRING2KEY *s2k,
     dek->key = malloc(key_len);
         memcpy(dek->key, derivedKey , key_len);
   }
-  else
-    derive_key(s2k->salt, passphrase, strlen(passphrase), iterations, dek->key);
+  // else
+  //   derive_key(s2k->salt, passphrase, strlen(passphrase), iterations, dek->key);
 
   printf("DEK Information:\n");
   printf("Algorithm: %d\n", dek->algo);
