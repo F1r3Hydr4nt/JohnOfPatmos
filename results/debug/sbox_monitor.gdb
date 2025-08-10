@@ -7,14 +7,14 @@ import gdb
 # Store original S-box values
 sbox_original = {}
 sbox_addresses = {
-    'S1': 0x0001b890,
-    'S2': 0x0001bc90,
-    'S3': 0x0001c090,
-    'S4': 0x0001c490,
-    'S5': 0x0001c890,
-    'S6': 0x0001cc90,
-    'S7': 0x0001d090,
-    'S8': 0x0001d490,
+    'S1': 0x00018c60,
+    'S2': 0x00019060,
+    'S3': 0x00019460,
+    'S4': 0x00019860,
+    'S5': 0x00019c60,
+    'S6': 0x0001a060,
+    'S7': 0x0001a460,
+    'S8': 0x0001a860,
 }
 
 def save_sbox_values():
@@ -47,8 +47,6 @@ def check_sbox_integrity():
                     corrupted = True
         except Exception as e:
             print(f'Error checking {name}: {e}')
-    if not corrupted:
-        print('All S-boxes intact')
     return corrupted
 
 # Save initial values
@@ -57,37 +55,33 @@ end
 
 # Set read watchpoints on S-box access
 # Monitor S1 access
-rwatch *(int*)0x0001b890
+rwatch *(int*)0x00018c60
 commands
   silent
-  printf "\n[S-BOX ACCESS] S1 read at PC=%x\n", $pc
   python check_sbox_integrity()
   continue
 end
 
 # Monitor S2 access
-rwatch *(int*)0x0001bc90
+rwatch *(int*)0x00019060
 commands
   silent
-  printf "\n[S-BOX ACCESS] S2 read at PC=%x\n", $pc
   python check_sbox_integrity()
   continue
 end
 
 # Monitor S3 access
-rwatch *(int*)0x0001c090
+rwatch *(int*)0x00019460
 commands
   silent
-  printf "\n[S-BOX ACCESS] S3 read at PC=%x\n", $pc
   python check_sbox_integrity()
   continue
 end
 
 # Monitor S4 access
-rwatch *(int*)0x0001c490
+rwatch *(int*)0x00019860
 commands
   silent
-  printf "\n[S-BOX ACCESS] S4 read at PC=%x\n", $pc
   python check_sbox_integrity()
   continue
 end
@@ -102,44 +96,44 @@ define show-sbox
     printf "Usage: show-sbox <1-8>\n"
   else
     if $arg0 == 1
-      printf "S1 at 0x0001b890:\n"
-      x/64wx 0x0001b890
+      printf "S1 at 0x00018c60:\n"
+      x/64wx 0x00018c60
     end
     if $arg0 == 2
-      printf "S2 at 0x0001bc90:\n"
-      x/64wx 0x0001bc90
+      printf "S2 at 0x00019060:\n"
+      x/64wx 0x00019060
     end
     if $arg0 == 3
-      printf "S3 at 0x0001c090:\n"
-      x/64wx 0x0001c090
+      printf "S3 at 0x00019460:\n"
+      x/64wx 0x00019460
     end
     if $arg0 == 4
-      printf "S4 at 0x0001c490:\n"
-      x/64wx 0x0001c490
+      printf "S4 at 0x00019860:\n"
+      x/64wx 0x00019860
     end
     if $arg0 == 5
-      printf "S5 at 0x0001c890:\n"
-      x/64wx 0x0001c890
+      printf "S5 at 0x00019c60:\n"
+      x/64wx 0x00019c60
     end
     if $arg0 == 6
-      printf "S6 at 0x0001cc90:\n"
-      x/64wx 0x0001cc90
+      printf "S6 at 0x0001a060:\n"
+      x/64wx 0x0001a060
     end
     if $arg0 == 7
-      printf "S7 at 0x0001d090:\n"
-      x/64wx 0x0001d090
+      printf "S7 at 0x0001a460:\n"
+      x/64wx 0x0001a460
     end
     if $arg0 == 8
-      printf "S8 at 0x0001d490:\n"
-      x/64wx 0x0001d490
+      printf "S8 at 0x0001a860:\n"
+      x/64wx 0x0001a860
     end
   end
 end
 
 define monitor-sbox-writes
   printf "Setting write watchpoints on S-boxes...\n"
-  watch *(int*)0x0001b890
-  watch *(int*)0x0001bc90
+  watch *(int*)0x00018c60
+  watch *(int*)0x00019060
 end
 
 printf "\n"

@@ -1,9 +1,9 @@
 build/kernel1.elf  :
 section     size     addr
-.text      69644    32768
-.rodata    18580   102412
-.data     174916   120992
-.bss          40   299008
-Total     263180
+.text      58416    32768
+.rodata    18496    91184
+.data     174916   109680
+.bss          40   286720
+Total     251868
 
 
