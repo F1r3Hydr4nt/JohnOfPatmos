@@ -27,7 +27,20 @@ def check_function_address(name, expected_addr):
     try:
         # Try to get address using & operator
         actual = gdb.parse_and_eval(f'&{name}')
-        if str(actual) != expected_addr:
+        actual_str = str(actual).split()[0]  # Get just the address part
+        # Normalize addresses for comparison
+        if '0x' in actual_str:
+            actual_addr = actual_str
+        else:
+            actual_addr = hex(int(actual_str))
+        # Compare normalized addresses
+        if actual_addr.lower() != expected_addr.lower():
+            # Check if it's just a formatting difference
+            try:
+                if int(actual_addr, 16) == int(expected_addr, 16):
+                    return True  # Same address, different format
+            except:
+                pass
             print(f'\n*** WARNING: Function {name} moved!')
             print(f'    Expected: {expected_addr}')
             print(f'    Actual:   {actual}')
@@ -36,7 +49,17 @@ def check_function_address(name, expected_addr):
         # If & doesn't work, try without it (for function pointers)
         try:
             actual = gdb.parse_and_eval(name)
-            if str(actual) != expected_addr:
+            actual_str = str(actual).split()[0]
+            if '0x' in actual_str:
+                actual_addr = actual_str
+            else:
+                actual_addr = hex(int(actual_str))
+            if actual_addr.lower() != expected_addr.lower():
+                try:
+                    if int(actual_addr, 16) == int(expected_addr, 16):
+                        return True
+                except:
+                    pass
                 print(f'\n*** WARNING: Function {name} moved!')
                 print(f'    Expected: {expected_addr}')
                 print(f'    Actual:   {actual}')
@@ -68,11 +91,16 @@ def monitor_value_change(name, old_val, new_val, pc):
     })
     
     # Check for suspicious patterns
-    if isinstance(new_val, (int, long)) and isinstance(old_val, (int, long)):
-        if new_val == 0 and old_val != 0:
+    # Python 3 compatibility - no 'long' type
+    try:
+        old_int = int(old_val)
+        new_int = int(new_val)
+        if new_int == 0 and old_int != 0:
             print('    *** ALERT: Value zeroed out!')
-        elif abs(new_val - old_val) > 0x10000:
+        elif abs(new_int - old_int) > 0x10000:
             print('    *** ALERT: Large value jump detected!')
+    except (ValueError, TypeError):
+        pass  # Values aren't integers
     
     print('='*60 + '\n')
 
@@ -109,7 +137,6 @@ commands
   python check_function_address('decrypt_memory', '0x0000b82c')
   printf "\n[BREAK] Hit decrypt_memory at %s\n", $pc
   backtrace 3
-  continue
 end
 
 python expected_functions['decrypt_memory'] = '0x0000b82c'
@@ -121,7 +148,6 @@ commands
   python check_function_address('decrypt_data', '0x0000bb24')
   printf "\n[BREAK] Hit decrypt_data at %s\n", $pc
   backtrace 3
-  continue
 end
 
 python expected_functions['decrypt_data'] = '0x0000bb24'
@@ -133,7 +159,6 @@ commands
   python check_function_address('derive_key', '0x00017fd8')
   printf "\n[BREAK] Hit derive_key at %s\n", $pc
   backtrace 3
-  continue
 end
 
 python expected_functions['derive_key'] = '0x00017fd8'
@@ -145,7 +170,6 @@ commands
   python check_function_address('passphrase_to_dek', '0x00018198')
   printf "\n[BREAK] Hit passphrase_to_dek at %s\n", $pc
   backtrace 3
-  continue
 end
 
 python expected_functions['passphrase_to_dek'] = '0x00018198'
@@ -157,7 +181,6 @@ commands
   python check_function_address('proc_encrypted', '0x00018738')
   printf "\n[BREAK] Hit proc_encrypted at %s\n", $pc
   backtrace 3
-  continue
 end
 
 python expected_functions['proc_encrypted'] = '0x00018738'
