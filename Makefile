@@ -51,14 +51,15 @@ MAIN2_OBJ = $(BUILD_DIR)/main2.o
 INCLUDES = -I$(SRC_DIR) -I$(COMMON_DIR)
 
 # Flags
-CFLAGS = -mcpu=cortex-a7 -fpic -ffreestanding -O0 -Wall -Wextra -g3 -gdwarf-4 $(INCLUDES) -ffunction-sections -fdata-sections -fno-common          -fno-omit-frame-pointer -fno-inline
+CFLAGS = -mcpu=cortex-a7 -fpic -ffreestanding -O0 -Wall -Wextra -g -gdwarf-4 $(INCLUDES) -ffunction-sections -fdata-sections -fno-common          -fno-omit-frame-pointer -fno-inline
 
 ASFLAGS = -mcpu=cortex-a7
 LDFLAGS = -T $(SRC_DIR)/linker.ld -ffreestanding -O2 -nostdlib \
           -Wl,--gc-sections \
           -Wl,--sort-section=alignment \
           -Wl,--sort-common=descending \
-          -Wl,--no-merge-exidx-entries
+          -Wl,--no-merge-exidx-entries \
+		  -Wl,--build-id
 
 # Define targets for each version
 TARGET1 = $(BUILD_DIR)/kernel1.img
@@ -201,6 +202,13 @@ debug-info: $(TARGET1_ELF)
 	# Generate global variable addresses
 	$(CROSS_COMPILE)nm -S -n $(TARGET1_ELF) | grep -E ' [BbDdGg] ' > $(RESULTS_DIR)/debug/globals.txt
 	
+	# Extract read-only data section (where S-boxes typically live)
+	$(CROSS_COMPILE)objdump -s -j .rodata $(TARGET1_ELF) > $(RESULTS_DIR)/debug/rodata.txt 2>/dev/null || true
+	$(CROSS_COMPILE)objdump -s -j .data $(TARGET1_ELF) > $(RESULTS_DIR)/debug/data.txt 2>/dev/null || true
+	
+	# Search for S-box related symbols
+	$(CROSS_COMPILE)nm -a $(TARGET1_ELF) | grep -i 's[1-8]\|sbox\|cast' > $(RESULTS_DIR)/debug/cast_symbols.txt 2>/dev/null || true
+	
 	# Generate GDB script with automatic loading from important_*.txt files
 	@echo "====== GENERATING ADVANCED GDB MONITORING SCRIPT ======"
 	@if [ -f scripts/important_functions.txt ] || [ -f scripts/important_globals.txt ]; then \
@@ -209,26 +217,15 @@ debug-info: $(TARGET1_ELF)
 			-o $(RESULTS_DIR)/debug/monitor.gdb \
 			--script-dir scripts \
 			--max-watchpoints 8; \
-		echo ""; \
-		echo "Advanced monitoring script generated: $(RESULTS_DIR)/debug/monitor.gdb"; \
-		echo ""; \
-		echo "To use the monitoring script:"; \
-		echo "  1. Start GDB: gdb $(TARGET1_ELF)"; \
-		echo "  2. Load script: source $(RESULTS_DIR)/debug/monitor.gdb"; \
-		echo "  3. Run program: run"; \
-		echo ""; \
-		echo "Monitor commands:"; \
-		echo "  - debug-status     : Show monitoring overview"; \
-		echo "  - show-monitored   : Display current values"; \
-		echo "  - show-history     : View change history"; \
-		echo "  - verify-functions : Check function integrity"; \
-		echo ""; \
-		echo "NOTE: If you get type errors, regenerate the script:"; \
-		echo "      make clean && make debug-info"; \
-	else \
-		echo "WARNING: No important_functions.txt or important_globals.txt found in scripts/"; \
-		echo "         Create these files to enable targeted monitoring"; \
 	fi
+	
+	# Find and monitor S-boxes
+	@echo "====== SEARCHING FOR CAST-128 S-BOXES ======"
+	@python3 scripts/find_sboxes.py $(TARGET1_ELF) $(RESULTS_DIR)/debug/sbox_monitor.gdb
 	
 	@echo ""
 	@echo "Debug info generated in $(RESULTS_DIR)/debug/"
+	@echo ""
+	@echo "To monitor with S-box protection:"
+	@echo "  gdb $(TARGET1_ELF) -x $(RESULTS_DIR)/debug/monitor.gdb -x $(RESULTS_DIR)/debug/sbox_monitor.gdb"
+	@echo "  (gdb) run"
