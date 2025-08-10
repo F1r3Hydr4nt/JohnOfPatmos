@@ -124,13 +124,6 @@ log: $(TARGET1)
 	@mkdir -p $(RESULTS_DIR)
 	$(QEMU) -M versatilepb -cpu cortex-a7 -kernel $(TARGET1) -d int,guest_errors,mmu,in_asm -D $(RESULTS_DIR)/kernel1.in_asm.log -nographic -serial mon:stdio
 
-# Debug targets for each version
-debug: $(TARGET1)
-	$(QEMU) -M versatilepb -cpu cortex-a7 -kernel $(TARGET1) -nographic -serial mon:stdio -s -S
-
-gdb:
-	gdb-multiarch $(TARGET1) -x script.gdb
-
 # Generate memory map for analysis
 mapmem: $(TARGET1_ELF)
 	@mkdir -p $(RESULTS_DIR)
@@ -229,3 +222,31 @@ debug-info: $(TARGET1_ELF)
 	@echo "To monitor with S-box protection:"
 	@echo "  gdb $(TARGET1_ELF) -x $(RESULTS_DIR)/debug/monitor.gdb -x $(RESULTS_DIR)/debug/sbox_monitor.gdb"
 	@echo "  (gdb) run"
+
+# Debug targets for each version
+debug: $(TARGET1_ELF) debug-info
+	@echo "======================================"
+	@echo "Starting QEMU in debug mode..."
+	@echo "Waiting for GDB connection on port 1234"
+	@echo "======================================"
+	@echo "In another terminal, run: make gdb"
+	@echo "======================================"
+	$(QEMU) -M versatilepb -cpu cortex-a7 -kernel $(TARGET1_ELF) -nographic -serial mon:stdio -s -S
+
+gdb: 
+	@echo "Connecting to QEMU..."
+	gdb-multiarch $(TARGET1_ELF) \
+		-ex "target remote localhost:1234" \
+		-ex "source $(RESULTS_DIR)/debug/monitor.gdb" \
+		-ex "source $(RESULTS_DIR)/debug/sbox_monitor.gdb" \
+		-ex "set confirm off" \
+		-ex "handle SIGSEGV nostop noprint pass" \
+# 		-ex "continue"
+
+# Interactive GDB without auto-continue for debugging issues
+gdb-debug:
+	gdb-multiarch $(TARGET1_ELF) \
+		-ex "target remote localhost:1234" \
+		-ex "source $(RESULTS_DIR)/debug/monitor.gdb" \
+		-ex "source $(RESULTS_DIR)/debug/sbox_monitor.gdb" \
+		-ex "set confirm off"
