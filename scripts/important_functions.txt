@@ -1,0 +1,5 @@
+decrypt_data
+decrypt_memory
+passphrase_to_dek
+derive_key
+proc_encrypted

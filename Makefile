@@ -179,8 +179,8 @@ ghidra: $(TARGET1) $(TARGET1_ELF)
 	@echo "  # Or use addresses from $(RESULTS_DIR)/kernel1_symbols.txt:"
 	@echo "  break *0x800c    # main function"
 	@echo "  continue"
-
-# Generate comprehensive debug information for Ghidra
+	
+# Generate comprehensive debug information for Ghidra and GDB
 debug-info: $(TARGET1_ELF)
 	@mkdir -p $(RESULTS_DIR)/debug
 	@echo "====== GENERATING DEBUG INFORMATION ======"
@@ -201,4 +201,34 @@ debug-info: $(TARGET1_ELF)
 	# Generate global variable addresses
 	$(CROSS_COMPILE)nm -S -n $(TARGET1_ELF) | grep -E ' [BbDdGg] ' > $(RESULTS_DIR)/debug/globals.txt
 	
+	# Generate GDB script with automatic loading from important_*.txt files
+	@echo "====== GENERATING ADVANCED GDB MONITORING SCRIPT ======"
+	@if [ -f scripts/important_functions.txt ] || [ -f scripts/important_globals.txt ]; then \
+		python3 scripts/generate_gdb_script.py \
+			-d $(RESULTS_DIR)/debug \
+			-o $(RESULTS_DIR)/debug/monitor.gdb \
+			--script-dir scripts \
+			--max-watchpoints 8; \
+		echo ""; \
+		echo "Advanced monitoring script generated: $(RESULTS_DIR)/debug/monitor.gdb"; \
+		echo ""; \
+		echo "To use the monitoring script:"; \
+		echo "  1. Start GDB: gdb $(TARGET1_ELF)"; \
+		echo "  2. Load script: source $(RESULTS_DIR)/debug/monitor.gdb"; \
+		echo "  3. Run program: run"; \
+		echo ""; \
+		echo "Monitor commands:"; \
+		echo "  - debug-status     : Show monitoring overview"; \
+		echo "  - show-monitored   : Display current values"; \
+		echo "  - show-history     : View change history"; \
+		echo "  - verify-functions : Check function integrity"; \
+		echo ""; \
+		echo "NOTE: If you get type errors, regenerate the script:"; \
+		echo "      make clean && make debug-info"; \
+	else \
+		echo "WARNING: No important_functions.txt or important_globals.txt found in scripts/"; \
+		echo "         Create these files to enable targeted monitoring"; \
+	fi
+	
+	@echo ""
 	@echo "Debug info generated in $(RESULTS_DIR)/debug/"
