@@ -1,0 +1,513 @@
+# Makefile for program source directory in GNU NLS utilities package.
+# Copyright (C) 1995, 1996, 1997 by Ulrich Drepper <drepper@gnu.ai.mit.edu>
+# Copyright 2003, 2006, 2007, 2009 Free Software Foundation, Inc.
+#
+# This file may be copied and used freely without restrictions.  It can
+# be used in projects which are not available under the GNU Public License
+# but which still want to provide support for the GNU gettext functionality.
+# Please note that the actual code is *not* freely available.
+
+PACKAGE = gas
+VERSION = 2.23.1
+
+SHELL = /bin/sh
+
+
+srcdir = /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/po
+top_srcdir = /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas
+VPATH = /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/po
+top_builddir = ..
+
+prefix = /home/freddie/JohnOfPatmos/toolchain/secure_build/toolchain
+exec_prefix = ${prefix}
+datadir = $(prefix)/
+localedir = $(datadir)/locale
+gnulocaledir = $(prefix)/share/locale
+gettextsrcdir = $(prefix)/share/gettext/po
+subdir = po
+
+DESTDIR =
+
+INSTALL = /usr/bin/install -c
+INSTALL_DATA = /usr/bin/install -c -m 644
+MKINSTALLDIRS = /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/../mkinstalldirs
+
+CC = gcc
+GENCAT = 
+GMSGFMT = PATH=../src:$$PATH /usr/bin/msgfmt
+MSGFMT = /usr/bin/msgfmt
+XGETTEXT = PATH=../src:$$PATH /usr/bin/xgettext
+MSGMERGE = PATH=../src:$$PATH msgmerge
+
+DEFS = -DHAVE_CONFIG_H
+CFLAGS = -O2 -fstack-protector-strong -fPIC -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security
+CPPFLAGS = 
+
+INCLUDES = -I.. -I$(top_srcdir)/intl
+
+COMPILE = $(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $(XCFLAGS)
+
+SOURCES = cat-id-tbl.c
+POFILES =  $(srcdir)/fr.po $(srcdir)/tr.po $(srcdir)/es.po $(srcdir)/rw.po $(srcdir)/id.po $(srcdir)/ru.po $(srcdir)/fi.po $(srcdir)/ja.po
+GMOFILES =  $(srcdir)/fr.gmo $(srcdir)/tr.gmo $(srcdir)/es.gmo $(srcdir)/rw.gmo $(srcdir)/id.gmo $(srcdir)/ru.gmo $(srcdir)/fi.gmo $(srcdir)/ja.gmo
+DISTFILES = ChangeLog Makefile.in.in POTFILES.in $(PACKAGE).pot \
+stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES)
+
+POTFILES = \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/app.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/as.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/as.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/asintl.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/atof-generic.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/bignum.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/bit_fix.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/cgen.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/cgen.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/compress-debug.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/compress-debug.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/cond.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/atof-ieee.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/atof-vax.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/e-crisaout.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/e-criself.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/e-i386aout.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/e-i386coff.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/e-i386elf.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/e-mipsecoff.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/e-mipself.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-aout.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-aout.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-coff.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-coff.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-ecoff.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-ecoff.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-elf.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-elf.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-evax.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-evax.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-fdpicelf.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-fdpicelf.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-macho.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-macho.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-multi.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-multi.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-som.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/obj-som.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-alpha.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-alpha.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-arc.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-arc.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-arm.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-arm.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-avr.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-avr.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-bfin.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-bfin.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-cr16.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-cr16.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-cris.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-cris.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-crx.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-crx.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-d10v.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-d10v.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-d30v.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-d30v.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-dlx.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-dlx.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-epiphany.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-epiphany.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-fr30.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-fr30.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-frv.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-frv.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-h8300.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-h8300.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-hppa.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-hppa.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-i370.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-i370.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-i386.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-i386.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-i860.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-i860.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-i960.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-i960.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-ia64.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-ia64.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-ip2k.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-ip2k.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-iq2000.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-iq2000.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-lm32.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-lm32.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-m32c.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-m32c.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-m32r.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-m32r.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-m68hc11.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-m68hc11.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-m68k.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-m68k.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mcore.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mcore.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mep.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mep.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-microblaze.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-microblaze.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mips.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mips.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mmix.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mmix.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mn10200.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mn10200.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mn10300.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mn10300.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-moxie.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-msp430.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-msp430.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mt.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-mt.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-ns32k.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-ns32k.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-openrisc.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-openrisc.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-or32.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-or32.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-pdp11.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-pdp11.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-pj.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-pj.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-ppc.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-ppc.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-rl78.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-rl78.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-rx.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-rx.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-s390.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-s390.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-score.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-score.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-sh.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-sh.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-sh64.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-sh64.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-sparc.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-sparc.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-spu.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-spu.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-tic30.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-tic30.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-tic4x.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-tic4x.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-tic54x.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-tic54x.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-tic6x.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-tic6x.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-tilegx.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-tilegx.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-tilepro.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-tilepro.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-v850.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-v850.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-vax.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-vax.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-xc16x.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-xc16x.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-xstormy16.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-xstormy16.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-xtensa.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-xtensa.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-z80.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-z80.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-z8k.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/tc-z8k.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-386bsd.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-aix5.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-armeabi.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-armlinuxeabi.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-dynix.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-epoc-pe.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-freebsd.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-generic.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-gnu.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-go32.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-hppa.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-hppa64.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-hppalinux64.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-i386aix.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-ia64aix.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-interix.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-lnews.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-lynx.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-mach.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-macos.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-nbsd.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-nbsd532.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-netware.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-pc532mach.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-pe.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-psos.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-riscix.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-solaris.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-sparcaout.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-sun3.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-svr4.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-symbian.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-tmips.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-vms.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-vxworks.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/te-wince-pe.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/xtensa-relax.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/config/xtensa-relax.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/depend.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/dw2gencfi.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/dw2gencfi.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/dwarf2dbg.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/dwarf2dbg.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/ecoff.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/ecoff.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/ehopt.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/emul-target.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/emul.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/expr.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/expr.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/flonum-copy.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/flonum-konst.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/flonum-mult.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/flonum.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/frags.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/frags.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/hash.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/hash.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/input-file.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/input-file.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/input-scrub.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/itbl-lex.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/itbl-ops.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/itbl-ops.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/listing.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/listing.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/literal.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/macro.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/macro.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/messages.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/obj.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/output-file.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/output-file.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/read.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/read.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/remap.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/sb.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/sb.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/stabs.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/struc-symbol.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/subsegs.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/subsegs.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/symbols.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/symbols.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/tc.h \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/write.c \
+     /home/freddie/JohnOfPatmos/toolchain/secure_build/binutils-2.23.1/gas/write.h
+
+CATALOGS = 
+CATOBJEXT = 
+INSTOBJEXT = 
+
+.SUFFIXES:
+.SUFFIXES: .c .o .po .pox .gmo .mo .msg .cat
+
+.c.o:
+	$(COMPILE) $<
+
+.po.pox:
+	$(MAKE) $(PACKAGE).pot
+	$(MSGMERGE) $< $(srcdir)/$(PACKAGE).pot -o $*.pox
+
+.po.mo:
+	$(MSGFMT) -o $@ $<
+
+.po.gmo:
+	file=`echo $* | sed 's,.*/,,'`.gmo \
+	  && rm -f $$file && $(GMSGFMT) -o $$file $<
+
+.po.cat:
+	sed -f ../intl/po2msg.sed < $< > $*.msg \
+	  && rm -f $@ && $(GENCAT) $@ $*.msg
+
+
+all: all-no
+
+all-yes: $(CATALOGS) # $(PACKAGE).pot
+all-no:
+
+$(srcdir)/$(PACKAGE).pot: $(POTFILES)
+	$(XGETTEXT) --default-domain=$(PACKAGE) --directory=$(top_srcdir) \
+	  --add-comments --keyword=_ --keyword=N_ \
+	  --msgid-bugs-address=bug-binutils@gnu.org \
+	  --files-from=$(srcdir)/POTFILES.in
+	rm -f $(srcdir)/$(PACKAGE).pot
+	mv $(PACKAGE).po $(srcdir)/$(PACKAGE).pot
+
+$(srcdir)/cat-id-tbl.c: stamp-cat-id; @:
+$(srcdir)/stamp-cat-id: $(PACKAGE).pot
+	rm -f cat-id-tbl.tmp
+	sed -f ../intl/po2tbl.sed $(srcdir)/$(PACKAGE).pot \
+		| sed -e "s/@PACKAGE NAME@/$(PACKAGE)/" > cat-id-tbl.tmp
+	if cmp -s cat-id-tbl.tmp $(srcdir)/cat-id-tbl.c; then \
+	  rm cat-id-tbl.tmp; \
+	else \
+	  echo cat-id-tbl.c changed; \
+	  rm -f $(srcdir)/cat-id-tbl.c; \
+	  mv cat-id-tbl.tmp $(srcdir)/cat-id-tbl.c; \
+	fi
+	cd $(srcdir) && rm -f stamp-cat-id && echo timestamp > stamp-cat-id
+
+
+install: install-exec install-data
+install-exec:
+install-info:
+install-html:
+install-pdf:
+install-data: install-data-no
+install-data-no: all
+install-data-yes: all
+	if test -r $(MKINSTALLDIRS); then \
+	  $(MKINSTALLDIRS) $(DESTDIR)$(datadir); \
+	else \
+	  $(top_srcdir)/mkinstalldirs $(DESTDIR)$(datadir); \
+	fi
+	@catalogs='$(CATALOGS)'; \
+	for cat in $$catalogs; do \
+	  cat=`basename $$cat`; \
+	  case "$$cat" in \
+	    *.gmo) destdir=$(gnulocaledir);; \
+	    *)     destdir=$(localedir);; \
+	  esac; \
+	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
+	  dir=$(DESTDIR)$$destdir/$$lang/LC_MESSAGES; \
+	  if test -r $(MKINSTALLDIRS); then \
+	    $(MKINSTALLDIRS) $$dir; \
+	  else \
+	    $(top_srcdir)/mkinstalldirs $$dir; \
+	  fi; \
+	  if test -r $$cat; then \
+	    $(INSTALL_DATA) $$cat $$dir/$(PACKAGE)$(INSTOBJEXT); \
+	    echo "installing $$cat as $$dir/$(PACKAGE)$(INSTOBJEXT)"; \
+	  else \
+	    $(INSTALL_DATA) $(srcdir)/$$cat $$dir/$(PACKAGE)$(INSTOBJEXT); \
+	    echo "installing $(srcdir)/$$cat as" \
+		 "$$dir/$(PACKAGE)$(INSTOBJEXT)"; \
+	  fi; \
+	  if test -r $$cat.m; then \
+	    $(INSTALL_DATA) $$cat.m $$dir/$(PACKAGE)$(INSTOBJEXT).m; \
+	    echo "installing $$cat.m as $$dir/$(PACKAGE)$(INSTOBJEXT).m"; \
+	  else \
+	    if test -r $(srcdir)/$$cat.m ; then \
+	      $(INSTALL_DATA) $(srcdir)/$$cat.m \
+		$$dir/$(PACKAGE)$(INSTOBJEXT).m; \
+	      echo "installing $(srcdir)/$$cat as" \
+		   "$$dir/$(PACKAGE)$(INSTOBJEXT).m"; \
+	    else \
+	      true; \
+	    fi; \
+	  fi; \
+	done
+	if test "$(PACKAGE)" = "gettext"; then \
+	  if test -r $(MKINSTALLDIRS); then \
+	    $(MKINSTALLDIRS) $(DESTDIR)$(gettextsrcdir); \
+	  else \
+	    $(top_srcdir)/mkinstalldirs $(DESTDIR)$(gettextsrcdir); \
+	  fi; \
+	  $(INSTALL_DATA) $(srcdir)/Makefile.in.in \
+			  $(DESTDIR)$(gettextsrcdir)/Makefile.in.in; \
+	else \
+	  : ; \
+	fi
+
+# Define this as empty until I found a useful application.
+installcheck:
+
+uninstall:
+	catalogs='$(CATALOGS)'; \
+	for cat in $$catalogs; do \
+	  cat=`basename $$cat`; \
+	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
+	  rm -f $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(PACKAGE)$(INSTOBJEXT); \
+	  rm -f $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(PACKAGE)$(INSTOBJEXT).m; \
+	  rm -f $(DESTDIR)$(gnulocaledir)/$$lang/LC_MESSAGES/$(PACKAGE)$(INSTOBJEXT); \
+	  rm -f $(DESTDIR)$(gnulocaledir)/$$lang/LC_MESSAGES/$(PACKAGE)$(INSTOBJEXT).m; \
+	done
+	rm -f $(DESTDIR)$(gettextsrcdir)/po-Makefile.in.in
+
+check: all
+
+cat-id-tbl.o: ../intl/libgettext.h
+
+html dvi pdf ps info tags TAGS ID:
+
+mostlyclean:
+	rm -f core core.* *.pox $(PACKAGE).po *.old.po cat-id-tbl.tmp
+	rm -fr *.o
+
+clean: mostlyclean
+
+distclean: clean
+	rm -f Makefile Makefile.in POTFILES *.mo *.msg *.cat *.cat.m
+
+maintainer-clean: distclean
+	@echo "This command is intended for maintainers to use;"
+	@echo "it deletes files that may require special tools to rebuild."
+	rm -f $(GMOFILES)
+
+distdir = ../$(PACKAGE)-$(VERSION)/$(subdir)
+dist distdir: update-po $(DISTFILES)
+	dists="$(DISTFILES)"; \
+	for file in $$dists; do \
+	  ln $(srcdir)/$$file $(distdir) 2> /dev/null \
+	    || cp -p $(srcdir)/$$file $(distdir); \
+	done
+
+update-po: Makefile
+	$(MAKE) $(PACKAGE).pot
+	PATH=`pwd`/../src:$$PATH; \
+	cd $(srcdir); \
+	catalogs='$(CATALOGS)'; \
+	for cat in $$catalogs; do \
+	  cat=`basename $$cat`; \
+	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
+	  mv $$lang.po $$lang.old.po; \
+	  echo "$$lang:"; \
+	  if $(MSGMERGE) $$lang.old.po $(PACKAGE).pot -o $$lang.po; then \
+	    rm -f $$lang.old.po; \
+	  else \
+	    echo "msgmerge for $$cat failed!"; \
+	    rm -f $$lang.po; \
+	    mv $$lang.old.po $$lang.po; \
+	  fi; \
+	done
+
+POTFILES: POTFILES.in
+	( if test 'x$(srcdir)' != 'x.'; then \
+	    posrcprefix='$(top_srcdir)/'; \
+	  else \
+	    posrcprefix="../"; \
+	  fi; \
+	  rm -f $@-t $@ \
+	    && (sed -e '/^#/d' -e '/^[ 	]*$$/d' \
+		    -e "s@.*@	$$posrcprefix& \\\\@" < $(srcdir)/$@.in \
+		| sed -e '$$s/\\$$//') > $@-t \
+	    && chmod a-w $@-t \
+	    && mv $@-t $@ )
+
+POTFILES.in: # ../Makefile
+	cd .. && $(MAKE) po/POTFILES.in
+
+Makefile: Make-in ../config.status POTFILES
+	cd .. \
+	  && CONFIG_FILES=$(subdir)/Makefile.in:$(subdir)/Make-in \
+	     CONFIG_HEADERS= $(SHELL) ./config.status
+
+# Tell versions [3.59,3.63) of GNU make not to export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:
