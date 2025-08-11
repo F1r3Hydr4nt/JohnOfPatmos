@@ -131,3 +131,68 @@ Is the sabotage applied to keys, S-boxes, or intermediate values?
 Does the scrambling happen during key expansion or during actual rounds?
 
 Would you like help setting up the GDB memory dumping strategy, or should we focus on identifying the CAST-128 implementation in Ghidra first?
+
+cd archive && \
+wget --progress=bar:force -c https://releases.llvm.org/3.2/{llvm,clang}-3.2.src.tar.gz{,.sig} && wget -qO- https://releases.llvm.org/release-keys.asc | gpg --import - && gpg --verify llvm-3.2.src.tar.gz.sig && gpg --verify clang-3.2.src.tar.gz.sig
+
+
+--2025-08-11 13:07:22--  https://releases.llvm.org/3.2/llvm-3.2.src.tar.gz
+Resolving releases.llvm.org (releases.llvm.org)... 2a04:4e42:43::561, 199.232.26.49
+Connecting to releases.llvm.org (releases.llvm.org)|2a04:4e42:43::561|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 12275252 (12M) [application/octet-stream]
+Saving to: ‘llvm-3.2.src.tar.gz’
+
+llvm-3.2.src.tar.gz                   100%[========================================================================>]  11.71M  1.84MB/s    in 6.2s    
+
+2025-08-11 13:07:28 (1.90 MB/s) - ‘llvm-3.2.src.tar.gz’ saved [12275252/12275252]
+
+--2025-08-11 13:07:28--  https://releases.llvm.org/3.2/llvm-3.2.src.tar.gz.sig
+Reusing existing connection to [releases.llvm.org]:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 72 [application/octet-stream]
+Saving to: ‘llvm-3.2.src.tar.gz.sig’
+
+llvm-3.2.src.tar.gz.sig               100%[========================================================================>]      72  --.-KB/s    in 0s      
+
+2025-08-11 13:07:29 (1.84 MB/s) - ‘llvm-3.2.src.tar.gz.sig’ saved [72/72]
+
+--2025-08-11 13:07:29--  https://releases.llvm.org/3.2/clang-3.2.src.tar.gz
+Reusing existing connection to [releases.llvm.org]:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 8805311 (8.4M) [application/octet-stream]
+Saving to: ‘clang-3.2.src.tar.gz’
+
+clang-3.2.src.tar.gz                  100%[========================================================================>]   8.40M  1.99MB/s    in 4.2s    
+
+2025-08-11 13:07:34 (2.00 MB/s) - ‘clang-3.2.src.tar.gz’ saved [8805311/8805311]
+
+--2025-08-11 13:07:34--  https://releases.llvm.org/3.2/clang-3.2.src.tar.gz.sig
+Reusing existing connection to [releases.llvm.org]:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 72 [application/octet-stream]
+Saving to: ‘clang-3.2.src.tar.gz.sig’
+
+clang-3.2.src.tar.gz.sig              100%[========================================================================>]      72  --.-KB/s    in 0s      
+
+2025-08-11 13:07:34 (2.30 MB/s) - ‘clang-3.2.src.tar.gz.sig’ saved [72/72]
+
+FINISHED --2025-08-11 13:07:34--
+Total wall clock time: 12s
+Downloaded: 4 files, 20M in 10s (1.94 MB/s)
+FUNC: main
+gpg: /home/freddie/.gnupg/trustdb.gpg: trustdb created
+gpg: key 44F2485E45D59042: public key "Tobias Hieta <tobias@hieta.se>" imported
+gpg: WARNING: server 'gpg-agent' is older than us (2.2.27 < 2.2.43)
+gpg: Note: Outdated servers may lack important security fixes.
+gpg: Note: Use the command "gpgconf --kill all" to restart them.
+gpg: key A2C794A986419D8A: public key "Tom Stellard <tstellar@redhat.com>" imported
+gpg: key 0FC3042E345AD05D: public key "Hans Wennborg <hans@chromium.org>" imported
+gpg: key 2FFC629D3F563BDC: public key "Muhammad Omair Javaid (LLVM Release Signing Key) <omair.javaid@linaro.org>" imported
+gpg: Total number processed: 4
+gpg:               imported: 4
+DBG: _gcry_set_log_handler calledFUNC: main
+gpg: assuming signed data in 'llvm-3.2.src.tar.gz'
+gpg: Signature made Fri 21 Dec 2012 01:58:55 GMT
+gpg:                using DSA key 09C4E7007CB2EFFB
+gpg: Can't check signature: No public key
