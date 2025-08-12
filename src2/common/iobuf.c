@@ -342,7 +342,6 @@ direct_open (const char *fname, const char *mode, int mode700)
       return __set_errno (EISDIR);
   }
 #endif
-printf("Got here\n");
   return open (fname, oflag, cflag);
 
 #endif /*!HAVE_W32_SYSTEM*/
@@ -655,7 +654,8 @@ block_filter (void *opaque, int control, iobuf_t chain, byte * buffer,
       size_t n = 0;
 
       p = buf;
-      printf (size);	/* need a buffer */
+      if(size!=NULL)
+        printf ("IOBUFCTRL_UNDERFLOW %d\n", size);	/* need a buffer */
       if (a->eof)		/* don't read any further */
 	rc = -1;
       while (!rc && size)

@@ -16,6 +16,9 @@
         "new": "c",
         "cinttypes": "c",
         "cstdint": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "gpg.h": "c",
+        "fwddecl.h": "c",
+        "stdio.h": "c"
     }
 }
