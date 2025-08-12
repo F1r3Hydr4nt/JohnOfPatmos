@@ -1,0 +1,10 @@
+IADD:00000000:/main1copy
+IDSET:/main1copy:c0a81648f676893979601278
+FADD:/New Traces
+FADD:/New Traces/gdb
+IADD:00000001:/New Traces/gdb/main1copy
+IDSET:/New Traces/gdb/main1copy:c0a816498db6913237282552
+IADD:00000002:/New Traces/gdb/main1copy.1
+IDSET:/New Traces/gdb/main1copy.1:c0a8164a9056995570890608
+IADD:00000003:/New Traces/gdb/main1copy.2
+IDSET:/New Traces/gdb/main1copy.2:c0a816492ab7297035586941

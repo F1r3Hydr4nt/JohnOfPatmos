@@ -3,9 +3,7 @@
     <PROJECT_DATA_XML_NAME NAME="DISPLAY_DATA">
         <SAVE_STATE>
             <ARRAY NAME="EXPANDED_PATHS" TYPE="string">
-                <A VALUE="thekeeptryingtokillme:New Traces:gdb:" />
-                <A VALUE="thekeeptryingtokillme:New Traces:" />
-                <A VALUE="thekeeptryingtokillme:" />
+                <A VALUE="not-bm:" />
             </ARRAY>
             <STATE NAME="SHOW_TABLE" TYPE="boolean" VALUE="false" />
         </SAVE_STATE>
