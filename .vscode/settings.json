@@ -20,5 +20,6 @@
         "gpg.h": "c",
         "fwddecl.h": "c",
         "stdio.h": "c"
-    }
+    },
+    "cmake.sourceDirectory": "/home/freddie/JohnOfPatmos/toolchain/secure_build/clang-3.2.src"
 }
