@@ -456,7 +456,8 @@ static uint8_t hex_digit(char h)
 
 void hex_to_bytes(const char *hex, uint8_t *bytes, size_t length)
 {
-  for (size_t i = 0; i < length; i++)
+     size_t i = 0;
+  for (; i < length; i++)
   {
     bytes[i] = (hex_digit(hex[i * 2]) << 4) | hex_digit(hex[i * 2 + 1]);
   }
@@ -636,13 +637,15 @@ DEK *passphrase_to_dek(int cipher_algo, STRING2KEY *s2k,
   // printf("Use MDC: %s\n", dek->use_mdc ? "Yes" : "No");
   // printf("Symmetric: %s\n", dek->symmetric ? "Yes" : "No");
   printf("Key: ");
-  for (int i = 0; i < dek->keylen; i++)
+  int i = 0;
+  for (; i < dek->keylen; i++)
   {
     printf("%02x", dek->key[i]);
   }
   printf("\n");
   printf("SALT: ");
-  for (int i = 0; i < 8; i++)
+  i = 0;
+  for (; i < 8; i++)
   {
     printf("%02x", s2k->salt[i]);
   }

@@ -1,0 +1,2 @@
+gcc -m32 -w -O0 -g -Isrc2 -Isrc2/common     src2/main.1copy.c     src2/decrypt.c     src2/mainproc.c     src2/decrypt-data.c     src2/libgcrypt.c     src2/cast5.c     src2/cipher.c     src2/memory.c     src2/misc.c     src2/parse-packet.c     src2/build-packet.c     src2/free-packet.c     src2/textfilter.c     src2/common/iobuf.c     -o main1copy
+

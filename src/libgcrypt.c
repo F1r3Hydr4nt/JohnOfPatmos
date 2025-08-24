@@ -282,9 +282,10 @@ void cipher_sync(gcry_cipher_hd_t c) {
 int
 _gcry_cipher_decrypt (gcry_cipher_hd_t h, void *out, size_t outsize,
                       const void *in, size_t inlen)
-{
+{// At the start of _gcry_cipher_decrypt
+    printf("Entered _gcry_cipher_decrypt at: %p\n", _gcry_cipher_decrypt);
     // printf("Caller params - in: %p, inlen: %zu\n", in, inlen);
-    printf("_gcry_cipher_decrypt inlen: %d, outSize: %d, unused: %d\n", inlen, outsize, h->unused);
+    // printf("_gcry_cipher_decrypt inlen: %d, outSize: %d, unused: %d\n", inlen, outsize, h->unused);
   if (!in) /* Caller requested in-place encryption. */
     {
       // printf("Caller requested in-place encryption.\n");
@@ -407,7 +408,7 @@ static void _gcry_cast5_cfb_dec(gcry_cipher_hd_t context, unsigned char *iv, voi
 //            ascii_dump(outbuf, CAST5_BLOCKSIZE * 3);
        }
         ascii_dump(outbuf, CAST5_BLOCKSIZE * 3);
-
+       return 0;
         outbuf += CAST5_BLOCKSIZE * 3;
         inbuf += CAST5_BLOCKSIZE * 3;
         debugCount--;

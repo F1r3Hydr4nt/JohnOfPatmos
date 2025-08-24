@@ -19,7 +19,9 @@
         "typeinfo": "c",
         "gpg.h": "c",
         "fwddecl.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c.gpg.h": "c",
+        "passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword.gpg.h": "c"
     },
     "cmake.sourceDirectory": "/home/freddie/JohnOfPatmos/toolchain/secure_build/clang-3.2.src"
 }

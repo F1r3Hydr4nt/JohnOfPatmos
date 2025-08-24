@@ -3,14 +3,14 @@
 
 #include <stdint.h>
 #include <stddef.h>
-
+#include "./filter.h"
 /* The maximum supported size of a block in bytes */
 #define MAX_BLOCKSIZE 16
 
 /* Types */
-typedef unsigned short int u16;
-typedef unsigned int u32;
-typedef unsigned char byte;
+//typedef unsigned short int u16;
+//typedef unsigned int u32;
+//typedef unsigned char byte;
 
 /* Basic types needed for CAST5 */
 typedef uint32_t Key[4];
@@ -55,7 +55,7 @@ struct gcry_cipher_handle {
     Key key;
 };
 
-typedef struct gcry_cipher_handle *gcry_cipher_hd_t;
+//typedef struct gcry_cipher_handle *gcry_cipher_hd_t;
 
 /* CAST5 function prototypes */
 void bytesFromBlock(struct Block block, uint8_t *bytes);
@@ -95,7 +95,7 @@ enum
     KEY_LEN = 128 / 32,
     MSG_LEN = 2
 };
-typedef uint32_t Key[KEY_LEN];
+// typedef uint32_t Key[KEY_LEN];
 struct Block blockFromBytes(uint8_t *bytes);
 struct Block encrypt(const Key key, struct Block data, int debug);
 struct Block decrypt(const Key key, struct Block data);

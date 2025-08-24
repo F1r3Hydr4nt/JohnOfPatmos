@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-
-#include "7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c.gpg.h"
 #include "passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword.gpg.h"
+#include "7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c.gpg.h"
 #include "fwddecl.h"
 #include "gpg.h"
 
 // Helper function to verify memory is wiped
 void verify_wiped(void *ptr, size_t len) {
     unsigned char *p = (unsigned char *)ptr;
-    for (size_t i = 0; i < len; i++) {
+    size_t i = 0;
+    for (; i < len; i++) {
         if (p[i] != 0) {
             printf("Memory not properly wiped at offset %zu: 0x%02x\n", i, p[i]);
             return;
@@ -188,24 +188,24 @@ int main() {
 
     printf("First decryption result: %d\n", rc1);
 
-    // ========== Second Decryption with ctrl2 (COMPLETELY SEPARATE) ==========
-    printf("\n--- Test 2: WikiLeaks file decryption (using ctrl2) ---\n");
+    // // ========== Second Decryption with ctrl2 (COMPLETELY SEPARATE) ==========
+     printf("\n--- Test 2: WikiLeaks file decryption (using ctrl2) ---\n");
 
-    // Set up second key in key_buffer2
-    const unsigned char key_bytes_wikileaks[] = {
-        0x42, 0x7c, 0x02, 0x8e, 0x28, 0xee, 0xb1, 0x54,
-        0x64, 0xc3, 0x76, 0xd7, 0xdc, 0xca, 0x6c, 0xa2
-    };
-    memcpy(key_buffer2, key_bytes_wikileaks, sizeof(key_bytes_wikileaks));
+     // Set up second key in key_buffer2
+     const unsigned char key_bytes_wikileaks[] = {
+         0x42, 0x7c, 0x02, 0x8e, 0x28, 0xee, 0xb1, 0x54,
+         0x64, 0xc3, 0x76, 0xd7, 0xdc, 0xca, 0x6c, 0xa2
+     };
+     memcpy(key_buffer2, key_bytes_wikileaks, sizeof(key_bytes_wikileaks));
 
-    int rc2 = unified_decrypt(ctrl2, key_buffer2, sizeof(key_bytes_wikileaks), NULL,
-                              __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg,
-                              __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len);
+     int rc2 = unified_decrypt(ctrl2, key_buffer2, sizeof(key_bytes_wikileaks), NULL,
+                               __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg,
+                               __7379ab5047b143c0b6cfe5d8d79ad240b4b4f8cced55aa26f86d1d3d370c0d4c_gpg_len);
 
-    printf("Second decryption result: %d\n", rc2);
+     printf("Second decryption result: %d\n", rc2);
 
-    printf("\n=== All decryption tests completed ===\n");
-    printf("Both decryptions should have succeeded with same code paths\n");
+     printf("\n=== All decryption tests completed ===\n");
+     printf("Both decryptions should have succeeded with same code paths\n");
     printf("Press Enter to exit...\n");
     getchar();  // Wait for user input before closing console window
 

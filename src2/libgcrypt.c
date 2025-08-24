@@ -37,14 +37,16 @@ void cipher_block_xor_2dst(void *_dst1, void *_dst2, const void *_src, size_t bl
     const byte *src = _src;
 
     if (blocksize == 8) {
-        for (size_t i = 0; i < 8; i++) {
+       size_t i = 0;
+        for (; i < 8; i++) {
             byte temp = dst2[i] ^ src[i];
             dst2[i] = temp;
             dst1[i] = temp;
         }
     }
     else /* blocksize == 16 */ {
-        for (size_t i = 0; i < 16; i++) {
+         size_t i = 0;
+        for (; i < 16; i++) {
             byte temp = dst2[i] ^ src[i];
             dst2[i] = temp;
             dst1[i] = temp;
@@ -56,8 +58,8 @@ static void buf_xor_2dst_v2(void *_dst1, void *_dst2, const void *_src, size_t l
     byte *dst1 = _dst1;
     byte *dst2 = _dst2;
     const byte *src = _src;
-
-    for (size_t i = 0; i < len; i++) {
+    size_t i = 0;
+    for (; i < len; i++) {
         byte temp = dst2[i] ^ src[i];
         dst2[i] = temp;
         dst1[i] = temp;
@@ -71,8 +73,8 @@ void buf_xor_2dst(void *_dst1, void *_dst2, const void *_src, size_t len) {
 
     // printf("Initial bytes - src: %02x %02x, iv: %02x %02x\n", src[0], src[1], iv[0], iv[1]);
     // printf("Addresses - dst1: %p, iv: %p, src: %p\n", (void*)dst1, (void*)iv, (void*)src);
-    
-    for (size_t i = 0; i < len; i++) {
+    size_t i = 0;
+    for (; i < len; i++) {
         iv[i] ^= src[i];
         dst1[i] = iv[i];
     }
@@ -129,7 +131,8 @@ void cipher_block_xor_n_copy_2(void *dst_xor, const void *src_xor,
         buf_put_he32(srcdst_cpy_p + 4, sc[1]);
     }
     else /* blocksize == 16 */ {
-        for(int i = 0; i < 4; i++) {
+         int i = 0;
+        for(; i < 4; i++) {
             sc[i] = buf_get_he32(src_cpy_p + i*4);
             sdc[i] = buf_get_he32(srcdst_cpy_p + i*4);
             sx[i] = buf_get_he32(src_xor_p + i*4) ^ sdc[i];
@@ -208,11 +211,11 @@ int _gcry_cipher_setkey(gcry_cipher_hd_t hd, const byte *key, size_t keylen)
 {
     // printf("_gcry_cipher_setkey\n");
     uint32_t *keywords;
-    int i;
+    int i = 0;
         
     Key key2 = {0, 0, 0, 0};
     int j = 0;
-    for (int i = 0; i < 4; i++)
+    for (; i < 4; i++)
     {
         hd->key[i] = (key[j] << 24) + (key[j + 1] << 16) + (key[j + 2] << 8) + key[j + 3];
         // printf("key[%d] = 0x%08x\n", i, hd->key[i]);
@@ -324,15 +327,17 @@ if (inlen != outsize) {
 static void hexdump(const char *desc, const void *data, size_t len) {
     const unsigned char *buf = (const unsigned char*)data;
     printf("%s: ", desc);
-    for (size_t i = 0; i < len; i++) {
+    size_t i = 0;
+    for (; i < len; i++) {
         printf("%02X", buf[i]);
     }
     printf("\n");
 }
 
 static void ascii_dump(const unsigned char *data, size_t len) {
+       size_t i = 0;
     // Print the data directly, allowing special characters to be interpreted
-    for (size_t i = 0; i < len; i++) {
+    for (; i < len; i++) {
         printf("%c", data[i]);
     }
 
@@ -388,9 +393,9 @@ static void _gcry_cast5_cfb_dec(gcry_cipher_hd_t context, unsigned char *iv, voi
         // if(debugCount>0)  hexdump("TMP", tmpbuf, CAST5_BLOCKSIZE * 3);
        // hexdump("3 Block COPY", tmpbuf, CAST5_BLOCKSIZE * 3);
         cipher_block_cpy(iv, inbuf + 16, CAST5_BLOCKSIZE);
-
+        int i = 0;
         // Process three blocks at once using Block structs
-        for (int i = 0; i < 3; i++) {
+        for (; i < 3; i++) {
             struct Block block = blockFromBytes(tmpbuf + (i * CAST5_BLOCKSIZE));
             // if(debugCount>0 && i==0){ printf("%d in :",i); printBlock(block);}
             block = encrypt(context->key, block, 0);//debugCount>0 && i==0);
@@ -407,6 +412,7 @@ static void _gcry_cast5_cfb_dec(gcry_cipher_hd_t context, unsigned char *iv, voi
 //            ascii_dump(outbuf, CAST5_BLOCKSIZE * 3);
        }
         ascii_dump(outbuf, CAST5_BLOCKSIZE * 3);
+        // return 0; // Early exit
 
         outbuf += CAST5_BLOCKSIZE * 3;
         inbuf += CAST5_BLOCKSIZE * 3;
@@ -439,7 +445,7 @@ static void _gcry_cast5_cfb_dec(gcry_cipher_hd_t context, unsigned char *iv, voi
     // printf("\n\n_gcry_cast5_cfb_dec END\n");
     // Clear sensitive data
     wipememory(tmpbuf, sizeof(tmpbuf));
-    return 0;
+    return;//0;
 }
 
 
@@ -468,7 +474,8 @@ size_t _gcry_cipher_cfb_decrypt(gcry_cipher_hd_t c,
     // printf("\n");
     // printf("Initial iv address: %p\n", (void*)c->u_iv.iv);
     printf("Initial iv contents: ");
-    for (int i = 0; i < 8; i++) printf("%02X", c->u_iv.iv[i]);
+    int i = 0;
+    for (; i < 8; i++) printf("%02X", c->u_iv.iv[i]);
     printf("\n");
 
     unsigned char *ivp;
@@ -506,7 +513,7 @@ size_t _gcry_cipher_cfb_decrypt(gcry_cipher_hd_t c,
        have at least 2 blocks and use conditions for the rest. This
        also allows to use a bulk encryption function if available. */
     if (inbuflen >= blocksize_x_2 && 1){//c->bulk.cfb_dec) {
-        // printf("cfb_decrypt 3 %d %d %d\n", inbuflen, outbuflen, c->unused);
+        printf("cfb_decrypt 3 %d %d %d\n", inbuflen, outbuflen, c->unused);
         size_t nblocks = inbuflen >> blocksize_shift;
         _gcry_cast5_cfb_dec(c, c->u_iv.iv, outbuf, inbuf, nblocks);
 
@@ -514,7 +521,7 @@ size_t _gcry_cipher_cfb_decrypt(gcry_cipher_hd_t c,
         inbuf  += nblocks << blocksize_shift;
         inbuflen -= nblocks << blocksize_shift;
     } else {
-        // printf("cfb_decrypt 4 %d %d %d\n", inbuflen, outbuflen, c->unused);
+        printf("cfb_decrypt 4 %d %d %d\n", inbuflen, outbuflen, c->unused);
         while (inbuflen >= blocksize_x_2) {
             /* Encrypt the IV. */
             struct Block ivBlock = blockFromBytes(c->u_iv.iv);
@@ -596,7 +603,8 @@ int _gcry_cipher_cfb_encrypt(gcry_cipher_hd_t c,
     // printf("\n");
     // printf("Initial iv address: %p\n", (void*)c->u_iv.iv);
     // printf("Initial iv contents: ");
-    for (int i = 0; i < 8; i++) printf("%02x", c->u_iv.iv[i]);
+    int i = 0;
+    for (; i < 8; i++) printf("%02x", c->u_iv.iv[i]);
     printf("\n");
     unsigned char *ivp;
     size_t blocksize = 8;
@@ -777,7 +785,8 @@ static struct Block run(const Key key, struct Block data, int reverse, int debug
     if(debug) {
         printf("\n=== Starting run() ===\n");
         printf("Input Key: ");
-        for (int i = 0; i < 4; i++) {
+        int i = 0;
+        for (; i < 4; i++) {
             printf("%08X", key[i]);
         }
         printf("\nInput Block - MSB: %08X LSB: %08X\n", data.msb, data.lsb);
@@ -785,72 +794,74 @@ static struct Block run(const Key key, struct Block data, int reverse, int debug
     }
 
     uint32_t K[32] = {0};
-
-    for (int i = 0; i < 2; ++i) {
-        if(debug) printf("\n-- Key Schedule Round %d --\n", i);
-        
-        // First z transformation
-        if(debug) {
-            printf("Pre-transform x: ");
-            for(int j = 0; j < 4; j++) printf("%08X ", x[j]);
-            printf("\n");
-            
-            printf("g(x) values: ");
-            for(int j = 0x8; j <= 0xF; j++) printf("%02X ", g(x, j));
-            printf("\n");
-        }
+int i = 0;
+    for (; i < 2; ++i) {
+        //if(debug) printf("\n-- Key Schedule Round %d --\n", i);
+//        
+//        // First z transformation
+//        if(debug) {
+//            printf("Pre-transform x: ");
+//            int j = 0;
+//            for(; j < 4; j++) printf("%08X ", x[j]);
+//            printf("\n");
+//            
+//            printf("g(x) values: ");
+//            int k = 0x8;
+//            for(; k <= 0xF; k++) printf("%02X ", g(x, k));
+//            printf("\n");
+//        }
         
         z[0] = x[0] ^ S5[g(x, 0xD)] ^ S6[g(x, 0xF)] ^ S7[g(x, 0xC)] ^ S8[g(x, 0xE)] ^ S7[g(x, 0x8)];
         z[1] = x[2] ^ S5[g(z, 0x0)] ^ S6[g(z, 0x2)] ^ S7[g(z, 0x1)] ^ S8[g(z, 0x3)] ^ S8[g(x, 0xA)];
         z[2] = x[3] ^ S5[g(z, 0x7)] ^ S6[g(z, 0x6)] ^ S7[g(z, 0x5)] ^ S8[g(z, 0x4)] ^ S5[g(x, 0x9)];
         z[3] = x[1] ^ S5[g(z, 0xA)] ^ S6[g(z, 0x9)] ^ S7[g(z, 0xB)] ^ S8[g(z, 0x8)] ^ S6[g(x, 0xB)];
-
-        if(debug) {
-            printf("Post z-transform: ");
-            for(int j = 0; j < 4; j++) printf("%08X ", z[j]);
-            printf("\n");
-        }
+//
+//        if(debug) {
+//            printf("Post z-transform: ");
+//            for(int j = 0; j < 4; j++) printf("%08X ", z[j]);
+//            printf("\n");
+//        }
 
         // First set of K values
         K[0 + i * 16] = S5[g(z, 0x8)] ^ S6[g(z, 0x9)] ^ S7[g(z, 0x7)] ^ S8[g(z, 0x6)] ^ S5[g(z, 0x2)];
         K[1 + i * 16] = S5[g(z, 0xA)] ^ S6[g(z, 0xB)] ^ S7[g(z, 0x5)] ^ S8[g(z, 0x4)] ^ S6[g(z, 0x6)];
         K[2 + i * 16] = S5[g(z, 0xC)] ^ S6[g(z, 0xD)] ^ S7[g(z, 0x3)] ^ S8[g(z, 0x2)] ^ S7[g(z, 0x9)];
         K[3 + i * 16] = S5[g(z, 0xE)] ^ S6[g(z, 0xF)] ^ S7[g(z, 0x1)] ^ S8[g(z, 0x0)] ^ S8[g(z, 0xC)];
-
-        if(debug) {
-            printf("K[%d-%d]: ", i*16, i*16+3);
-            for(int j = 0; j < 4; j++) printf("%08X ", K[j + i*16]);
-            printf("\n");
-        }
-
-        // Second x transformation
-        if(debug) {
-            printf("Pre-second-x g(z) values: ");
-            for(int j = 0x0; j <= 0x7; j++) printf("%02X ", g(z, j));
-            printf("\n");
-        }
+//
+//        if(debug) {
+//            printf("K[%d-%d]: ", i*16, i*16+3);
+//            for(int j = 0; j < 4; j++) printf("%08X ", K[j + i*16]);
+//            printf("\n");
+//        }
+//
+//        // Second x transformation
+//        if(debug) {
+//            printf("Pre-second-x g(z) values: ");
+//            for(int j = 0x0; j <= 0x7; j++) printf("%02X ", g(z, j));
+//            printf("\n");
+//        }
 
         x[0] = z[2] ^ S5[g(z, 0x5)] ^ S6[g(z, 0x7)] ^ S7[g(z, 0x4)] ^ S8[g(z, 0x6)] ^ S7[g(z, 0x0)];
         x[1] = z[0] ^ S5[g(x, 0x0)] ^ S6[g(x, 0x2)] ^ S7[g(x, 0x1)] ^ S8[g(x, 0x3)] ^ S8[g(z, 0x2)];
         x[2] = z[1] ^ S5[g(x, 0x7)] ^ S6[g(x, 0x6)] ^ S7[g(x, 0x5)] ^ S8[g(x, 0x4)] ^ S5[g(z, 0x1)];
         x[3] = z[3] ^ S5[g(x, 0xA)] ^ S6[g(x, 0x9)] ^ S7[g(x, 0xB)] ^ S8[g(x, 0x8)] ^ S6[g(z, 0x3)];
 
-        if(debug) {
-            printf("Second x-transform: ");
-            for(int j = 0; j < 4; j++) printf("%08X ", x[j]);
-            printf("\n");
-        }
+        //if(debug) {
+//            printf("Second x-transform: ");
+//            for(int j = 0; j < 4; j++) printf("%08X ", x[j]);
+//            printf("\n");
+//        }
 
         K[4 + i * 16] = S5[g(x, 0x3)] ^ S6[g(x, 0x2)] ^ S7[g(x, 0xC)] ^ S8[g(x, 0xD)] ^ S5[g(x, 0x8)];
         K[5 + i * 16] = S5[g(x, 0x1)] ^ S6[g(x, 0x0)] ^ S7[g(x, 0xE)] ^ S8[g(x, 0xF)] ^ S6[g(x, 0xD)];
         K[6 + i * 16] = S5[g(x, 0x7)] ^ S6[g(x, 0x6)] ^ S7[g(x, 0x8)] ^ S8[g(x, 0x9)] ^ S7[g(x, 0x3)];
         K[7 + i * 16] = S5[g(x, 0x5)] ^ S6[g(x, 0x4)] ^ S7[g(x, 0xA)] ^ S8[g(x, 0xB)] ^ S8[g(x, 0x7)];
 
-        if(debug) {
-            printf("K[%d-%d]: ", i*16+4, i*16+7);
-            for(int j = 4; j < 8; j++) printf("%08X ", K[j + i*16]);
-            printf("\n");
-        }
+        //if(debug) {
+//            printf("K[%d-%d]: ", i*16+4, i*16+7);
+//            for(int j = 4; j < 8; j++) printf("%08X ", K[j + i*16]);
+//            printf("\n");
+//        }
 
         // Third z transformation
         z[0] = x[0] ^ S5[g(x, 0xD)] ^ S6[g(x, 0xF)] ^ S7[g(x, 0xC)] ^ S8[g(x, 0xE)] ^ S7[g(x, 0x8)];
@@ -858,22 +869,22 @@ static struct Block run(const Key key, struct Block data, int reverse, int debug
         z[2] = x[3] ^ S5[g(z, 0x7)] ^ S6[g(z, 0x6)] ^ S7[g(z, 0x5)] ^ S8[g(z, 0x4)] ^ S5[g(x, 0x9)];
         z[3] = x[1] ^ S5[g(z, 0xA)] ^ S6[g(z, 0x9)] ^ S7[g(z, 0xB)] ^ S8[g(z, 0x8)] ^ S6[g(x, 0xB)];
 
-        if(debug) {
-            printf("Third z-transform: ");
-            for(int j = 0; j < 4; j++) printf("%08X ", z[j]);
-            printf("\n");
-        }
+       // if(debug) {
+//            printf("Third z-transform: ");
+//            for(int j = 0; j < 4; j++) printf("%08X ", z[j]);
+//            printf("\n");
+//        }
 
         K[8 + i * 16] = S5[g(z, 0x3)] ^ S6[g(z, 0x2)] ^ S7[g(z, 0xC)] ^ S8[g(z, 0xD)] ^ S5[g(z, 0x9)];
         K[9 + i * 16] = S5[g(z, 0x1)] ^ S6[g(z, 0x0)] ^ S7[g(z, 0xE)] ^ S8[g(z, 0xF)] ^ S6[g(z, 0xC)];
         K[10 + i * 16] = S5[g(z, 0x7)] ^ S6[g(z, 0x6)] ^ S7[g(z, 0x8)] ^ S8[g(z, 0x9)] ^ S7[g(z, 0x2)];
         K[11 + i * 16] = S5[g(z, 0x5)] ^ S6[g(z, 0x4)] ^ S7[g(z, 0xA)] ^ S8[g(z, 0xB)] ^ S8[g(z, 0x6)];
 
-        if(debug) {
-            printf("K[%d-%d]: ", i*16+8, i*16+11);
-            for(int j = 8; j < 12; j++) printf("%08X ", K[j + i*16]);
-            printf("\n");
-        }
+ //       if(debug) {
+//            printf("K[%d-%d]: ", i*16+8, i*16+11);
+//            for(int j = 8; j < 12; j++) printf("%08X ", K[j + i*16]);
+//            printf("\n");
+//        }
 
         // Fourth x transformation
         x[0] = z[2] ^ S5[g(z, 0x5)] ^ S6[g(z, 0x7)] ^ S7[g(z, 0x4)] ^ S8[g(z, 0x6)] ^ S7[g(z, 0x0)];
@@ -881,22 +892,22 @@ static struct Block run(const Key key, struct Block data, int reverse, int debug
         x[2] = z[1] ^ S5[g(x, 0x7)] ^ S6[g(x, 0x6)] ^ S7[g(x, 0x5)] ^ S8[g(x, 0x4)] ^ S5[g(z, 0x1)];
         x[3] = z[3] ^ S5[g(x, 0xA)] ^ S6[g(x, 0x9)] ^ S7[g(x, 0xB)] ^ S8[g(x, 0x8)] ^ S6[g(z, 0x3)];
 
-        if(debug) {
-            printf("Fourth x-transform: ");
-            for(int j = 0; j < 4; j++) printf("%08X ", x[j]);
-            printf("\n");
-        }
+       // if(debug) {
+//            printf("Fourth x-transform: ");
+//            for(int j = 0; j < 4; j++) printf("%08X ", x[j]);
+//            printf("\n");
+//        }
 
         K[12 + i * 16] = S5[g(x, 0x8)] ^ S6[g(x, 0x9)] ^ S7[g(x, 0x7)] ^ S8[g(x, 0x6)] ^ S5[g(x, 0x3)];
         K[13 + i * 16] = S5[g(x, 0xA)] ^ S6[g(x, 0xB)] ^ S7[g(x, 0x5)] ^ S8[g(x, 0x4)] ^ S6[g(x, 0x7)];
         K[14 + i * 16] = S5[g(x, 0xC)] ^ S6[g(x, 0xD)] ^ S7[g(x, 0x3)] ^ S8[g(x, 0x2)] ^ S7[g(x, 0x8)];
         K[15 + i * 16] = S5[g(x, 0xE)] ^ S6[g(x, 0xF)] ^ S7[g(x, 0x1)] ^ S8[g(x, 0x0)] ^ S8[g(x, 0xD)];
 
-        if(debug) {
-            printf("K[%d-%d]: ", i*16+12, i*16+15);
-            for(int j = 12; j < 16; j++) printf("%08X ", K[j + i*16]);
-            printf("\n");
-        }
+       // if(debug) {
+//            printf("K[%d-%d]: ", i*16+12, i*16+15);
+//            for(int j = 12; j < 16; j++) printf("%08X ", K[j + i*16]);
+//            printf("\n");
+//        }
     }
 
     // if(debug) {
@@ -912,8 +923,8 @@ static struct Block run(const Key key, struct Block data, int reverse, int debug
     R[0] = data.lsb;
 
     if(debug) printf("\n=== Starting Rounds ===\n");
-
-    for (int i = 0; i < ROUND_COUNT; ++i) {
+    i = 0;
+    for (; i < ROUND_COUNT; ++i) {
         int rIndex = reverse ? (ROUND_COUNT - 1 - i) : i;
         uint32_t Kmi = K[rIndex];
         uint8_t Kri = K[16 + rIndex] & 0x1F;
@@ -1018,7 +1029,8 @@ struct Block blockFromBytes(uint8_t *bytes)
   struct Block block = {
       .msb = 0,
       .lsb = 0};
-  for (int i = 0; i < 8; i++)
+      int i = 0;
+  for (; i < 8; i++)
   {
     if (i < 4)
       block.msb = (block.msb << 8) | bytes[i];

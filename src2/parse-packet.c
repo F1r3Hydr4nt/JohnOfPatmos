@@ -28,7 +28,7 @@
 #include "gpg.h"
 #include "common/util.h"
 #include "packet.h"
-#include "../common/iobuf.h"
+#include "common/iobuf.h"
 #include "filter.h"
 // #include "photoid.h"
 // #include "options.h"

@@ -247,8 +247,8 @@ void log_hexdump(const uint8_t *buffer, int length) {
         int have = (length > 16) ? 16 : length;
         
         printf("%-8d ", written);
-        
-        for (int i = 0; i < 16; i++) {
+        int i = 0;
+        for (; i < 16; i++) {
             if (i % 2 == 0) printf(" ");
             if (i % 8 == 0) printf(" ");
             
@@ -260,8 +260,9 @@ void log_hexdump(const uint8_t *buffer, int length) {
         }
         
         printf("  ");
-        for (int i = 0; i < have; i++) {
-            text[i] = (buffer[i] >= 32 && buffer[i] <= 126) ? buffer[i] : '.';
+        int j = 0;
+        for (; j < have; j++) {
+            text[j] = (buffer[j] >= 32 && buffer[j] <= 126) ? buffer[j] : '.';
         }
         text[have] = '\0';
         printf("%s\n", text);

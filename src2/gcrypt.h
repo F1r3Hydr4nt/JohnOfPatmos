@@ -907,7 +907,7 @@ gcry_mpi_t _gcry_mpi_get_const (int no);
 
 /* The data object used to hold a handle to an encryption object.  */
 struct gcry_cipher_handle;
-typedef struct gcry_cipher_handle *gcry_cipher_hd_t;
+//typedef struct gcry_cipher_handle *gcry_cipher_hd_t;
 
 #ifndef GCRYPT_NO_DEPRECATED
 typedef struct gcry_cipher_handle *GCRY_CIPHER_HD _GCRY_GCC_ATTR_DEPRECATED;
@@ -1326,16 +1326,16 @@ struct gcry_md_context;
 /* This object is used to hold a handle to a message digest object.
    This structure is private - only to be used by the public gcry_md_*
    macros.  */
-typedef struct gcry_md_handle
-{
-  /* Actual context.  */
-  struct gcry_md_context *ctx;
-
-  /* Buffer management.  */
-  int  bufpos;
-  int  bufsize;
-  unsigned char buf[1];
-} *gcry_md_hd_t;
+//typedef struct gcry_md_handle
+//{
+//  /* Actual context.  */
+//  struct gcry_md_context *ctx;
+//
+//  /* Buffer management.  */
+//  int  bufpos;
+//  int  bufsize;
+//  unsigned char buf[1];
+//} *gcry_md_hd_t;
 
 /* Compatibility types, do not use them.  */
 #ifndef GCRYPT_NO_DEPRECATED

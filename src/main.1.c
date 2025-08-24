@@ -72,6 +72,8 @@ int unified_decrypt(ctrl_t ctrl, const unsigned char *session_key, size_t key_le
                     const char *passphrase, const unsigned char *encrypted_data,
                     size_t data_len)
 {
+    // Force memory synchronization at function entry
+    __asm__ __volatile__("dmb" ::: "memory");
     if (!ctrl || !encrypted_data || data_len == 0)
     {
         printf("Invalid arguments to decrypt_data\n");
@@ -137,10 +139,11 @@ int unified_decrypt(ctrl_t ctrl, const unsigned char *session_key, size_t key_le
     uint32_t guard1 = 0xDEADBEEF;
     uint32_t guard2 = 0xBABECAFE;
     printf("Guard values before decrypt: 0x%08X 0x%08X\n", guard1, guard2);
-
-    // Print function pointer address to detect any runtime changes
-    printf("DEBUG: _gcry_cipher_cfb_decrypt address check\n");
-
+    // void *decrypt_mem_fn = (void*) decrypt_memory;
+    // printf("DEBUG: decrypt_memory at address: %p\n", decrypt_mem_fn);
+    // Memory barrier before the critical call
+    __asm__ __volatile__("dmb" ::: "memory");
+    __asm__ __volatile__("dsb" ::: "memory");
     // Perform the decryption
     int rc = decrypt_memory(ctrl, encrypted_data, data_len);
 
@@ -220,6 +223,11 @@ void main()
                               __passwordpasswordpasswordpasswordpasswordpasswordpasswordpassword_gpg_len);
 
     printf("First decryption result: %d\n", rc1);
+
+    // Memory barriers here to ensure complete state flush
+    __asm__ __volatile__("dmb" ::: "memory");  // ARM data memory barrier
+    __asm__ __volatile__("dsb" ::: "memory");  // ARM data synchronization barrier
+    __asm__ __volatile__("isb" ::: "memory");  // ARM instruction synchronization barrier
 
     // ========== Second Decryption with ctrl2 (COMPLETELY SEPARATE) ==========
     printf("\n--- Test 2: WikiLeaks file decryption (using ctrl2) ---\n");

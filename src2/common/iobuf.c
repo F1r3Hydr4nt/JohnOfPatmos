@@ -30,7 +30,7 @@
  * SPDX-License-Identifier: (LGPL-3.0-or-later OR GPL-2.0-or-later)
  */
 
-#include <config.h>
+#include "./config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -85,17 +85,17 @@
 # define FD_FOR_STDOUT (1)
 #endif /*!HAVE_W32_SYSTEM*/
 
-
-/* The context used by the estream filter.  */
-typedef struct
-{
-  estream_t fp;        /* Open estream handle.  */
-  int keep_open;
-  int no_cache;
-  int eof_seen;
-  int print_only_name; /* Flags indicating that fname is not a real file.  */
-  char fname[1];       /* Name of the file.  */
-} file_es_filter_ctx_t;
+//
+///* The context used by the estream filter.  */
+//typedef struct
+//{
+//  estream_t fp;        /* Open estream handle.  */
+//  int keep_open;
+//  int no_cache;
+//  int eof_seen;
+//  int print_only_name; /* Flags indicating that fname is not a real file.  */
+//  char fname[1];       /* Name of the file.  */
+//} file_es_filter_ctx_t;
 
 
 /* Object to control the "close cache".  */
@@ -248,7 +248,7 @@ fd_cache_synchronize (const char *fname)
   return err;
 }
 
-
+//
 static gnupg_fd_t
 direct_open (const char *fname, const char *mode, int mode700)
 {
@@ -305,44 +305,44 @@ direct_open (const char *fname, const char *mode, int mode700)
 
 #else /*!HAVE_W32_SYSTEM*/
 
-  int oflag;
-  int cflag = S_IRUSR | S_IWUSR;
-
-  if (!mode700)
-    cflag |= S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
-
-  /* Note, that we do not handle all mode combinations */
-  if (strchr (mode, '+'))
-    {
-      if (fd_cache_invalidate (fname))
-        return GNUPG_INVALID_FD;
-      oflag = O_RDWR;
-    }
-  else if (strchr (mode, 'w'))
-    {
-      if (fd_cache_invalidate (fname))
-        return GNUPG_INVALID_FD;
-      oflag = O_WRONLY | O_CREAT | O_TRUNC;
-    }
-  else
-    {
-      oflag = O_RDONLY;
-    }
-#ifdef O_BINARY
-  if (strchr (mode, 'b'))
-    oflag |= O_BINARY;
-#endif
-
-#ifdef __riscos__
-  {
-    struct stat buf;
-
-    /* Don't allow iobufs on directories */
-    if (!stat (fname, &buf) && S_ISDIR (buf.st_mode) && !S_ISREG (buf.st_mode))
-      return __set_errno (EISDIR);
-  }
-#endif
-  return open (fname, oflag, cflag);
+  //int oflag;
+//  int cflag = S_IRUSR | S_IWUSR;
+//
+//  if (!mode700)
+//    cflag |= S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
+//
+//  /* Note, that we do not handle all mode combinations */
+//  if (strchr (mode, '+'))
+//    {
+//      if (fd_cache_invalidate (fname))
+//        return GNUPG_INVALID_FD;
+//      oflag = O_RDWR;
+//    }
+//  else if (strchr (mode, 'w'))
+//    {
+//      if (fd_cache_invalidate (fname))
+//        return GNUPG_INVALID_FD;
+//      oflag = O_WRONLY | O_CREAT | O_TRUNC;
+//    }
+//  else
+//    {
+//      oflag = O_RDONLY;
+//    }
+//#ifdef O_BINARY
+//  if (strchr (mode, 'b'))
+//    oflag |= O_BINARY;
+//#endif
+//
+//#ifdef __riscos__
+//  {
+//    struct stat buf;
+//
+//    /* Don't allow iobufs on directories */
+//    if (!stat (fname, &buf) && S_ISDIR (buf.st_mode) && !S_ISREG (buf.st_mode))
+//      return __set_errno (EISDIR);
+//  }
+//#endif
+//  return open (fname, oflag, cflag);
 
 #endif /*!HAVE_W32_SYSTEM*/
 }
