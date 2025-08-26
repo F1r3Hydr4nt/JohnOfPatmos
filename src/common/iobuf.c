@@ -342,7 +342,7 @@ direct_open (const char *fname, const char *mode, int mode700)
       return __set_errno (EISDIR);
   }
 #endif
-printf("Got here\n");
+// printf("Got here\n");
   return open (fname, oflag, cflag);
 
 #endif /*!HAVE_W32_SYSTEM*/
@@ -427,7 +427,7 @@ fd_cache_open (const char *fname, const char *mode)
 	}
     }
   // if (DBG_IOBUF)
-  printf ("fd_cache_open (%s) not cached\n", fname);
+  // printf ("fd_cache_open (%s) not cached\n", fname);
   return direct_open (fname, mode, 0);
 }
 
@@ -977,10 +977,10 @@ iobuf_alloc (int use, size_t bufsize)
   iobuf_t a;
   static int number = 0;
 
-  printf ("iobuf_alloc use:%d %d\n",use, use == IOBUF_INPUT || use == IOBUF_INPUT_TEMP || use == IOBUF_OUTPUT || use == IOBUF_OUTPUT_TEMP);
+  // printf ("iobuf_alloc use:%d %d\n",use, use == IOBUF_INPUT || use == IOBUF_INPUT_TEMP || use == IOBUF_OUTPUT || use == IOBUF_OUTPUT_TEMP);
   if (bufsize == 0)
     {
-      printf ("iobuf_alloc() passed a bufsize of 0!\n");
+      // printf ("iobuf_alloc() passed a bufsize of 0!\n");
       bufsize = IOBUF_BUFFER_SIZE;
     }
 
@@ -1098,7 +1098,7 @@ iobuf_temp_with_content (const char *buffer, size_t length)
   int i;
 
   a = iobuf_alloc (IOBUF_INPUT_TEMP, length);
-  printf ("iobuf_temp_with_content: %d bytes\n", a->d.size);
+  // printf ("iobuf_temp_with_content: %d bytes\n", a->d.size);
   /* memcpy (a->d.buf, buffer, length); */
   for (i=0; i < length; i++)
     a->d.buf[i] = buffer[i];
@@ -1296,7 +1296,7 @@ iobuf_fdopen (int fd, const char *mode)
 int
 iobuf_ioctl (iobuf_t a, iobuf_ioctl_t cmd, int intval, void *ptrval)
 {
-  printf("iobuf_ioctl %d %d %d\n",cmd,intval, ptrval);
+  // printf("iobuf_ioctl %d %d %d\n",cmd,intval, ptrval);
   byte desc[MAX_IOBUF_DESC];
 
   if (cmd == IOBUF_IOCTL_KEEP_OPEN)

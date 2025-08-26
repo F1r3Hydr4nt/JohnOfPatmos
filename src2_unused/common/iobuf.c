@@ -1384,7 +1384,7 @@ iobuf_ioctl (iobuf_t a, iobuf_ioctl_t cmd, int intval, void *ptrval)
 		   a ? a->no : -1, a ? a->subno : -1, iobuf_desc (a, desc));
       if (a->filter == file_filter && ptrval && intval)
         {
-          printf("iobuf_ioctl file_filter\n");
+          // printf("iobuf_ioctl file_filter\n");
           file_filter_ctx_t *fcx = a->filter_ov;
           size_t len = intval;
 

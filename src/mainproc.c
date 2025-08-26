@@ -613,7 +613,7 @@ DEK *passphrase_to_dek(int cipher_algo, STRING2KEY *s2k,
   // printf("\n\n\n GOT HERE \n\n\n");
   if (derivedKey != NULL)
   {
-    printf("OVERRIDDEN: %s\n", derivedKey);
+    // printf("OVERRIDDEN: %s\n", derivedKey);
     // Usage example:
     // uint8_t key[dek->keylen]; // For SHA1 output
     // hex_to_bytes(derivedKey, key, dek->keylen);
@@ -626,10 +626,10 @@ DEK *passphrase_to_dek(int cipher_algo, STRING2KEY *s2k,
   // else
   //   derive_key(s2k->salt, passphrase, strlen(passphrase), iterations, dek->key);
 
-  printf("DEK Information:\n");
-  printf("Algorithm: %d\n", dek->algo);
-  printf("Key Length: %d bytes\n", dek->keylen);
-  printf("Iterations: %d\n", iterations);
+  // printf("DEK Information:\n");
+  // printf("Algorithm: %d\n", dek->algo);
+  // printf("Key Length: %d bytes\n", dek->keylen);
+  // printf("Iterations: %d\n", iterations);
   
   // printf("Algorithm Info Printed: %s\n", dek->algo_info_printed ? "Yes" : "No");
   // printf("Use AEAD: %d\n", dek->use_aead);

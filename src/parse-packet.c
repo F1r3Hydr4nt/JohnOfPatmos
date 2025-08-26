@@ -911,9 +911,9 @@ static const char *pkt_type_str[] = {
 // printf("Packet processing complete (rc=%d)\n", rc);
 
 /* Add at start of switch statement */
-printf("\nProcessing packet type: %s (%d)\n\n", 
-          pkttype < sizeof(pkt_type_str)/sizeof(*pkt_type_str) ? 
-          pkt_type_str[pkttype] : "UNKNOWN", pkttype);
+// printf("\nProcessing packet type: %s (%d)\n\n", 
+//           pkttype < sizeof(pkt_type_str)/sizeof(*pkt_type_str) ? 
+//           pkt_type_str[pkttype] : "UNKNOWN", pkttype);
   switch (pkttype)
     {
     case PKT_PUBLIC_KEY:
@@ -1357,10 +1357,10 @@ parse_symkeyenc(IOBUF inp, int pkttype, unsigned long pktlen,
 
   if (list_mode || 1)
   {
-    printf( // listfp,
-        ":symkey enc packet: version %d, cipher %d, aead %d,"
-        "s2k %d, hash %d\n",
-        version, cipher_algo, aead_algo, s2kmode, hash_algo);
+    // printf( // listfp,
+    //     ":symkey enc packet: version %d, cipher %d, aead %d,"
+    //     "s2k %d, hash %d\n",
+    //     version, cipher_algo, aead_algo, s2kmode, hash_algo);
     if (seskeylen)
     {
       /* To compute the size of the session key we need to know
