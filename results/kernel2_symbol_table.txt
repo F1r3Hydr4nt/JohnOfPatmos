@@ -1,5 +1,5 @@
 
-build/kernel1.elf:     file format elf32-littlearm
+build/kernel2.elf:     file format elf32-littlearm
 
 SYMBOL TABLE:
 00008000 l    d  .text	00000000 .text

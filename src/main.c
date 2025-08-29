@@ -23,7 +23,6 @@ void uart_putc(char c);
 void putc_uart(void *p, char c);
 void print_memory_map(void);
 void wipememory(void *ptr, size_t len);
-void verify_wiped(void *ptr, size_t len);
 int decrypt_gpg(ctrl_t ctrl, const unsigned char *session_key, size_t key_len, const unsigned char *encrypted_data,
                     size_t data_len);
 
@@ -46,19 +45,6 @@ void putc_uart(void *p, char c)
     uart_putc(c);
 }
 
-void verify_wiped(void *ptr, size_t len)
-{
-    unsigned char *p = (unsigned char *)ptr;
-    for (size_t i = 0; i < len; i++)
-    {
-        if (p[i] != 0)
-        {
-            printf("Memory not properly wiped at offset %zu: 0x%02x\n", i, p[i]);
-            return;
-        }
-    }
-    printf("Memory verification passed: all %zu bytes are zero\n", len);
-}
 
 /**
  * Unified decryption function

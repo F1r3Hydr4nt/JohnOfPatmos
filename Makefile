@@ -51,21 +51,22 @@ MAINPROC_OBJ2 = $(BUILD_DIR2)/mainproc.o
 INCLUDES = -I$(SRC_DIR) -I$(COMMON_DIR)
 
 # Base flags
-BASE_CFLAGS = -mcpu=cortex-a7 -fpic -ffreestanding -O0 -Wall -Wextra -g -gdwarf-4 $(INCLUDES) \
+BASE_CFLAGS = -mcpu=cortex-a7 -fpic -ffreestanding -Os -Wall -Wextra -g -gdwarf-4 $(INCLUDES) \
               -ffunction-sections -fdata-sections -fno-common \
-              -fno-omit-frame-pointer -fno-inline
+              -MMD -MP
 
 # Flags for each kernel
 CFLAGS1 = $(BASE_CFLAGS) -DSUCCESS=1
 CFLAGS2 = $(BASE_CFLAGS)
 
 ASFLAGS = -mcpu=cortex-a7
-LDFLAGS = -T $(SRC_DIR)/linker.ld -ffreestanding -O2 -nostdlib \
+LDFLAGS = -T $(SRC_DIR)/linker.ld -ffreestanding -Os -nostdlib \
           -Wl,--gc-sections \
           -Wl,--sort-section=alignment \
           -Wl,--sort-common=descending \
           -Wl,--no-merge-exidx-entries \
-          -Wl,--build-id
+          -Wl,--build-id \
+          -Wl,--print-gc-sections
 
 # Define targets for each version
 TARGET1 = $(BUILD_DIR)/kernel1.img
@@ -296,6 +297,18 @@ compare: $(TARGET1) $(TARGET2)
 	@echo "For detailed comparison, use:"
 	@echo "  hexdiff $(TARGET1) $(TARGET2)"
 	@echo "  vbindiff $(TARGET1) $(TARGET2)"
+
+# ==================== Dependency analysis ====================
+deps: $(TARGET1) $(TARGET2)
+	@echo "====== DEPENDENCY ANALYSIS ======"
+	@echo "Dependency files (.d) generated during build:"
+	@find $(BUILD_DIR) -name "*.d" -exec echo "  {}" \;
+	@echo ""
+	@echo "Files actually referenced:"
+	@find $(BUILD_DIR) -name "*.d" -exec cat {} \; | grep -o '[^[:space:]]*\.c' | sort -u
+	@echo ""
+	@echo "Object files created:"
+	@find $(BUILD_DIR) -name "*.o" | sort
 
 # ==================== Diagnostic target ====================
 check:
